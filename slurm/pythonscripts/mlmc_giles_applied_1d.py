@@ -6,7 +6,7 @@ sys.path.append(str(root_path))
 
 import argparse
 
-from scripts.mlmc.application.mclm_applied_to_1d import coupling_cost_and_levels
+from scripts.mlmc.application.mlmc_applied_to_1d import coupling_cost_and_levels
 
 
 if __name__ == '__main__':
