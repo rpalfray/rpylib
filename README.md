@@ -27,22 +27,22 @@ The results are presented in the form of 4 graphs (as in Giles<sup>[3,4,5]</sup>
 ## Scripts
 
 #### For the paper:
-The scripts used to generate the results can be found in _rpylib/scripts/benchmark/_ :
+The scripts used to generate the results can be found in _rpylib/scripts/benchmark/_ : 
  1. `cds.py`
  2. `first_to_default.py`
  3. `series_representation.py`
 
-_rpylib/scripts/mlmc/convergence_ :
+_rpylib/scripts/mlmc/convergence_ :     
 
- 4. `mlmc_convergence_1d`
- 5. `mlmc_convergence_copulas`
- 6. `mlmc_convergence_sde`
+ 4. `mlmc_convergence_1d.py`  
+ 5. `mlmc_convergence_copulas.py`        
+ 6. `mlmc_convergence_sde.py`      
 
-and _rpylib/scripts/mlmc/applied_ :
+and _rpylib/scripts/mlmc/applied_ :     
 
- 7. `mlmc_applied_1d`
- 8. `mlmc_applied_copulas`
- 9. `mlmc_applied_sde`
+ 7. `mlmc_applied_1d.py`      
+ 8. `mlmc_applied_copulas.py`     
+ 9. `mlmc_applied_sde.py`     
 
 ### Other scripts:
 
