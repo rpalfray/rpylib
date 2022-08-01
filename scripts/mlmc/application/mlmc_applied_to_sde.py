@@ -2,7 +2,7 @@
 """
 
 from scripts.mlmc.tools.utils import *
-from scripts.mlmc.application.mclm_applied_to_copula import compute_max_level_copula
+from scripts.mlmc.application.mlmc_applied_to_copula import compute_max_level_copula
 
 from rpylib.distribution.sampling import SamplingMethod
 from rpylib.montecarlo.configuration import ConfigurationMultiLevel
@@ -38,7 +38,7 @@ def coupling_sde_cost_and_levels(name: str, rmses: list[float]):
     rmses = np.array(rmses)
     outputs = [helper_coupling_sde(rmse, grid, model, product) for rmse in rmses]
     root_path_results = Path(Path().cwd().parent, 'results/giles_applied/sde')
-    save_mlmc_coupling_convergence_results(rmses, outputs, root_path_results, name, beta)
+    save_mlmc_coupling_applied_results(rmses, outputs, root_path_results, name, beta)
 
 
 if __name__ == '__main__':

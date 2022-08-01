@@ -12,7 +12,7 @@ from scripts.mlmc.convergence.mlmc_convergence_1d import coupling_variances
 
 def giles_variances_graphs_1d(model_str: str, max_level: int, mc_paths: int, h0: float):
     my_maturity = cases_data['maturity']
-    model = calibrated_models[model_str]
+    model = exp_of_levy_models[model_str]
     result_folder_name = Path(Path(__file__).cwd().parent, 'results/giles_convergence/1d')
 
     coupling_variances(name=model_str, model=model, mc_paths=mc_paths, max_level=max_level,

@@ -131,7 +131,7 @@ class Engine:
     def price(self, product: Product, rmse: float) -> MLMCStatistics:
         """Pricing of the product by the Multilevel Monte-Carlo engine
         :param product: product to price
-        :param rmse: root mean square error
+        :param rmse: root-mean square error
         """
         self.initialisation(product)
 

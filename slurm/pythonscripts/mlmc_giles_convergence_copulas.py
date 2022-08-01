@@ -13,7 +13,7 @@ from scripts.mlmc.convergence.mlmc_convergence_copula import coupling_variances_
 def giles_variances_graphs_copulas(model_str: str, max_level: int, mc_paths: int, h0: float):
     my_maturity = cases_data['maturity']
     models_str = model_str.split('_')
-    models = [calibrated_models[m] for m in models_str]
+    models = [exp_of_levy_models[m] for m in models_str]
     copula = create_clayton_copula()
     model = create_levy_copula_model(models=models, copula=copula)
     result_folder_name = Path(Path().cwd().parent, 'results/giles_convergence/copulas')

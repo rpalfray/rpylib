@@ -13,10 +13,10 @@ from scripts.mlmc.convergence.mlmc_convergence_sde import coupling_variances_sde
 def giles_variances_graphs_sde(model_str: str, max_level: int, mc_paths: int, h0: float):
     models_str = model_str.split('_')
     if len(models_str) == 1:
-        driver = calibrated_models[model_str]
+        driver = levy_models[model_str]
         model = create_levy_forward_market_model(driver=driver)
     else:
-        driver = [calibrated_models[m] for m in models_str]
+        driver = [levy_models[m] for m in models_str]
         model = create_levy_forward_market_model_copula(driver=driver)
     result_folder_name = Path(Path().cwd().parent, 'results/giles_convergence/sde')
 

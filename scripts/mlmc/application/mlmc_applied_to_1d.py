@@ -62,7 +62,7 @@ def coupling_cost_and_levels(name: str, rmses: list[float]):
     rmses = np.array(rmses)
     output = [helper_coupling(rmse, grid, model, product) for rmse in rmses]
     root_path_results = Path(Path().cwd().parent, 'results/giles_applied/1d')
-    save_mlmc_coupling_convergence_results(rmses, output, root_path_results, name, beta)
+    save_mlmc_coupling_applied_results(rmses, output, root_path_results, name, beta)
 
 
 if __name__ == '__main__':

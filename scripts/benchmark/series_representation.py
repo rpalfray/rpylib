@@ -1,4 +1,4 @@
-"""Replicating the results in "Simulation and option pricing in Lévy copula models" by Peter Tankov
+"""Replication of the results in "Simulation and option pricing in Lévy copula models" by Peter Tankov
 
 The results are printed into a csv `results` sub-folder
 """

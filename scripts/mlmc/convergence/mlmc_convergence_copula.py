@@ -54,7 +54,7 @@ def coupling_variances_copula(name: str, levy_copula_model: LevyCopulaModel, mc_
 
     # save the results
     beta = levy_copula_model.blumenthal_getoor_index()
-    save_mlmc_coupling_variances_results(file_path, results, consistency_check, beta)
+    save_mlmc_coupling_convergence_results(file_path, results, consistency_check, beta)
 
     with open(data_path, 'wb') as f:
         data = {'grid': grid, 'model': levy_copula_model, 'product': product, 'method': method}
@@ -71,7 +71,7 @@ if __name__ == '__main__':
     my_mc_paths = 1_000  # cases_data['mc_paths']
 
     my_name = 'hem_cgmy02'
-    models = [calibrated_models[n] for n in my_name.split('_')]
+    models = [exp_of_levy_models[n] for n in my_name.split('_')]
     copula = create_clayton_copula()
     my_levy_copula_model = create_levy_copula_model(models=models, copula=copula)
 

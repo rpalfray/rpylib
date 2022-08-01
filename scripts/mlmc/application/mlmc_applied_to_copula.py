@@ -85,7 +85,7 @@ def coupling_copula_cost_and_levels(name: str, rmses: list[float]) -> None:
     rmses = np.array(rmses)
     outputs = [helper_coupling_copula(rmse, grid, model, product) for rmse in rmses]
     root_path_results = Path(Path().cwd().parent, 'results/giles_applied/copulas')
-    save_mlmc_coupling_convergence_results(rmses, outputs, root_path_results, name, beta)
+    save_mlmc_coupling_applied_results(rmses, outputs, root_path_results, name, beta)
 
 
 if __name__ == '__main__':

@@ -20,7 +20,7 @@ def generate_data_series_representation():
     my_tau = 4_000
 
     def my_ctmc_grid_function(model):
-        return CTMCUniformGrid(h=1e-6, model=model)
+        return CTMCUniformGrid(h=1e-8, model=model)
 
     my_result_folder_name = Path(Path().cwd().parent, 'results/series/')
 

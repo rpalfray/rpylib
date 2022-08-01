@@ -20,7 +20,7 @@ class ConvergenceCriteria:
 
 def compute_mc_paths_giles(rmse: float, vl: np.array, cl: np.array) -> np.array:
     """Same as in Giles papers
-    :param rmse: root mean square error
+    :param rmse: root-mean square error
     :param vl: estimated variance of the correction terms |Pl - P{l-1}|
     :param cl: cost of each level l
     :return: the updated number of Monte-Carlo paths for each level l
@@ -36,7 +36,7 @@ def criteria_giles(alpha: float, ml: np.array, rmse: float) -> bool:
 
     :param alpha: weak convergence rate
     :param ml: estimated mean of the correction terms |Pl - P{l-1}|
-    :param rmse: root mean square error
+    :param rmse: root-mean square error
     :return: true if the convergence criteria has been met
     """
     rem = max(ml[-1], ml[-2]/2**alpha, ml[-3]/2**(2*alpha))/(2**alpha - 1)

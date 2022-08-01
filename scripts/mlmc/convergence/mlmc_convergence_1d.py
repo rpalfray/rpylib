@@ -52,7 +52,7 @@ def coupling_variances(name, model, mc_paths: int, max_level: int, maturity: flo
 
     # save the results
     beta = model.blumenthal_getoor_index()
-    save_mlmc_coupling_variances_results(file_path, results, consistency_check, beta)
+    save_mlmc_coupling_convergence_results(file_path, results, consistency_check, beta)
 
     with open(data_path, 'wb') as f:
         data = {'grid': grid, 'model': model, 'product': product, 'method': method}
@@ -68,6 +68,6 @@ if __name__ == '__main__':
     my_max_level = 5  # cases_data['max_level']
     my_mc_paths = 10_000  # cases_data['mc_paths']
     my_name = 'cgmy02'
-    my_model = calibrated_models[my_name]
+    my_model = exp_of_levy_models[my_name]
 
     coupling_variances(my_name, my_model, my_mc_paths, my_max_level, my_maturity, my_h0)

@@ -55,7 +55,7 @@ def coupling_variances_sde(name: str, model, mc_paths: int, h0: float, max_level
 
     # save the results
     beta = model.blumenthal_getoor_index()
-    save_mlmc_coupling_variances_results(file_path, results, consistency_check, beta)
+    save_mlmc_coupling_convergence_results(file_path, results, consistency_check, beta)
 
     with open(data_path, 'wb') as f:
         data = {'grid': grid, 'model': model, 'product': product, 'method': method}
@@ -79,8 +79,8 @@ if __name__ == '__main__':
     my_mc_paths = 1_000  # cases_data['mc_paths']
 
     my_name = 'hem_cgmy02'
-    models = [calibrated_models[n] for n in my_name.split('_')]
-    driver = calibrated_models[my_name] if len(models) == 1 else models
+    models = [levy_models[n] for n in my_name.split('_')]
+    driver = levy_models[my_name] if len(models) == 1 else models
     my_sde_driven_model = create_levy_forward_market_model_copula(driver=driver)
     # note that the copula function is set to the Clayton by default
 

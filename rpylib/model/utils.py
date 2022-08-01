@@ -83,7 +83,7 @@ def _create_exp_hem_model(spot: float = 100, r: float = 0.02, d: float = 0., sig
 
 
 def _create_exp_merton_model(spot: float = 100, r: float = 0.02, d: float = 0., sigma: float = 0.05,
-                             sigma_j: float = 0.05, mu_j: float = 0.01, intensity: float = 3):
+                             sigma_j: float = 0.05, mu_j: float = 0.03, intensity: float = 3):
     return helper_model(ModelType.MERTON)(spot=spot, r=r, d=d, sigma=sigma, sigma_j=sigma_j, mu_j=mu_j,
                                           intensity=intensity)
 
@@ -250,8 +250,8 @@ def create_levy_copula_model(models: [LevyModel], copula: LevyCopula) -> LevyCop
 
 
 def create_levy_forward_market_model(driver: LevyModel) -> LevyForwardModel:
-    ois_rates = [0.05, 0.05, 0.05, 0.05, 0.05]
-    tenors = [1, 2, 3, 4, 5, 6]
+    ois_rates = [0.02, 0.02, 0.02, 0.02, 0.02]
+    tenors = [5, 6, 7, 8, 9, 10]
     sigma = np.array([[0.50], [0.80], [1.00], [1.25], [1.50]])
     return LevyForwardModel(driver=driver, ois_rates=ois_rates, tenors=tenors, sigma=sigma)
 
@@ -263,8 +263,8 @@ def create_levy_forward_market_model_copula(driver: [LevyModel]) -> LevyForwardM
 
     :param driver: list of Lévy models
     """
-    ois_rates = [0.05, 0.05, 0.05, 0.05, 0.05]
-    tenors = [1, 2, 3, 4, 5, 6]
+    ois_rates = [0.02, 0.02, 0.02, 0.02, 0.02]
+    tenors = [5, 6, 7, 8, 9, 10]
     sigma = np.array([[0.50, 1.50],
                       [0.80, 1.25],
                       [1.00, 1.00],
