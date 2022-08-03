@@ -157,7 +157,8 @@ class COSPricer:
         :param strikes: strike vector
         :param time: time maturity
         :return: the price vector of the call options with the given strikes
-        .. note:: the call-put parity formula is used in this case
+
+            .. note:: the call-put parity formula is used in this case
         """
         return self.forward(strikes=strikes, time=time) + self.put(strikes, time)
     

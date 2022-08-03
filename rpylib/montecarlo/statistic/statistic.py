@@ -226,13 +226,13 @@ class MLMCResults:
 
     @property
     def ml(self):
-        """Mean of the correction terms |Pl - P{l-1}|  for the level l"""
+        """Mean of the correction terms :math:`|P_l - P_{l-1}|`  for the level l"""
         val = np.absolute(self._ncms_dp.ncm_first)
         return val
 
     @property
     def vl(self):
-        """Variance of the correction terms |Pl - P{l-1}| for the level l"""
+        """Variance of the correction terms :math:`|P_l - P_{l-1}|` for the level l"""
         val = np.maximum(0., self._ncms_dp.ncm_second - self._ncms_dp.ncm_first**2)
         return val
 
