@@ -1,5 +1,6 @@
 """Definition of a financial underlying.
-    :Example:
+
+   :Example:
         - Spot underlying:  the most common underlying corresponding to the spot price
         - Asian underlying: average of the considered underlying over a period of time
         - Libor underlyings: libor-like underlyings
@@ -72,9 +73,9 @@ class Underlying(abc.ABC):
     def value(self, times, path: np.array, jump_path: np.array, payoff_underlying=None) -> np.array:
         """call method when the process is simulated under the same representation
 
-        :param times:    t_0, t_1,..., t_n
-        :param path: log(S_0), log(S_1),...,log(S_n)
-        :param jump_path: log(J_0), log(J_1),..., log(J_n) where J_i is the jump at time t_
+        :param times: :math:`t_0, t_1,..., t_n`
+        :param path: :math:`log(S_0), log(S_1),...,log(S_n)`
+        :param jump_path: :math:`log(J_0), log(J_1),..., log(J_n)` where :math:`J_i` is the jump at time :math:`t_i`
                      some payoffs need the fine structure of the jumps (for example the DefaultTime underlying)
         :param payoff_underlying: payoff underlying valued passed for optimisation purpose
         :return: value of the underlying for the trajectory defined by (times, path)
@@ -97,7 +98,7 @@ class Underlying(abc.ABC):
 
         :param payoff_underlying_type: underlying type of the payoff underlying
         :return: a function that will take the times, the path and the payoff underlying value and return the
-        underlying value from the relevant quantities
+                 underlying value from the relevant quantities
         """
         if isinstance(self, payoff_underlying_type):
             return lambda times, path, jump_path, payoff_underlying: payoff_underlying

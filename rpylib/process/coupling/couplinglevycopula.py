@@ -161,7 +161,8 @@ class CouplingLevyCopulaSimulation:
                                 for k in range(dim))
                     return np.array(res)
 
-            raise ValueError('couplinglevycopula::__coupling_state -> Numerical error? ')
+            raise ValueError('couplinglevycopula::__coupling_state -> Numerical error? probability={:6f}, u={:6f}'
+                             .format(probability, u))
 
     def _coupling_states_for_a_slice(self, slice_fine_states: np.array):
         if len(slice_fine_states):

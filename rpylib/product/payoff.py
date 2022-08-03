@@ -366,8 +366,9 @@ class CDS(Payoff):
 class Bond(Payoff):
     """The maturity of the bond is the expiry of the first Libor rate.
 
-    .. :note: By design, the Lévy Libor model and the Lévy Forward model are defined in the terminal measure
-    (with regard to the maturity of the last underlying rate) and, to keep it simple, the payoff is tweaked accordingly.
+    .. note:: By design, the Lévy Libor model and the Lévy Forward model are defined in the terminal measure
+              (with regard to the maturity of the last underlying rate) and, to keep it simple, the payoff is
+              tweaked accordingly.
     """
     def __init__(self, underlying_rates: np.array, deltas: np.array):
         """
@@ -388,8 +389,9 @@ class Cap(Payoff):
     """
     The periods of the cap are defined by the inputs deltas periods
 
-    .. :note: By design, the Lévy Libor model and the Lévy Forward model are defined in the terminal measure
-    (with regard to the maturity of the last underlying rate) and, to keep it simple, the payoff is tweaked accordingly.
+    .. note:: By design, the Lévy Libor model and the Lévy Forward model are defined in the terminal measure
+              (with regard to the maturity of the last underlying rate) and, to keep it simple, the payoff is
+              tweaked accordingly.
     """
     def __init__(self, underlying_rates: np.array, deltas: np.array, strike: float):
         """
@@ -413,14 +415,17 @@ class Cap(Payoff):
 class Ratchet(Payoff):
     """
     The periods of the ratchet are defined by the inputs deltas periods.
-        - The client pays a coupon ci = min(max(Hi + Y, c(i-1)), c(i-1))
-        where c(i-1) is the previous coupon, Y is the increment and Hi = tau_i * (Li + spread) with:
-            - tau_i the accrual period
-            - Li the rate for the period Ti-1 and Ti
-        - The client receives a funding leg with coupon r_i = gearing*Li + margin.
+        - The client pays a coupon :math:`c_i = min(max(H_i + Y, c_{i-1}), c_{i-1})`
+          where :math:`c_{i-1}` is the previous coupon, :math:`Y` is the increment and
+          :math:`H_i = \\tau_i * (L_i + spread)` with:
 
-    .. :note: By design, the Lévy Libor model and the Lévy Forward model are defined in the terminal measure
-    (with regard to the maturity of the last underlying rate) and, to keep it simple, the payoff is tweaked accordingly.
+             * :math:`\\tau_i` the accrual period
+             * :math:`L_i` the rate for the period :math:`[T_{i-1}, T_i]`
+        - The client receives a funding leg with coupon :math:`r_i = gearing*L_i + margin`.
+
+    .. note:: By design, the Lévy Libor model and the Lévy Forward model are defined in the terminal measure
+              (with regard to the maturity of the last underlying rate) and, to keep it simple, the payoff is
+              tweaked accordingly.
     """
     def __init__(self, deltas: np.array, funding_gearing: float, funding_margin: float,
                  structured_spread: float, structured_increment: float, first_rate: float):
@@ -456,8 +461,9 @@ class Ratchet(Payoff):
 class Swaption(Payoff):
     """The expiry of the swaption is the expiry of the first Libor rate.
 
-    .. :note: By design, the Lévy Libor model and the Lévy Forward model are defined in the terminal measure
-    (with regard to the maturity of the last underlying rate) and, to keep it simple, the payoff is tweaked accordingly.
+    .. note:: By design, the Lévy Libor model and the Lévy Forward model are defined in the terminal measure
+              (with regard to the maturity of the last underlying rate) and, to keep it simple, the payoff is
+              tweaked accordingly.
     """
     def __init__(self, underlying_rates: np.array, deltas: np.array, strike: np.array,
                  swaption_type: SwaptionType = SwaptionType.RECEIVER):

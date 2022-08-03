@@ -1,4 +1,5 @@
 """Configuration object for the Monte-Carlo engine.
+
     :Example:
         - the number of paths
         - the seed for the random generator
@@ -54,7 +55,7 @@ class Configuration:
         :param nb_of_processes: number of processes used for the parallel processing implementation
 
             .. note:: if using the multiprocessing implementation, the seed for each process will be chosen randomly as
-            one can't have the same seed for each proces.
+                      one can't have the same seed for each proces.
         """
         if seed and (nb_of_processes is None or nb_of_processes > 1):
             logging.log(level=logging.WARNING, msg='when using multiprocessing, the random seed is set to a different '

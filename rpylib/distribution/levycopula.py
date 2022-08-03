@@ -20,7 +20,7 @@ class LevyCopula:
         """copula function F"""
 
     def conditional_distribution(self, eps: float, x: np.array) -> np.array:
-        """The conditional distribution `F_{Epsilon}(x)` as defined in 'Lévy copulas: review of recent results'
+        """The conditional distribution :math:`F_{\\mathcal{E}}(x)` as defined in 'Lévy copulas: review of recent results'
         by Peter Tankov"""
         raise NotImplementedError('The conditional_distribution function is not implemented for this Levy copula')
 
@@ -31,9 +31,9 @@ class LevyCopula:
         return solution.root
 
     def x_first_derivative(self, u: np.array) -> float:
-        """Derivative of the Lévy copula with regard to u_i, u_j,... times the product u_i*u_j*...
+        """Derivative of the Lévy copula with regard to :math:`u_i, u_j,\\dots` times the product :math:`u_i*u_j*\\dots`
 
-        :param: u -> variables u_i, u_j,...
+        :param: :math:`u` -> variables :math:`u_i, u_j,\\dots`
         """
         raise NotImplementedError('Copula function: first derivative not yet implemented')
 

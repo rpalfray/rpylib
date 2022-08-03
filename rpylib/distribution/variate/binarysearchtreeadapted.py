@@ -1,8 +1,8 @@
 """Binary Search Tree method. The term `adapted` means two things:
     - the probabilities of the tree are computed on the fly, contrary to the `usual` binary search tree where the
-        probabilities are pre-computed.
+      probabilities are pre-computed.
     - it is adapted to our purpose, that is to the simulation CTMC processes, but the code could be made generic to be
-        `adapted` to other simulation algorithms
+      `adapted` to other simulation algorithms
 """
 
 from functools import lru_cache

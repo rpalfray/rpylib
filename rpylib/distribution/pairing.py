@@ -82,7 +82,7 @@ class RosenbergStrong(Pairing):
         if dim == 1:
             return z,
         else:
-            # note: I add epsilon in "m = floor(z**(1/dim) + epsilon)" because of overflow.
+            # note:: I add epsilon in "m = floor(z**(1/dim) + epsilon)" because of overflow.
             # For example 64**(1/3) gives 3.99999999 which will be rounded to 3 instead of 4
             m = floor(z**(1/dim) + self._epsilon)
             m_d1 = m**(dim-1)
@@ -216,7 +216,7 @@ class PepisKalmar(Pairing):
 
 
 def mapping_to_z(n: int) -> int:
-    """"mapping 0, 1, -1, 2, -2, 3, -3,... to 0, 1, 2, 3, 4, 5, 6,..."""
+    """mapping 0, 1, -1, 2, -2, 3, -3,... to 0, 1, 2, 3, 4, 5, 6,..."""
     if n > 0:
         return 2*n - 1
     else:
@@ -224,14 +224,14 @@ def mapping_to_z(n: int) -> int:
 
 
 def projection_to_z(z: int) -> int:
-    """"mapping 0, 1, 2, 3, 4, 5, 6,... to 0, 1, -1, 2, -2, 3, -3,..."""
+    """mapping 0, 1, 2, 3, 4, 5, 6,... to 0, 1, -1, 2, -2, 3, -3,..."""
     q, r = divmod(z, 2)
     return q*(2*r - 1) + r
 
 
 class PairingToZd:
     """
-    Pairing N with Z^d
+    Pairing :math:`\\mathbb{N}` with :math:`\\mathbb{Z}^d`
     """
     def __init__(self, pairing: Pairing, dimension: int = 2, omit_zero: bool = True):
         self.n_pairing = pairing
@@ -265,7 +265,7 @@ class PairingToZd:
 
 class PairingToZ1d:
     """
-    Mapping 0, 1, 2, 3,... to the states in an interval [-L, R], L>0, R>0, L!=R
+    Mapping 0, 1, 2, 3,... to the states in an interval :math:`[-L, R], L>0, R>0, L\\neq R`
     """
     def __init__(self, interval: tuple[int, int], omit_zero: bool = True):
         l, r = interval
@@ -396,10 +396,10 @@ class MyBoundary(Boundary):
 class Domain:
     """
     A domain D is a "regular" volume which meets the following assumptions:
-    - it contains the origin
-    - there is point z = (z_1, z_2, ...., z_n) in D such that |z_i| > |x_i| where x_i is the i-th coordinate in
-      (0,0,..., 0, x_i, 0, ..., 0) which is the boundary on the i-th axis of D
-    - all hyperplanes are convex
+        - it contains the origin
+        - there is point :math:`z = (z_1, z_2, ...., z_n)` in D such that :math:`|z_i| > |x_i|` where :math:`x_i` is
+          the i-th coordinate in :math:`(0,0,..., 0, x_i, 0, ..., 0)` which is the boundary on the i-th axis of D
+        - all hyperplanes are convex
     """
 
     def __init__(self, boundary: Boundary, grid: CTMCGrid, pairing: PairingToZd):

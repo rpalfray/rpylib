@@ -72,7 +72,7 @@ def vol_adjustment_ij(i: int, j: int, h: float, levy_model: LevyCopulaModel):
 class MarkovChainLevyCopula(LevyProcess):
     """Lévy copula simulated via a Markov Chain process"""
     def __init__(self, levy_copula_model: LevyCopulaModel, grid: CTMCGrid, method: SamplingMethod):
-        """"
+        """
         :param levy_copula_model: Lévy copula model
         :param grid: states grid
         :param method: sampling method

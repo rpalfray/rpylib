@@ -1,6 +1,6 @@
 """This module describes a financial product which is defined as a payoff applied to an underlying
 
-Product are considered mono-underlying for the moment
+    Product are considered mono-underlying for the moment.
 """
 
 import logging
@@ -50,7 +50,7 @@ class Product:
         """Update of the payoff underlying object given the process representation (identity or log-representation)
 
         :param process_representation: process representation in the modelling framework, that is either directly the
-        underlying or the log-underlying
+                                       underlying or the log-underlying
         """
         self.payoff_underlying.update(process_representation)
 
@@ -178,7 +178,7 @@ class ControlVariates:
 
         :param statistics: statistics object which contains all the simulations of the payoff and  the control variates
 
-        .. note:: this function updates directly the relevant `_payoff_statistics_with_cv` member
+            .. note:: this function updates directly the relevant `_payoff_statistics_with_cv` member
         """
         # Y_i(b) = Y_i - b(X_i - E[X])
         X = statistics._control_variates_statistics.stats

@@ -176,8 +176,8 @@ class MarkovChainLevyLiborModel(MarkovChainSDE):
     def compute_drift_term(self, t: float, omegas):
         """
         :param t: time
-        :param omegas: omega[i] = L_t[i]*delta[i]/(1 + L_t[i]*delta[i])
-        :return: the drift term at order 2
+        :param omegas: :math:`\\omega^i = L_t^i*\\delta^i/(1 + L_t^i*\\delta^i)`
+        :return: the drift term at order 1
         """
         sszz = self.coefficient_sszz(t)
         order1 = sszz[:, 1:]@omegas[1:]

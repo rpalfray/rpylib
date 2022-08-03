@@ -30,7 +30,7 @@ class Process(abc.ABC):
 
         :param product: financial product
         :param max_step_epsilon: if epsilon != None then jump times with max step epsilon are used to build the time
-        discretisation steps
+                                 discretisation steps
         """
         pass
 

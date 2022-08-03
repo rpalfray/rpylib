@@ -26,19 +26,19 @@ class Sampling:
 
     def cost(self) -> int:
         """
-        return the computing cost of the algorithm for generating the random variable
-        the cost will usually correspond to the number of generated uniform random variables
+        :return: the computing cost of the algorithm for generating the random variable
+                 the cost will usually correspond to the number of generated uniform random variables
         """
         return self.sampling_cost
 
     def reset_sampling_cost(self):
-        """ reset the simulation cost to 0 """
+        """reset the simulation cost to 0"""
         self.sampling_cost = 0
 
     @abc.abstractmethod
     def sample(self, size: int = 1) -> np.array:
-        """ sample a random variable corresponding the distribution in scope
+        """sample a random variable corresponding the distribution in scope
 
         :param size: size of the sampling vector
-        :return the array of simulated variables
+        :return: the array of simulated variables
         """
