@@ -6,7 +6,7 @@
 #SBATCH --ntasks-per-node=1
 #SBATCH --cpus-per-task=48
 #SBATCH --mem-per-cpu=3700
-#SBATCH --time=48:00:00
+#SBATCH --time=20:00:00
 
 . /etc/profile
 module purge
