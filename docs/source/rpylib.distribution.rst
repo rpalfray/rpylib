@@ -1,7 +1,5 @@
-rpylib.distribution namespace
-=============================
-
-.. py:module:: rpylib.distribution
+rpylib.distribution package
+===========================
 
 Subpackages
 -----------
@@ -43,6 +41,14 @@ rpylib.distribution.samplingfactory module
 ------------------------------------------
 
 .. automodule:: rpylib.distribution.samplingfactory
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+Module contents
+---------------
+
+.. automodule:: rpylib.distribution
    :members:
    :undoc-members:
    :show-inheritance:

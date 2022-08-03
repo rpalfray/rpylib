@@ -1,7 +1,5 @@
-rpylib.tests namespace
-======================
-
-.. py:module:: rpylib.tests
+rpylib.tests package
+====================
 
 Subpackages
 -----------
@@ -10,3 +8,11 @@ Subpackages
    :maxdepth: 4
 
    rpylib.tests.numerical
+
+Module contents
+---------------
+
+.. automodule:: rpylib.tests
+   :members:
+   :undoc-members:
+   :show-inheritance:

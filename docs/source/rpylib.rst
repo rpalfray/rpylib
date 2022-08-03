@@ -14,6 +14,7 @@ Subpackages
    rpylib.numerical
    rpylib.process
    rpylib.product
+   rpylib.tests
    rpylib.tools
 
 Module contents

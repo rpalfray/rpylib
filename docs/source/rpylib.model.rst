@@ -1,7 +1,5 @@
-rpylib.model namespace
-======================
-
-.. py:module:: rpylib.model
+rpylib.model package
+====================
 
 Subpackages
 -----------
@@ -35,6 +33,14 @@ rpylib.model.utils module
 -------------------------
 
 .. automodule:: rpylib.model.utils
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+Module contents
+---------------
+
+.. automodule:: rpylib.model
    :members:
    :undoc-members:
    :show-inheritance:

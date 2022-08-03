@@ -1,7 +1,5 @@
-rpylib.product namespace
-========================
-
-.. py:module:: rpylib.product
+rpylib.product package
+======================
 
 Submodules
 ----------
@@ -26,6 +24,14 @@ rpylib.product.underlying module
 --------------------------------
 
 .. automodule:: rpylib.product.underlying
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+Module contents
+---------------
+
+.. automodule:: rpylib.product
    :members:
    :undoc-members:
    :show-inheritance:

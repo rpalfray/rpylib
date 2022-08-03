@@ -1,7 +1,5 @@
-rpylib.tools namespace
-======================
-
-.. py:module:: rpylib.tools
+rpylib.tools package
+====================
 
 Submodules
 ----------
@@ -42,6 +40,14 @@ rpylib.tools.timer module
 -------------------------
 
 .. automodule:: rpylib.tools.timer
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+Module contents
+---------------
+
+.. automodule:: rpylib.tools
    :members:
    :undoc-members:
    :show-inheritance:

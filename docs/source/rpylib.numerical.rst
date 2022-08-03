@@ -1,7 +1,5 @@
-rpylib.numerical namespace
-==========================
-
-.. py:module:: rpylib.numerical
+rpylib.numerical package
+========================
 
 Subpackages
 -----------
@@ -42,6 +40,14 @@ rpylib.numerical.tools module
 -----------------------------
 
 .. automodule:: rpylib.numerical.tools
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+Module contents
+---------------
+
+.. automodule:: rpylib.numerical
    :members:
    :undoc-members:
    :show-inheritance:

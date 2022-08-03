@@ -1,7 +1,5 @@
-rpylib.process namespace
-========================
-
-.. py:module:: rpylib.process
+rpylib.process package
+======================
 
 Subpackages
 -----------
@@ -35,6 +33,14 @@ rpylib.process.process module
 -----------------------------
 
 .. automodule:: rpylib.process.process
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+Module contents
+---------------
+
+.. automodule:: rpylib.process
    :members:
    :undoc-members:
    :show-inheritance:

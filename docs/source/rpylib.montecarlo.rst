@@ -1,7 +1,5 @@
-rpylib.montecarlo namespace
-===========================
-
-.. py:module:: rpylib.montecarlo
+rpylib.montecarlo package
+=========================
 
 Subpackages
 -----------
@@ -28,6 +26,14 @@ rpylib.montecarlo.path module
 -----------------------------
 
 .. automodule:: rpylib.montecarlo.path
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+Module contents
+---------------
+
+.. automodule:: rpylib.montecarlo
    :members:
    :undoc-members:
    :show-inheritance:

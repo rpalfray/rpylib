@@ -1,7 +1,5 @@
-rpylib.grid namespace
-=====================
-
-.. py:module:: rpylib.grid
+rpylib.grid package
+===================
 
 Submodules
 ----------
@@ -26,6 +24,14 @@ rpylib.grid.time module
 -----------------------
 
 .. automodule:: rpylib.grid.time
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+Module contents
+---------------
+
+.. automodule:: rpylib.grid
    :members:
    :undoc-members:
    :show-inheritance:
