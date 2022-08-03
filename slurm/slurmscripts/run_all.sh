@@ -35,7 +35,7 @@ done
 
 ## COPULA
 COUNT_RMSE_C=0
-for RMSE in 0.01 0.02 0.03 0.04 0.05 0.06; do
+for RMSE in 0.01 0.02 0.03 0.04 0.05 0.06 0.07 0.1; do
   sbatch -J A3d#${COUNT_RMSE_C} applied_copulas.sbatch hem_vg_cgmy12 ${RMSE}
   (( COUNT_RMSE_C++ ))
   sleep 0.1
