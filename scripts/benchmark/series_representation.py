@@ -148,7 +148,7 @@ if __name__ == '__main__':
     # Recommended (starting) settings if you want to run this script on your personal computer as the
     # series representation is quite slow to simulate.
     # Choosing the `CTMCGridGeometric` also reduces the computing time (by a large factor) for the CTMC without
-    # impacting significantly the accuracy.
+    # significantly impacting the accuracy.
     my_mc_paths = 100  # 50_000
     my_tau = 1_000     # 3_000
 
