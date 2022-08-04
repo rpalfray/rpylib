@@ -71,7 +71,7 @@ def benchmark_series_representation(strikes: np.array, mc_paths: int, tau: float
     price_calls = [COSPricer(model1).price(product=call1), COSPricer(model2).price(product=call2)]
     cv = ControlVariates([call1, call2], price_calls)
     configuration = ConfigurationStandard(mc_paths=mc_paths, control_variates=cv)
-    method = SamplingMethod.BinarySearchTreeAdapted
+    method = SamplingMethod.BINARYSEARCHTREEADAPTED
 
     results_ctmc = [pricing(configuration, MarkovChainLevyCopula(model, ctmc_grid_function(model), method), options)
                     for _, model in levy_copula_models.items() for options in all_options]

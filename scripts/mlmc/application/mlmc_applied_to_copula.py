@@ -61,7 +61,7 @@ def compute_max_level_copula(levy_copula_model: LevyCopulaModel, h0: float, matu
 
 def helper_coupling_copula(rmse: float, grid: CTMCGrid, levy_copula_model: LevyCopulaModel, product: Product) \
         -> MLMCStatistics:
-    method = SamplingMethod.BinarySearchTreeAdapted
+    method = SamplingMethod.BINARYSEARCHTREEADAPTED
     maximum_level = compute_max_level_copula(levy_copula_model=levy_copula_model, h0=grid.h, maturity=product.maturity,
                                              rmse=rmse)
     maximum_level = min(20, maximum_level)

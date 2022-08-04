@@ -90,7 +90,7 @@ class ExponentialOfLevyModel(LevyModel):
     """
 
     # The Lévy model S = S_0 exp(drift*t + L) is simulated via the log-process log(S) = log(S_0) + drift*t + L
-    process_representation = ProcessRepresentation.Log
+    process_representation = ProcessRepresentation.LOG
 
     spot = positive('spot')
     r = positive('r')  # kept positive for simplicity

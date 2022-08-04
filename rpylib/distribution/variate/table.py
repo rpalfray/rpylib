@@ -1,4 +1,4 @@
-"""Table method to generate random variate from discrete probability distribution
+"""TABLE method to generate random variate from discrete probability distribution
 """
 
 import logging

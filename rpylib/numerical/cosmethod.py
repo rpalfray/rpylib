@@ -57,7 +57,7 @@ class COSPricer:
         """
         s = np.exp(u)
         return self.density(time=time, s=s)*s
-    
+
     def density(self, time: float, s: np.array):
         """
         Density function of the Lévy stochastic process
@@ -71,7 +71,7 @@ class COSPricer:
 
         ks = np.arange(self.n)
         cst = ks*np.pi/(b-a)
-        
+
         fk = 2/(b-a)*(self.cf(t=time, x=cst)*np.exp(-1j*a*cst)).real
         cosines = np.cos(np.outer(np.log(s) - a, cst))
 
@@ -86,7 +86,7 @@ class COSPricer:
         :return: the value of the cumulative function in (t,x)
         """
         return 1 - self.digital(strikes=x, time=time)
-    
+
     @staticmethod
     def psi(ks: NDArray[np.int], a: float, b: float, c: float, d: float):
         where_to_divide = np.ones(len(ks), dtype=bool)
@@ -97,20 +97,22 @@ class COSPricer:
         res[ks == 0] = d - c
 
         return res
-    
+
     @staticmethod
     def xi(k: NDArray[np.int], a: float, b: float, c: float, d: float):
         cst = k*np.pi/(b-a)
 
-        def aux1(x): return np.cos(cst*(x-a))*np.exp(x)
+        def aux1(x):
+            return np.cos(cst*(x-a))*np.exp(x)
 
-        def aux2(x): return cst*np.sin(cst*(x-a))*np.exp(x)
+        def aux2(x):
+            return cst*np.sin(cst*(x-a))*np.exp(x)
 
         num = aux1(d) - aux1(c) + aux2(d) - aux2(c)
-        den = 1 + cst**2        
-        
+        den = 1 + cst**2
+
         return num/den
-    
+
     @staticmethod
     def u_put(k, a, b):
         return 2/(b-a)*(-COSPricer.xi(k, a, b, a, 0.0) + COSPricer.psi(k, a, b, a, 0.0))
@@ -161,7 +163,7 @@ class COSPricer:
             .. note:: the call-put parity formula is used in this case
         """
         return self.forward(strikes=strikes, time=time) + self.put(strikes, time)
-    
+
     def butterfly(self, strike1, strike2, strike3, time):
         calls = self.call(np.array([strike1, strike2, strike3]), time)
         return calls[0] - 2*calls[1] + calls[2]
@@ -194,7 +196,7 @@ class COSPricer:
             payoff_type = payoff.payoff_type
             if payoff_type == PayoffType.CALL:
                 return self.call(strikes=payoff.strike, time=product.maturity)
-            elif payoff_type == PayoffType.PUT:
+            if payoff_type == PayoffType.PUT:
                 return self.put(strikes=payoff.strike, time=product.maturity)
 
         raise NotImplementedError('pricing formula not implemented for the COS method')

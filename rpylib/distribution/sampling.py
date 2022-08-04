@@ -10,13 +10,13 @@ import numpy as np
 
 class SamplingMethod(Enum):
     """Sampling method type"""
-    Alias = 1
-    Table = 2
-    BinarySearchTree = 3
-    HuffmannTree = 4
-    Inversion = 5
-    BinarySearchTreeAdapted = 6
-    BinarySearchTreeAdapted1D = 7
+    ALIAS = 1
+    TABLE = 2
+    BINARYSEARCHTREE = 3
+    HUFFMANNTREE = 4
+    INVERSION = 5
+    BINARYSEARCHTREEADAPTED = 6
+    BINARYSEARCHTREEADAPTED1D = 7
 
 
 class Sampling:

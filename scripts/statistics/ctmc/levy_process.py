@@ -29,7 +29,7 @@ def helper_produce_monte_carlo_result(model: LevyModel, maturity, mc_paths) -> t
                       maturity=maturity)
 
     # Monte-Carlo engine
-    method = SamplingMethod.BinarySearchTreeAdapted1D
+    method = SamplingMethod.BINARYSEARCHTREEADAPTED1D
     mc_configuration = ConfigurationStandard(mc_paths=mc_paths, activate_spot_statistics=True)
     process = MarkovChainProcess(model=model, method=method, grid=grid)
     mc_engine = Engine(configuration=mc_configuration, process=process)

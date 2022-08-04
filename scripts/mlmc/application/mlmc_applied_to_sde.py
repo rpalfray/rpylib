@@ -15,7 +15,7 @@ from rpylib.tools.timer import timer
 
 
 def helper_coupling_sde(rmse: float, grid: CTMCGrid, model: LevyDrivenSDEModel, product: Product) -> MLMCStatistics:
-    method = SamplingMethod.BinarySearchTreeAdapted
+    method = SamplingMethod.BINARYSEARCHTREEADAPTED
     maturity = product.maturity
     maximum_level = min(20, compute_max_level_copula(model.driver, h0=grid.h, maturity=maturity, rmse=rmse))
 

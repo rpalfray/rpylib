@@ -76,7 +76,7 @@ class Density:
                 axes = plt.gca()
                 min_val = mean_val - 5*stddev_val
                 max_val = mean_val + 5*stddev_val
-                if self.process_representation == ProcessRepresentation.Log:
+                if self.process_representation == ProcessRepresentation.LOG:
                     min_val = max(0, min_val)
                 axes.set_xlim([min_val, max_val])
 

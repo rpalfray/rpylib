@@ -120,7 +120,7 @@ class LevyDrivenSDEModel(Model):
     """Representation of the process X which is solution of: dX = h(X) dY, X(0) = X_0 where Y is a pure jump Lévy
     process
     """
-    process_representation = ProcessRepresentation.Identity
+    process_representation = ProcessRepresentation.IDENDITY
 
     def __init__(self, driver: LevyDriver, x0: Union[float, np.array] = 0., a: SDEFunction = None):
         """

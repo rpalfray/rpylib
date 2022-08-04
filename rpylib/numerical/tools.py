@@ -16,10 +16,12 @@ def sign(x):
 def _(x: float):
     if x < 0:
         return -1.0
-    else:
-        return 1.0
+
+    return 1.0
 
 
 def interval_I(x: float) -> tuple[float, float]:
+    """
+    :return: left or right interval depending on the sign of x
+    """
     return (-np.inf, x) if x < 0 else (x, np.inf)
-

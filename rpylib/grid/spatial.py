@@ -48,6 +48,7 @@ class CTMCGrid(SpatialGrid):
 
     @singledispatchmethod
     def outside(self, coordinate) -> bool:
+        """Test if the coordinate is outside the limits of the grid"""
         return any(c < 0 or c > len(self.axes[k]) - 1 for k, c in enumerate(coordinate))
 
     @outside.register

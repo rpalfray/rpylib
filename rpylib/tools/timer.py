@@ -34,5 +34,5 @@ def timer(func):
         else:
             print('[{:02.5f}s] {}({}) -> {} '.format(seconds, name, arg_str, result))
         return result
-    
+
     return timed

@@ -43,7 +43,7 @@ def coupling_variances_copula(name: str, levy_copula_model: LevyCopulaModel, mc_
     product = Product(payoff_underlying=MaximumOfPerformances(spots),
                       payoff=Vanilla(strike=1.00, payoff_type=PayoffType.CALL), maturity=maturity, notional=100)
 
-    method = SamplingMethod.BinarySearchTreeAdapted
+    method = SamplingMethod.BINARYSEARCHTREEADAPTED
     grid = CTMCUniformGrid(h=h0, model=levy_copula_model)
 
     results = convergence_rate_copula(levy_copula_model, product, max_level, mc_paths, method, grid)

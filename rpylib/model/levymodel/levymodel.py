@@ -300,7 +300,7 @@ class LevyModel(Model):
               simulated via the process L (contrary to the :class:`ExponentialOfLévyModel` S = exp(L) which is simulated
               via the log-process L)
     """
-    process_representation = ProcessRepresentation.Identity
+    process_representation = ProcessRepresentation.IDENDITY
 
     def __init__(self, model_type: ModelType, levy_triplet: LevyTriplet, cumulant: Cumulant):
         """

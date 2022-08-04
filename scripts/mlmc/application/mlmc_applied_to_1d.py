@@ -39,7 +39,7 @@ def compute_max_level(model: LevyModel, h0: float, dimension: int, maturity: flo
 
 
 def helper_coupling(rmse: float, grid: CTMCGrid, model: LevyModel, product: Product) -> MLMCStatistics:
-    method = SamplingMethod.BinarySearchTreeAdapted1D
+    method = SamplingMethod.BINARYSEARCHTREEADAPTED1D
     maturity = product.maturity
     maximum_level = min(20, compute_max_level(model, grid.h, 1, maturity, rmse))
 

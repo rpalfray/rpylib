@@ -216,7 +216,7 @@ class Digital(Payoff):
         super().__init__()
         self.strike = strike
         self.payoff_type = payoff_type
-        if payoff_type != PayoffType.CALL and payoff_type != PayoffType.PUT:
+        if payoff_type not in (PayoffType.CALL, PayoffType.PUT):
             raise ValueError('expected payoff_type to be CALL or PUT')
 
     def evaluate(self, underlying) -> float:
@@ -224,8 +224,8 @@ class Digital(Payoff):
         call_digital = 1.0 if is_above else 0.0
         if self.payoff_type == PayoffType.CALL:
             return call_digital
-        else:
-            return 1 - call_digital
+
+        return 1 - call_digital
 
 
 class Barrier(Payoff):
@@ -241,8 +241,8 @@ class Barrier(Payoff):
         super().__init__()
         self.vanilla = Vanilla(strike=strike, payoff_type=payoff_type)
         self.barrier = barrier
-        self.barrierEvent = False  # it might be True depending on the spot price
-        self.barrierType = barrier_type
+        self.barrier_event = False  # it might be True depending on the spot price
+        self.barrier_type = barrier_type
 
         # IN/OUT barrier
         if barrier_type in (BarrierType.DOWN_AND_IN, BarrierType.UP_AND_IN):
@@ -259,13 +259,13 @@ class Barrier(Payoff):
     def __barrier_event_down(self, _, path):
         for value in path:
             if value < self.barrier:
-                self.barrierEvent = True
+                self.barrier_event = True
                 break
 
     def __barrier_event_up(self, _, path):
         for value in path:
             if value > self.barrier:
-                self.barrierEvent = True
+                self.barrier_event = True
                 break
 
     def evaluate(self, underlying: float) -> float:
@@ -275,10 +275,10 @@ class Barrier(Payoff):
         """
         .. todo:: this needs to work when underlying is a np.array
         """
-        return 0.0 if self.barrierEvent else self.vanilla.evaluate(underlying)
+        return 0.0 if self.barrier_event else self.vanilla.evaluate(underlying)
 
     def _evaluate_knockin(self, underlying: float) -> float:
-        return self.vanilla.evaluate(underlying) if self.barrierEvent else 0.0
+        return self.vanilla.evaluate(underlying) if self.barrier_event else 0.0
 
 
 class LookBack(Payoff):

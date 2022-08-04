@@ -87,9 +87,9 @@ class LevyCopulaModel(Model):
         if not (all_exp_of_levy_model or none_exp_of_levy_model):
             raise ValueError('Expected all models or none of them to be ExponentialOfLevyModel')
 
-        self.process_representation = ProcessRepresentation.Identity
+        self.process_representation = ProcessRepresentation.IDENDITY
         if all_exp_of_levy_model:
-            self.process_representation = ProcessRepresentation.Log
+            self.process_representation = ProcessRepresentation.LOG
 
         self.models = models
         self.copula = copula
@@ -106,19 +106,22 @@ class LevyCopulaModel(Model):
             self.mass = self._mass_3d  # hard-coded version for 3d version
 
     def __repr__(self):
-        return 'LevyCopulaModel(models=models, copula=copula)'.format(model=self.models, copula=self.copula)
+        return f'LevyCopulaModel(models={self.models}, copula={self.copula})'
 
     def dimension(self) -> int:
         return self._dimension
 
     def truncate_levy_measure(self, truncations) -> None:
+        """Truncate all marginal measures"""
         for model, truncation in zip(self.models, truncations):
             model.truncate_levy_measure(truncations=truncation)
 
     def x0_value(self):
+        """Initial value"""
         return self.x0s
 
     def df(self, t: float) -> float:
+        """Discount factor function"""
         return self.models[0].df(t)
 
     def jump_of_finite_activity(self) -> bool:
@@ -170,7 +173,7 @@ class LevyCopulaModel(Model):
             indices_j.pop(k)
             a_j.pop(k)
             b_j.pop(k)
-    
+
             j_mass = self._mass_nd(a_j, b_j, indices_j)
             m1 = self._mass_nd(a_1, b_1, indices)
             m2 = self._mass_nd(a_2, b_2, indices)

@@ -65,7 +65,7 @@ def helper_pricing_function(nth_index, h0, levy_copula_model, maturity, recovery
         return grid, product, cv
 
     def pricing_function(spread, spread_margin, levels_a, credit_grid: bool = True):
-        symmetric_grid = method != SamplingMethod.BinarySearchTreeAdapted
+        symmetric_grid = method != SamplingMethod.BINARYSEARCHTREEADAPTED
         grid, product, cv = helper(spread, spread_margin, levels_a, symmetric_grid, credit_grid, notional)
         process = MarkovChainLevyCopula(levy_copula_model=levy_copula_model, grid=grid, method=method)
         configuration = ConfigurationStandard(mc_paths=mc_paths, control_variates=cv)
@@ -87,7 +87,7 @@ def first_to_default_spread(name: str, copula, models, cds_spreads_bps: list[flo
     h0 = 1e-6
     recovery_rate = 0.40
     notional = 1_000_000
-    method = SamplingMethod.BinarySearchTreeAdapted
+    method = SamplingMethod.BINARYSEARCHTREEADAPTED
 
     levels_as, theoretical_spreads_bps, survival_probabilities = auxiliary_data(cds_spreads_bps, cf_pricer_copula,
                                                                                 cf_pricers, recovery_rate, h0, maturity)

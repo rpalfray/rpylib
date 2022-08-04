@@ -43,7 +43,7 @@ def coupling_variances(name, model, mc_paths: int, max_level: int, maturity: flo
     product = Product(payoff_underlying=Spot(), payoff=payoff, maturity=maturity, notional=1.0)
     grid = CTMCUniformGrid(h=h0, model=model)
 
-    method = SamplingMethod.BinarySearchTreeAdapted1D
+    method = SamplingMethod.BINARYSEARCHTREEADAPTED1D
     results = convergence_rate(model, product, max_level, mc_paths, method, grid)
     consistency_check = results.mlmc_results.consistency_check
 

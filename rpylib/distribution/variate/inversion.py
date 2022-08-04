@@ -1,4 +1,4 @@
-"""Inversion method to generate random variate from discrete probability distribution
+"""INVERSION method to generate random variate from discrete probability distribution
 
 """
 

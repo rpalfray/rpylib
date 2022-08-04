@@ -1,4 +1,4 @@
-"""Alias method to generate random variate from discrete probability distribution
+"""ALIAS method to generate random variate from discrete probability distribution
 
 """
 
@@ -42,7 +42,7 @@ class AliasMethod(Sampling):
         return res
 
     def _draw_with_u(self, uniform: float):
-        """Alias sampling with pre-generated uniform variable"""
+        """ALIAS sampling with pre-generated uniform variable"""
         ku = self.K * uniform
         x = np.uint(ku)
         v = ku - x
@@ -52,7 +52,7 @@ class AliasMethod(Sampling):
 
 
 def create_alias(probabilities):
-    """Initialisation of the Alias method"""
+    """Initialisation of the ALIAS method"""
     dim = len(probabilities)
     q = probabilities * dim
     j = np.zeros(shape=dim, dtype=np.uint)

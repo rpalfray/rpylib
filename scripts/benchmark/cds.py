@@ -39,7 +39,7 @@ def cds_spread(name: str, model: LevyModel, maturity: float, mc_paths: int, cds_
     configuration = ConfigurationStandard(mc_paths=mc_paths)
 
     def pricing_function(spread, levels_a):
-        process = MarkovChainProcess(model=model, method=SamplingMethod.Inversion,
+        process = MarkovChainProcess(model=model, method=SamplingMethod.INVERSION,
                                      grid=ctmc_grid_function(h0, levels_a))
         mc_engine = Engine(configuration=configuration, process=process)
 

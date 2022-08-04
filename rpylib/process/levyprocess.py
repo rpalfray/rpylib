@@ -137,7 +137,7 @@ class Simulation:
         """Simulation of the jump component"""
         raise NotImplementedError
 
-    def simulate_diffusion(self, stddev) -> np.array:
+    def simulate_diffusion(self, sqrt_dts) -> np.array:
         """Simulation of the diffusive component"""
         raise NotImplementedError
 

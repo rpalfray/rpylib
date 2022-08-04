@@ -32,7 +32,7 @@ class MarkovChainSDE(Process):
         else:
             self.markov_chain = MarkovChainLevyCopula(levy_copula_model=model.driver, grid=grid, method=method)
 
-        super().__init__(model=model, process_representation=ProcessRepresentation.Identity)
+        super().__init__(model=model, process_representation=ProcessRepresentation.IDENDITY)
         self.epsilon = grid.h**model.driver.blumenthal_getoor_index()
 
     def initialisation(self, product: Product, _: float = None) -> None:

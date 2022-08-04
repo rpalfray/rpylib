@@ -43,9 +43,9 @@ def coupling_variances_sde(name: str, model, mc_paths: int, h0: float, max_level
 
     grid = CTMCUniformGrid(h=h0, model=model)
     if model.driver.dimension_model() == 1:
-        method = SamplingMethod.BinarySearchTreeAdapted1D
+        method = SamplingMethod.BINARYSEARCHTREEADAPTED1D
     else:
-        method = SamplingMethod.BinarySearchTreeAdapted
+        method = SamplingMethod.BINARYSEARCHTREEADAPTED
 
     results = convergence_rate(model, product, max_level, mc_paths, method, grid)
     consistency_check = results.mlmc_results.consistency_check

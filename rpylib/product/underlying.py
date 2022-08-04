@@ -88,7 +88,7 @@ class Underlying(abc.ABC):
 
     def update(self, process_representation: ProcessRepresentation):
         """update the underlying given the process representation type"""
-        if process_representation == ProcessRepresentation.Log:
+        if process_representation == ProcessRepresentation.LOG:
             self.value = self._value_log
 
     def imply_from_payoff_underlying(self, payoff_underlying_type) -> Callable:
@@ -102,8 +102,8 @@ class Underlying(abc.ABC):
         """
         if isinstance(self, payoff_underlying_type):
             return lambda times, path, jump_path, payoff_underlying: payoff_underlying
-        else:
-            return self.value
+
+        return self.value
 
     def check_consistency(self, process_dimension: int):
         if (self.underlying_dimension == UnderlyingDimension.MULTIDIMENSIONAL) and (process_dimension > 1):
@@ -158,7 +158,7 @@ class Libors(Underlying):
 
 
 class LogSpot(Underlying):
-    """Log-Spot underlying, simply the logarithm of the spot underlying"""
+    """LOG-Spot underlying, simply the logarithm of the spot underlying"""
     underlying_dimension = UnderlyingDimension.MULTIDIMENSIONAL
 
     def value(self, times, path: np.array, jump_path: np.array, payoff_underlying=None) -> np.array:
@@ -275,8 +275,8 @@ class NthSpot(Underlying):
     def imply_from_payoff_underlying(self, payoff_underlying_type) -> Callable:
         if payoff_underlying_type is Spot:
             return lambda times, path, payoff_underlying: payoff_underlying[self.index-1]
-        else:
-            return super().imply_from_payoff_underlying(payoff_underlying_type)
+
+        return super().imply_from_payoff_underlying(payoff_underlying_type)
 
 
 class Indicators(Underlying):

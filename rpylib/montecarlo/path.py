@@ -21,22 +21,23 @@ def create_path(configuration: Configuration, deterministic_path: Callable[[np.a
     :param deterministic_path: values of the deterministic underlying
     :return: the path manager
     """
-    has_antithetic = configuration.variance_reduction.has(VarianceReduction.Antithetic)
+    has_antithetic = configuration.variance_reduction.has(VarianceReduction.ANTITHETIC)
 
     if isinstance(configuration, rpylib.montecarlo.configuration.ConfigurationStandard):
         if has_antithetic:
             raise NotImplementedError
-        else:
-            return MCPath(deterministic_path=deterministic_path,
-                          activate_spot_underlying=configuration.activate_spot_statistics)
-    elif isinstance(configuration, rpylib.montecarlo.configuration.ConfigurationMultiLevel):
+
+        return MCPath(deterministic_path=deterministic_path,
+                      activate_spot_underlying=configuration.activate_spot_statistics)
+
+    if isinstance(configuration, rpylib.montecarlo.configuration.ConfigurationMultiLevel):
         if has_antithetic:
             raise NotImplementedError("Antithetic method not yet implemented for Multilevel Monte-Carlo")
-        else:
-            return MLMCPath(deterministic_path=deterministic_path,
-                            activate_spot_underlying=configuration.activate_spot_statistics)
-    else:
-        raise NotImplementedError('create_path')
+
+        return MLMCPath(deterministic_path=deterministic_path,
+                        activate_spot_underlying=configuration.activate_spot_statistics)
+
+    raise NotImplementedError('create_path')
 
 
 class StochasticPath:
@@ -51,7 +52,7 @@ class StochasticPath:
         raise NotImplementedError
 
     def antithetic_value(self) -> np.array:
-        """Antithetic values of the path"""
+        """ANTITHETIC values of the path"""
         raise NotImplementedError
 
 
@@ -76,6 +77,7 @@ class StochasticJumpPath(StochasticPath):
         return self.diffusion_path + self.jump_path
 
     def value_jump(self) -> np.array:
+        """Only the jump path"""
         return self.jump_path
 
     def times(self) -> np.array:
@@ -137,6 +139,7 @@ class MCPath(abc.ABC):
         self.spot_underlying = self.spot.value(times=None, path=path, jump_path=None)
 
     def set_to_path(self, stochastic_path) -> None:
+        """Set computed path"""
         self.stochastic_path = stochastic_path
 
     def process(self, product: Product, control_variates: ControlVariates) -> None:

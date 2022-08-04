@@ -15,8 +15,8 @@ from ..model.model import Model
 
 
 class ProcessRepresentation(Enum):
-    Identity = 1  # the process X is simulated via the same representation X
-    Log = 2       # the process X is simulated via the representation Y = log(X)
+    IDENDITY = 1  # the process X is simulated via the same representation X
+    LOG = 2       # the process X is simulated via the representation Y = log(X)
 
 
 class Process(abc.ABC):

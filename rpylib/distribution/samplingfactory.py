@@ -70,11 +70,11 @@ def create_matrix_jump_matrix(q_matrix: np.array, init_state) -> np.array:
 
 def create_sampling_method(model, levy_measure, method: SamplingMethod, grid: CTMCGrid, is_levy_copula: bool,
                            intensity_of_jumps: float):
-    if method == SamplingMethod.Inversion:
+    if method == SamplingMethod.INVERSION:
         return create_sampling_inversion_method(grid, model, intensity_of_jumps, is_levy_copula)
-    elif method == SamplingMethod.BinarySearchTreeAdapted1D:
+    if method == SamplingMethod.BINARYSEARCHTREEADAPTED1D:
         return BinarySearchTreeAdapted1D(model=model, grid=grid, intensity_of_jumps=intensity_of_jumps)
-    elif not is_levy_copula:
+    if not is_levy_copula:
         init_state = grid.origin_coordinate
         q_vector = create_q_vector(levy_measure, grid)
         jump_vector = create_vec_jump_matrix(q_vector=q_vector, init_state=init_state,
@@ -91,17 +91,17 @@ def create_sampling_method(model, levy_measure, method: SamplingMethod, grid: CT
             def states(k):
                 return - pivot.value + np.array(k)
     elif is_levy_copula:
-        if method == SamplingMethod.BinarySearchTreeAdapted:
+        if method == SamplingMethod.BINARYSEARCHTREEADAPTED:
             return BinarySearchTreeAdapted(model=model, grid=grid)
-        else:
-            raise ValueError('create_sampling_method not yet implemented for levy copula, use SamplingMethod.Inversion')
+
+        raise ValueError('create_sampling_method not yet implemented for levy copula, use SamplingMethod.INVERSION')
     else:
         raise ValueError("Unexpected error when creating the sampling method")
 
-    methods = {SamplingMethod.Alias: AliasMethod,
-               SamplingMethod.Table: TableMethod,
-               SamplingMethod.BinarySearchTree: BinarySearchTree,
-               SamplingMethod.HuffmannTree: HuffmanTree}
+    methods = {SamplingMethod.ALIAS: AliasMethod,
+               SamplingMethod.TABLE: TableMethod,
+               SamplingMethod.BINARYSEARCHTREE: BinarySearchTree,
+               SamplingMethod.HUFFMANNTREE: HuffmanTree}
 
     return methods[method](jump_vector, states)
 

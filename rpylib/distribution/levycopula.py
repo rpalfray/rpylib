@@ -14,6 +14,7 @@ from rpylib.tools.parameter import strictly_positive
 
 
 class LevyCopula:
+    """Lévy copula function"""
 
     @abc.abstractmethod
     def __call__(self, us: np.array) -> float:
@@ -52,7 +53,7 @@ class ClaytonCopula(LevyCopula):
         self.eta = eta
 
     def __repr__(self):
-        return 'ClaytonCopula(theta={:2f}, eta={:2f})'.format(self.theta, self.eta)
+        return f'ClaytonCopula(theta={self.theta:2f}, eta={self.eta:2f})'
 
     def __call__(self, us: np.array) -> float:
         if 0 in us:
@@ -76,8 +77,8 @@ class ClaytonCopula(LevyCopula):
     def conditional_distribution(self, eps: float, x: np.array) -> np.array:
         if x.size == 1:
             return self._condition_distribution_2d(eps, x)
-        else:
-            raise NotImplementedError('not implemented yet for Levy copula for d>2')
+
+        raise NotImplementedError('not implemented yet for Levy copula for d>2')
 
     def _condition_distribution_2d(self, eps: float, x: np.array) -> np.array:
         eta, theta = self.eta, self.theta
@@ -94,8 +95,8 @@ class ClaytonCopula(LevyCopula):
     def inverse_conditional_distribution(self, eps: np.array, x: np.array) -> np.array:
         if len(x.shape) == 1:
             return self._inverse_conditional_distribution_2d(eps, x)
-        else:
-            raise NotImplementedError('not implemented for d>2')
+
+        raise NotImplementedError('not implemented for d>2')
 
     def _inverse_conditional_distribution_2d(self, eps: np.array, x: np.array) -> np.array:
         eta, theta = self.eta, self.theta

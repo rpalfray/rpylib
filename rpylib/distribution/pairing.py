@@ -35,8 +35,8 @@ class Pairing:
             test = self.projection(z, dim-1)
             p, q = test[0], test[1:]
             return self.projection2d(p) + q
-        else:
-            return self.projection2d(z)
+
+        return self.projection2d(z)
 
     @staticmethod
     def pairing2d(x: int, y: int) -> int:
@@ -74,23 +74,23 @@ class RosenbergStrong(Pairing):
             y = self.pairing(x[:-1])
             m = max(x)
             return y + m**d + (m - x[-1])*((m + 1)**(d-1) - m**(d-1))
-        else:
-            return x[0]
+
+        return x[0]
 
     @lru_cache(maxsize=2**5)
     def projection(self, z: int, dim=2) -> tuple[int, ...]:
         if dim == 1:
             return z,
-        else:
-            # note:: I add epsilon in "m = floor(z**(1/dim) + epsilon)" because of overflow.
-            # For example 64**(1/3) gives 3.99999999 which will be rounded to 3 instead of 4
-            m = floor(z**(1/dim) + self._epsilon)
-            m_d1 = m**(dim-1)
-            m_d = m*m_d1
-            aux = (m + 1)**(dim-1) - m_d1
-            xd = m - floor(max(0, z - m_d - m_d1)/aux)
-            p = self.projection(z - m_d - (m - xd)*aux, dim=dim-1)
-            return p + (xd,)
+
+        # note:: I add epsilon in "m = floor(z**(1/dim) + epsilon)" because of overflow.
+        # For example 64**(1/3) gives 3.99999999 which will be rounded to 3 instead of 4
+        m = floor(z**(1/dim) + self._epsilon)
+        m_d1 = m**(dim-1)
+        m_d = m*m_d1
+        aux = (m + 1)**(dim-1) - m_d1
+        xd = m - floor(max(0, z - m_d - m_d1)/aux)
+        p = self.projection(z - m_d - (m - xd)*aux, dim=dim-1)
+        return p + (xd,)
 
     @staticmethod
     def pairing2d(x: int, y: int) -> int:
@@ -375,13 +375,13 @@ class MyBoundary(Boundary):
     def b_fun(x: float, r1, r2, c):
         if x < c:
             return r2
-        elif c > r1:
+        if c > r1:
             return 0
-        else:
-            gamma = c/(r1-c)
-            alpha = r1*(r2-c)
-            beta = (r1-r2)
-            return (alpha/x + beta)*gamma
+
+        gamma = c/(r1-c)
+        alpha = r1*(r2-c)
+        beta = (r1-r2)
+        return (alpha/x + beta)*gamma
 
     def __call__(self, x: np.array) -> bool:
         for (xi, xi_boundaries), (xj, xj_boundaries) in combinations(zip(x, self.truncations), 2):
@@ -484,9 +484,9 @@ class StatesManager:
         is_outside_grid = self.grid.outside(state)
         if is_outside_grid:
             return True
-        else:
-            is_outside_domain = self.domain.outside(self.grid[state])
-            return is_outside_domain
+
+        is_outside_domain = self.domain.outside(self.grid[state])
+        return is_outside_domain
 
     def _sample_frontier_state_increment(self):
         index = np.random.choice(self.frontier_states_indices)

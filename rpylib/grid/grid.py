@@ -65,8 +65,8 @@ class CoordinateND:
         self.value = tuple(coordinates)
 
     def __repr__(self):
-        n = str(len(self.value))
-        return 'Coordinate' + n + 'D' + repr(self.value) + ''
+        dim = str(len(self.value))
+        return 'Coordinate' + dim + 'D' + repr(self.value) + ''
 
     def __neg__(self):
         return CoordinateND((-u for u in self.value))
@@ -106,8 +106,8 @@ class Coordinates:
     def __new__(cls, coordinates):
         if isinstance(coordinates, Iterable):
             return CoordinateND(coordinates)
-        else:
-            return Coordinate1D(coordinates)
+
+        return Coordinate1D(coordinates)
 
 
 class Grid:
@@ -126,6 +126,7 @@ class Grid:
         self.dimension = len(axes)
 
     def number_of_points(self):
+        """Total number of points in the grid"""
         return prod(axe.size for axe in self.axes)
 
     @singledispatchmethod
@@ -173,4 +174,4 @@ class Uniform1DGrid:
         return self.grid[item]
 
     def __str__(self) -> str:
-        return 'UniformGrid(start={}, end={}, step={})'.format(self.start, self.end, self.step)
+        return f'UniformGrid(start={self.start}, end={self.end}, step={self.step})'

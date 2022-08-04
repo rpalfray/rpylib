@@ -21,13 +21,13 @@ from ..product.product import ControlVariates, NoControlVariates, Product
 
 
 class VarianceReduction(Enum):
-    RichardsonExtrapolation = 1
-    Antithetic = 2
+    RICHARDSONEXTRAPOLATION = 1
+    ANTITHETIC = 2
 
 
 class Engine(Enum):
-    Standard = 1
-    MultiLevel = 2
+    STANDARD = 1
+    MULTILEVEL = 2
 
 
 class VarianceReductionMethod:
