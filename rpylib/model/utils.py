@@ -40,6 +40,7 @@ ExponentialOfLevyModelFunctor = Callable[..., ExponentialOfLevyModel]
 def helper_model(model_type: ModelType, exponential_of_levy_model: bool = True) \
         -> Union[LevyModelFunctor, ExponentialOfLevyModelFunctor]:
     """Builder to create a Lévy model
+
     :param model_type: Lévy model type
     :param exponential_of_levy_model: if true return the helper for the exponential of the Lévy model
     :return: the builder function for the Lévy model or the exponential of the Lévy model if

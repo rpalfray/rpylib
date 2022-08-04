@@ -115,8 +115,8 @@ class Grid:
     and i is the position of the i-th element a_i.
 
     :Example:
-    For a 2d-grid specified by the axes [a_0,a_1,...,a_K] and [b_0,b_1,...,b_L], the point of coordinates (i,j)
-    has value (a_i, b_j)
+        For a 2d-grid specified by the axes [a_0,a_1,...,a_K] and [b_0,b_1,...,b_L], the point of coordinates (i,j)
+        has value (a_i, b_j)
     """
     def __init__(self, axes: list[np.array]):
         if not isinstance(axes, list):

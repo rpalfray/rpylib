@@ -19,8 +19,8 @@ from ...tools.parameter import positive
 
 
 class LevyRepresentation(Enum):
-    # Psi(z) = ... + int (exp(izx) - 1 - iz h(x)) nu(dx)
-    # Psi: characteristic function
+    # :math:`\\Psi(z) = ... + int (exp(izx) - 1 - iz h(x)) nu(dx)`
+    # :math:`\\Psi`: characteristic function
     # the default (canonical representation) h function is h(x) = x if |x|<1
     # Given some condition on nu, one can move some "value" of the integral into the drift
     ZERO = 1     # h(x) = 0          -> finite variation case
@@ -47,22 +47,23 @@ class LevyMeasure:
     def support(self):
         """
         :return: the support of the Lévy measure
-        .. note:: in theory, this is really R^*
+
+        .. note:: in theory, this is really :math:`\\mathbb{R}^*`
         """
         return -np.inf, np.inf
 
     @abc.abstractmethod
     def jump_of_finite_activity(self) -> bool:
-        """:return: true if the integral of nu(dx) over R is finite
+        """:return: true if the integral of :math:`\\nu(dx)` over :math:`\\mathbb{R}` is finite
         """
 
     @abc.abstractmethod
     def jump_of_finite_variation(self) -> bool:
-        """:return: true if the integral of |x| nu(dx) on |x| <= 1 is finite
+        """:return: true if the integral of :math:`|x| \\nu(dx)` on :math:`|x| <= 1` is finite
         """
 
     def finite_first_moment(self):
-        """:return: true if the integral of |x| nu(dx) on |x| > 1 is finite
+        """:return: true if the integral of :math:`|x| \\nu(dx)` on :math:`|x| > 1` is finite
         """
         val = quad(func=self.__call__, a=-np.inf, b=-1) + quad(func=self.__call__, a=1, b=np.inf)
         return val < np.inf
@@ -73,30 +74,31 @@ class LevyMeasure:
 
     def x_nu(self, x: float) -> float:
         """:return: the multiplication of x times the Lévy measure
-        .. note:: there are a lot of cases where this expression can be simplified
+
+            note:: there are a lot of cases where this expression can be simplified
         """
         return x*self.__call__(x)
 
     def integrate(self, a: float, b: float) -> float:
-        """Integrate the levy measure nu(dx) between x=a and x=b"""
+        """Integrate the levy measure :math:`\\nu(dx)` between x=a and x=b"""
         if a > b:
             raise ValueError('Expected a<b when integrating the levy measure')
         return quad(lambda x: self.__call__(x), a, b)[0]
 
     def integrate_against_x(self, a: float, b: float) -> float:
-        """Integrate x nu(dx) between x=a and x=b"""
+        """Integrate :math:`x \\nu(dx)` between x=a and x=b"""
         if a > b:
             raise ValueError('Expected a<b when integrating the levy measure')
         return quad(self.x_nu, a, b)[0]
 
     def integrate_against_xx(self, a: float, b: float) -> float:
-        """Integrate x^2 nu(dx) between x=a and x=b"""
+        """Integrate :math:`x^2 \\nu(dx)` between x=a and x=b"""
         if a > b:
             raise ValueError('Expected a<b when integrating the levy measure')
         return quad(lambda x: x*x*self.__call__(x), a, b)[0]
 
     def integrate_against_xn(self, a: float, b: float, n: int):
-        """Integrate x^n nu(dx) between x=a and x=b"""
+        """Integrate :math:`x^n nu(dx)` between x=a and x=b"""
         if n == 0:
             return self.integrate(a=a, b=a)
         if n == 1:
@@ -206,7 +208,8 @@ class LevyTriplet:
 
     def canonical_drift(self) -> float:
         """
-        :return: the `canonical` drift, that is the drift corresponding to the cut-off function c(x) = 1 if |x| < 1
+        :return: the `canonical` drift, that is the drift corresponding to the cut-off function
+                 :math:`c(x) = 1` if :math:`|x| < 1`
         """
         if self.representation not in [LevyRepresentation.ZERO, LevyRepresentation.CENTER, LevyRepresentation.ONEONE,
                                        LevyRepresentation.TILDE]:
@@ -236,7 +239,7 @@ class LevyTriplet:
 
     def center_drift(self) -> float:
         """
-        :return: centre drift corresponding to the cut-off function c(x) = 1
+        :return: centre drift corresponding to the cut-off function :math: `c(x) = 1`
         """
         canonical_drift = self.canonical_drift()
         adj = self.nu.integrate_against_x(-np.inf, -1) + self.nu.integrate_against_x(+1, np.inf)
@@ -294,8 +297,8 @@ class LevyModel(Model):
     """This class represents a time-homogeneous Lévy model
 
     .. note:: the simulated process has the same representation as the model, more explicitly the Lévy model L is
-    simulated via the process L (contrary to the :class:`ExponentialOfLévyModel` S = exp(L) which is simulated via
-    the log-process L)
+              simulated via the process L (contrary to the :class:`ExponentialOfLévyModel` S = exp(L) which is simulated
+              via the log-process L)
     """
     process_representation = ProcessRepresentation.Identity
 
@@ -365,12 +368,14 @@ class LevyModel(Model):
     def levy_exponent_pure_jump(self, x: complex) -> complex:
         """The Lévy exponent phi is such that E[exp(x L_t)] = exp(t*phi(x)) where L is the Lévy model
         with triplet (0, 0, nu).
+
         :return: phi(z) where z = ix, that is phi(x) = levy_exponent_pure_jump(ix)
         """
 
     def levy_exponent(self, x: complex) -> complex:
-        """:return: the Lévy exponent phi such that E[exp(u L_t)] = exp(phi(u)*t) where L is the Lévy model
-        with triplet (a, sigma, nu)
+        """
+        :return: the Lévy exponent phi such that :math:`\\mathbb{E}[exp(u L_t)] = exp(\\phi(u)*t)` where L is the
+                 Lévy model with triplet (a, sigma, nu)
         """
         a = self._original_drift
         sigma = self.levy_triplet.sigma

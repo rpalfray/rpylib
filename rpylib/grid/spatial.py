@@ -21,7 +21,7 @@ class SpatialGrid(Grid):
     """Spatial Grid definition
 
     .. note:: this object expects the axis to be arrays with increasing elements and this check is not carried out
-    for performance reason.
+              for performance reason.
 
     """
     def __init__(self, axes: list[np.array]):
@@ -60,8 +60,9 @@ class CTMCGrid(SpatialGrid):
 
     @singledispatchmethod
     def left_point(self, coordinate) -> float:
-        """:return: the point of the left side of x where x = axes[0][position] (single axis grid)
-        if x is itself the first point of the axes, return x
+        """
+        :return: the point of the left side of x where x = axes[0][position] (single axis grid)
+                 if x is itself the first point of the axes, return x
         """
         return self.axes[0][max(0, coordinate - 1)]
 
@@ -75,8 +76,9 @@ class CTMCGrid(SpatialGrid):
 
     @singledispatchmethod
     def right_point(self, coordinate) -> float:
-        """:return: the point of the right side of x where x = axes[0][position] (single axis grid)
-        if x is itself the last point of the axes, return x
+        """
+        :return: the point of the right side of x where x = axes[0][position] (single axis grid)
+                 if x is itself the last point of the axes, return x
         """
         return self.axes[0][min(len(self.axes[0]) - 1, coordinate + 1)]
 
@@ -91,8 +93,10 @@ class CTMCGrid(SpatialGrid):
 
     @singledispatchmethod
     def middle(self, xi: tuple[float], xip: tuple[float]) -> tuple[float]:
-        """:return: the middle-point of [xi, xip] that is the point which coordinates are equal to the average
-        of the coordinates of xi and xip"""
+        """
+        :return: the middle-point of :math:`[x_i, x_{i+1}]` that is the point which coordinates are equal to the
+                 average of the coordinates of :math:`x_i` and :math:`x_{i+1}`
+        """
         return tuple(0.5*(x + xp) for x, xp in zip(xi, xip))
 
     @middle.register
@@ -100,7 +104,7 @@ class CTMCGrid(SpatialGrid):
         return 0.5*(xi + xip)
 
     def refine(self) -> None:
-        """refine the axes, i.e. add all the 'middle' point for each interval [x_i, x_{i+1}] of the axes
+        """refine the axes, i.e. add all the 'middle' point for each interval :math:`[x_i, x_{i+1}]` of the axes
         """
         for kth_axis, axis in enumerate(self.axes):
             for k, (xi, xip) in enumerate(zip(axis, axis[1:])):

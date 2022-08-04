@@ -26,9 +26,10 @@ def volume(f, a, b) -> float:
     :param f: function to integrate
     :param a: vector [a1, a2, a3,..., an]
     :param b: vector [b1, b2, b3,..., bn]
+
     where a <= b, i.e. a1 <= b1, a2 <= b2,...
 
-    :return: the integral over the rectangle a x b
+    :return: the integral over the rectangle :math:`a x b`
     """
 
     res = 0
@@ -148,6 +149,7 @@ class LevyCopulaModel(Model):
         :param a: vector [a1, a2, a3,..., an]
         :param b: vector [b1, b2, b3,..., bn]
         :param indices: set of integers which characterises the I-margin
+
         where a <= b, i.e. a1 <= b1, a2 <= b2,...
 
         :return: the integral over the rectangle (a, b]
@@ -278,16 +280,19 @@ class LevyCopulaModel(Model):
             i0, x0 = indices[0], next(x)
             return self.marginal_tail_integral(i0, x0)
 
-        i_copula = margin(self.copula, indices, self._dimension) # args: f, indices, dimension - not passed as kwarg
+        i_copula = margin(self.copula, indices, self._dimension)  # args: f, indices, dimension - not passed as kwarg
         # for (slight) optimisation purpose
         return i_copula(np.array([self.marginal_tail_integral(i, xi) for i, xi in zip(indices, x)]))
 
     def tail_integrals(self, x) -> float:
         """Calculate the tail integral of the I-margin of the Lévy copula
+
         :param x: vector of values
-        :return: F(Pi1(x1), Pi2(x2),...Pin(xn)) for i in indices where, Pij(xj) = sgn(x)*levy_measure_j(I(x))
-            with I(x) = (x, inf) if x>=0
-            and I(x) = (-inf, x] if x<0
+        :return: :math:`F(P^i_1(x_1), P^i_2(x_2),...P^i_n(x_n))` for :math:`i \\in indices` where
+                 :math:`P^i_j(x) = sgn(x)*\\nu^j(I(x))` with:
+
+                     * :math:`I(x) = (x, \\inf)` if :math:`x\\geq 0`
+                     * and :math:`I(x) = (-\\inf, x]` if :math:`x<0`
         """
         return self.copula(np.array([self.marginal_tail_integral(i, xi) for i, xi in enumerate(x)]))
 
