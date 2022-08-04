@@ -4,21 +4,21 @@ Lévy copula simulated through a Markov Chain process
 """
 
 import copy
-import pathos.multiprocessing as mp
 
 import numpy as np
+import pathos.multiprocessing as mp
 import scipy.integrate
 import scipy.linalg
 
-from rpylib.process.levyprocess import LevyProcess
-from rpylib.process.levyprocess import SimulationFixedTimes, SimulationWithJumpTimes, SimulationMaximumStep
 from rpylib.distribution.sampling import SamplingMethod
 from rpylib.distribution.samplingfactory import create_sampling_method, compute_intensity_of_jumps
 from rpylib.grid.spatial import CTMCGrid
-from rpylib.model.levymodel.levymodel import LevyRepresentation
 from rpylib.model.levycopulamodel import LevyCopulaModel
+from rpylib.model.levymodel.levymodel import LevyRepresentation
 from rpylib.montecarlo.path import StochasticJumpPath, StochasticPath
 from rpylib.numerical.tools import sign
+from rpylib.process.levyprocess import LevyProcess
+from rpylib.process.levyprocess import SimulationFixedTimes, SimulationWithJumpTimes, SimulationMaximumStep
 from rpylib.process.markovchain.markovchain import MarkovChain, compute_mu_h
 from rpylib.product.payoff import PayoffDates
 from rpylib.product.product import Product

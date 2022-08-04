@@ -10,8 +10,8 @@ import scipy.optimize
 
 from .levycopulamodel import LevyCopulaModel
 from .levydrivensde.levyforwardmodel import LevyForwardModel
-from .levymodel.levymodel import ModelType, LevyModel
 from .levymodel.exponentialoflevymodel import ExponentialOfLevyModel
+from .levymodel.levymodel import ModelType, LevyModel
 from .levymodel.mixed.blackscholes import BlackScholesParameters, PureDiffusiveModel, BlackScholesModel
 from .levymodel.mixed.hem import HEMParameters, HEMModel, ExponentialOfHEMModel
 from .levymodel.mixed.merton import MertonParameters, MertonModel, ExponentialOfMertonModel
@@ -23,7 +23,6 @@ from ..numerical.cosmethod import COSPricer
 from ..product.payoff import Vanilla, PayoffType
 from ..product.product import Product
 from ..product.underlying import Spot
-
 
 ModelClasses = namedtuple('ModelClasses', 'parameters levy_model exponential_of_levy_model')
 models_description = {

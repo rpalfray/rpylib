@@ -12,9 +12,9 @@ import numpy as np
 import scipy.optimize
 
 from .grid import Grid, Coordinates, Coordinate1D, CoordinateND
-from ..model.levymodel.levymodel import LevyModel, LevyMeasure
 from ..model.levycopulamodel import LevyCopulaModel
 from ..model.levydrivensde.levydrivensde import LevyDrivenSDEModel
+from ..model.levymodel.levymodel import LevyModel, LevyMeasure
 
 
 class SpatialGrid(Grid):
@@ -131,7 +131,7 @@ class CTMCUniformGrid(CTMCGrid):
 
         :param h: uniform spatial step of the grid
         :param model: Lévy model in scope
-        :param truncation_probability: used to defined the bounds of the grid
+        :param truncation_probability: used to define the bounds of the grid
         """
         l, r = compute_truncation(model=model, h=h, truncation_probability=truncation_probability)
         nb_of_points_left = int(abs(l)/h)

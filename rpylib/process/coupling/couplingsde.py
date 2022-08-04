@@ -6,15 +6,15 @@ import copy
 
 import numpy as np
 
+from .couplinglevycopula import CouplingProcessLevyCopula
+from .couplingmarkovchain import CouplingMarkovChain
+from ..markovchain.markovchainsde import MarkovChainSDE, MarkovChainLevyLiborModel
 from ...distribution.sampling import SamplingMethod
 from ...grid.spatial import CTMCGrid
 from ...model.levydrivensde.levydrivensde import LevyDrivenSDEModel
 from ...model.levydrivensde.levylibormodel import LevyLiborModel
-from ...product.product import Product
 from ...montecarlo.path import StochasticSDEPath
-from ..markovchain.markovchainsde import MarkovChainSDE, MarkovChainLevyLiborModel
-from .couplinglevycopula import CouplingProcessLevyCopula
-from .couplingmarkovchain import CouplingMarkovChain
+from ...product.product import Product
 
 
 class CouplingSDE:

@@ -1,11 +1,10 @@
 """A few useful integrals
 """
 
+from math import factorial
+
 import numpy as np
 import scipy.special
-
-
-from math import factorial
 
 
 def _helper_sum_fact_xk(n, x):

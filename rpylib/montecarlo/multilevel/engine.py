@@ -7,16 +7,16 @@
 
 import copy
 import logging
-import pathos.multiprocessing as mp
 
 import numpy as np
+import pathos.multiprocessing as mp
 from tqdm import tqdm
 
-from ...process.coupling.couplingprocess import CouplingProcess
 from ..configuration import ConfigurationMultiLevel
 from ..path import create_path, MLMCPath
 from ..statistic.statistic import create_mlmc_statistics, MLMCStatistics
 from ...numerical.cosmethod import COSPricer
+from ...process.coupling.couplingprocess import CouplingProcess
 from ...process.markovchain.markovchainlevycopula import MarkovChainLevyCopula
 from ...process.markovchain.markovchainsde import MarkovChainSDE
 from ...product.product import Product

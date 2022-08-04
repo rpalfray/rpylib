@@ -1,11 +1,8 @@
 """Testing the COS method"""
 
-
-import numpy as np
 import pytest
 
 from rpylib.model.utils import *
-from rpylib.numerical.closedform.cfvariancegamma import CFVarianceGammaModel
 from rpylib.numerical.cosmethod import COSPricer
 
 

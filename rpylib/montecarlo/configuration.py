@@ -8,11 +8,11 @@
         - etc.
 """
 
-import random
-from enum import Enum
 import logging
 import os
+import random
 import time
+from enum import Enum
 
 import numpy as np
 

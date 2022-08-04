@@ -1,8 +1,8 @@
 """Lévy-driven SDE process
 """
 
-from functools import partial
 from collections.abc import Callable
+from functools import partial
 
 import numpy as np
 import scipy.integrate

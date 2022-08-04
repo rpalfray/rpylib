@@ -8,6 +8,8 @@ from types import MethodType
 
 import numpy as np
 
+from .helper import create_build_finer_grid_fun
+from ..markovchain.markovchain import MarkovChainProcess
 from ...distribution.sampling import SamplingMethod
 from ...distribution.univariate.uniform import Uniform
 from ...grid.spatial import CTMCGrid
@@ -16,8 +18,6 @@ from ...montecarlo.path import StochasticJumpPath, MCPath
 from ...montecarlo.statistic.statistic import PT
 from ...product.payoff import PayoffDates
 from ...product.product import Product
-from ..markovchain.markovchain import MarkovChainProcess
-from .helper import create_build_finer_grid_fun
 
 
 class CouplingMarkovChain:

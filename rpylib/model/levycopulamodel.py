@@ -4,8 +4,8 @@ For definitions and properties, the best place to start is the seminal paper:
 'Characterization of dependence of multidimensional Lévy processes using Lévy copulas' by Jan Kallsen and Peter Tankov
 """
 
-from functools import partial, lru_cache, reduce
 from collections.abc import Iterator
+from functools import partial, lru_cache, reduce
 from itertools import product
 from typing import Union
 

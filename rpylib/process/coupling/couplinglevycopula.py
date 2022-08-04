@@ -9,6 +9,8 @@ from types import MethodType
 
 import numpy as np
 
+from .helper import create_build_finer_grid_fun
+from ..markovchain.markovchainlevycopula import MarkovChainLevyCopula
 from ...distribution.sampling import SamplingMethod
 from ...distribution.univariate.uniform import Uniform
 from ...grid.grid import CoordinateND
@@ -18,8 +20,6 @@ from ...montecarlo.path import StochasticJumpPath
 from ...montecarlo.statistic.statistic import PT
 from ...product.payoff import PayoffDates
 from ...product.product import Product
-from ..markovchain.markovchainlevycopula import MarkovChainLevyCopula
-from .helper import create_build_finer_grid_fun
 
 
 class CouplingProcessLevyCopula:

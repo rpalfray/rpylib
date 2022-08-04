@@ -6,8 +6,8 @@
 """
 
 import logging
-import pathos.multiprocessing as mp
 
+import pathos.multiprocessing as mp
 from tqdm import tqdm
 
 from ..configuration import ConfigurationStandard

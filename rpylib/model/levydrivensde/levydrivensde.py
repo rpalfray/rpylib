@@ -9,10 +9,10 @@ from typing import Union
 
 import numpy as np
 
-from rpylib.process.process import ProcessRepresentation
-from rpylib.model.levymodel.levymodel import LevyModel
 from rpylib.model.levycopulamodel import LevyCopulaModel
+from rpylib.model.levymodel.levymodel import LevyModel
 from rpylib.model.model import Model
+from rpylib.process.process import ProcessRepresentation
 
 
 class SDEFunction:

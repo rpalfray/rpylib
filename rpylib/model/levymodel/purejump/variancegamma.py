@@ -8,8 +8,8 @@ import scipy.special as spp
 from ..exponentialoflevymodel import ExponentialOfLevyModel
 from ...model import Parameters, ModelType
 from ....model.levymodel.levymodel import LevyMeasure, LevyModel, LevyTriplet, LevyRepresentation, Cumulant
-from ....tools.parameter import positive
 from ....tools.integral import integral_xn_exp_minus_x
+from ....tools.parameter import positive
 
 
 class VGParameters(Parameters):

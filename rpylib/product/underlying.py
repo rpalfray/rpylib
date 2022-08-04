@@ -8,8 +8,8 @@
 """
 
 import abc
-from collections.abc import Callable
 import copy
+from collections.abc import Callable
 from enum import Enum
 from math import exp
 
