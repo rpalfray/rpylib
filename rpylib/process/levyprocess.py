@@ -19,6 +19,11 @@ from ..product.product import Product
 
 
 def simulate_diffusion_with_brownian_increments(scaled_stddev, brownian_increments):
+    """
+    :param scaled_stddev: standard deviation
+    :param brownian_increments: standard Brownian increments
+    :return: vector of cumulative Brownian increments
+    """
     diffs = scaled_stddev*brownian_increments
     return np.cumsum(diffs)
 
@@ -117,7 +122,7 @@ class Simulation:
     def __init__(self, process: LevyProcess):
         self.process = process
 
-    def one_simulation_cost(self, product) -> float:
+    def one_simulation_cost(self, _) -> float:
         """Cost of the simulation of onr Monte-Carlo path"""
         return 0
 
@@ -260,20 +265,20 @@ class SimulationMaximumStep(SimulationWithJumpTimes):
             dts = np.diff(jump_times, prepend=0)
             if not any(dts > epsilon):
                 return jump_times, jump_values
-            else:
-                positions = np.flatnonzero(dts > epsilon)
-                aug_dts = dts
-                aug_jump_values = jump_values
-                while positions.size > 0:
-                    aug_dts[positions] -= epsilon
-                    aug_dts = np.insert(aug_dts, positions, epsilon)
-                    aug_jump_values = np.insert(aug_jump_values, positions,
-                                                np.where(positions == 0, 0, aug_jump_values[..., positions - 1]),
-                                                axis=-1)
-                    positions = np.flatnonzero(aug_dts > epsilon)
-                aug_jump_times = np.cumsum(aug_dts)
 
-                return aug_jump_times, aug_jump_values
+            positions = np.flatnonzero(dts > epsilon)
+            aug_dts = dts
+            aug_jump_values = jump_values
+            while positions.size > 0:
+                aug_dts[positions] -= epsilon
+                aug_dts = np.insert(aug_dts, positions, epsilon)
+                aug_jump_values = np.insert(aug_jump_values, positions,
+                                            np.where(positions == 0, 0, aug_jump_values[..., positions - 1]),
+                                            axis=-1)
+                positions = np.flatnonzero(aug_dts > epsilon)
+            aug_jump_times = np.cumsum(aug_dts)
+
+            return aug_jump_times, aug_jump_values
 
         return _build_finer_grid_default if epsilon >= maturity else _build_finer_grid
 
@@ -287,5 +292,5 @@ class SimulationMaximumStep(SimulationWithJumpTimes):
 
         if jump_times.size == 0:
             return jump_times, jump_values
-        else:
-            return self.build_finer_grid(jump_times, jump_values)
+
+        return self.build_finer_grid(jump_times, jump_values)

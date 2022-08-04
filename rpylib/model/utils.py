@@ -167,8 +167,8 @@ def calibrate_model_parameter(model: ExponentialOfLevyModel, parameter: str, par
     a, b = parameter_interval
     try:
         res = scipy.optimize.brentq(f=calibration_fun, a=a, b=b)
-    except ValueError as exec:
-        raise ValueError('Parameter cannot be calibrated given the market data and its range constraints') from exec
+    except ValueError as err:
+        raise ValueError('Parameter cannot be calibrated given the market data and its range constraints') from err
 
     return res
 
@@ -229,14 +229,17 @@ def run_default_calibration(model: ExponentialOfLevyModel, maturity: float, bs_s
 
 
 def create_clayton_copula(theta: float = 0.7, eta: float = 0.3) -> LevyCopula:
+    """Helper to build the Clayton copula function"""
     return ClaytonCopula(theta=theta, eta=eta)
 
 
 def create_independent_copula() -> LevyCopula:
+    """Helper to build the independent copula function"""
     return IndependentComponentsCopula()
 
 
 def create_dependent_copula() -> LevyCopula:
+    """Helper to build the dependent copula function"""
     return DependentComponentsCopula()
 
 
@@ -250,6 +253,7 @@ def create_levy_copula_model(models: [LevyModel], copula: LevyCopula) -> LevyCop
 
 
 def create_levy_forward_market_model(driver: LevyModel) -> LevyForwardModel:
+    """Create a Lévy Forward Market Model with default parameter values"""
     ois_rates = [0.02, 0.02, 0.02, 0.02, 0.02]
     tenors = [5, 6, 7, 8, 9, 10]
     sigma = np.array([[0.50], [0.80], [1.00], [1.25], [1.50]])

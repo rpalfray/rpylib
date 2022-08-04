@@ -165,6 +165,14 @@ class COSPricer:
         return self.forward(strikes=strikes, time=time) + self.put(strikes, time)
 
     def butterfly(self, strike1, strike2, strike3, time):
+        """Price of a butterfly option
+
+        :param strike1: left strike
+        :param strike2: middle strike
+        :param strike3: right strike
+        :param time: time maturity
+        :return: the price of the butterfly option
+        """
         calls = self.call(np.array([strike1, strike2, strike3]), time)
         return calls[0] - 2*calls[1] + calls[2]
 

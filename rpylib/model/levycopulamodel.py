@@ -1,7 +1,8 @@
 """Multidimensional Lévy process modelled via a Lévy copula
 
 For definitions and properties, the best place to start is the seminal paper:
-'Characterization of dependence of multidimensional Lévy processes using Lévy copulas' by Jan Kallsen and Peter Tankov
+'Characterization of dependence of multidimensional Lévy processes using Lévy copulas'
+by Jan Kallsen and Peter Tankov
 """
 
 from collections.abc import Iterator
@@ -137,6 +138,9 @@ class LevyCopulaModel(Model):
         raise NotImplementedError('not implemented yet for Levy copula')
 
     def blumenthal_getoor_index(self) -> float:
+        """
+        :return: Blumenthal-Getoor index of the Lévy copula
+        """
         return max(model.blumenthal_getoor_index() for model in self.models)
 
     def characteristic_function(self, t: float, x: complex) -> complex:
@@ -260,7 +264,7 @@ class LevyCopulaModel(Model):
         return np.array([[model.drift() for model in self.models]]).T
 
     def diffusion_coefficient(self) -> float:
-        # this should return the diffusion matrix
+        """:return: the diffusion coefficient"""
         raise NotImplementedError('not implemented yet for Levy copula')
 
     def plot_density(self, t: float, show: bool = False) -> None:
@@ -300,6 +304,9 @@ class LevyCopulaModel(Model):
         return self.copula(np.array([self.marginal_tail_integral(i, xi) for i, xi in enumerate(x)]))
 
     def inverse_tail_integral(self, i, x):
+        """
+        :return: the inverse of the i-th marginal tail integral at x
+        """
 
         def fun_root(u: float) -> float:
             return self.marginal_tail_integral(i=i, x=u) - x

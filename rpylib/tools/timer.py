@@ -9,6 +9,7 @@ import time
 
 
 def timer(func):
+    """Generic timer decorator"""
     @functools.wraps(func)
     def timed(*args, **kwargs):
         t0 = time.time()

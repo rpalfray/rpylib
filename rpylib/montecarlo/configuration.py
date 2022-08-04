@@ -21,29 +21,36 @@ from ..product.product import ControlVariates, NoControlVariates, Product
 
 
 class VarianceReduction(Enum):
+    """Variance reduction methods"""
     RICHARDSONEXTRAPOLATION = 1
     ANTITHETIC = 2
 
 
 class Engine(Enum):
+    """Monte-Carlo engine type"""
     STANDARD = 1
     MULTILEVEL = 2
 
 
 class VarianceReductionMethod:
+    """Class wrapper for the variance reduction methods"""
     def __init__(self):
         self._vrm = []
 
     def add(self, method: VarianceReduction):
+        """add variance method"""
         if method not in self._vrm:
             self._vrm.append(method)
         return self
 
     def has(self, method: VarianceReduction) -> bool:
+        """check if method is present"""
         return method in self._vrm
 
 
 class Configuration:
+    """Monte-Carlo engine global configuration"""
+
     def __init__(self, variance_reduction: VarianceReductionMethod, seed: int = None,
                  control_variates: ControlVariates = None, activate_spot_statistics: bool = False,
                  nb_of_processes: int = None):
@@ -67,6 +74,11 @@ class Configuration:
         self.nb_of_processes = nb_of_processes
 
     def initialisation_seed(self, multiprocessing: bool = False):
+        """Random seed initialisation
+
+        .. note:: if multiprocessing is used, the seed for each process is set randomly as otherwise
+                  all the processes would have the same seed
+        """
         if self.seed and not multiprocessing:
             np.random.seed(self.seed)
             np.random.default_rng(self.seed)

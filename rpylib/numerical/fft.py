@@ -10,6 +10,9 @@ import numpy as np
 
 
 class FFTPricer:
+    """Fast Fourier Transform pricer
+    """
+
     def __init__(self, model: 'LevyModel'):
         """
         :param model: Lévy model
@@ -76,4 +79,5 @@ class FFTPricer:
         return self.call(strike, maturity) - df*(fwd - strike)
 
     def density(self, time, u):
+        """Density function implied from the FFT method"""
         raise NotImplementedError("fft density function")

@@ -158,7 +158,7 @@ class Libors(Underlying):
 
 
 class LogSpot(Underlying):
-    """LOG-Spot underlying, simply the logarithm of the spot underlying"""
+    """Log-Spot underlying, simply the logarithm of the spot underlying"""
     underlying_dimension = UnderlyingDimension.MULTIDIMENSIONAL
 
     def value(self, times, path: np.array, jump_path: np.array, payoff_underlying=None) -> np.array:
@@ -171,7 +171,7 @@ class LogSpot(Underlying):
 
 
 class Asian(Underlying):
-
+    """Arithmetic average of a single underlying"""
     underlying_dimension = UnderlyingDimension.MULTIDIMENSIONAL
 
     def __init__(self, discretisation: Discretisation = Discretisation.DAILY):
@@ -203,7 +203,7 @@ class Asian(Underlying):
 
 
 class Mean(Underlying):
-
+    """Arithmetic average of several underlyings"""
     def __init__(self):
         self._spot = Spot()
 
@@ -219,7 +219,8 @@ class Mean(Underlying):
 
 
 class Performances(Underlying):
-
+    """Performances vector of underlyings, that is the ratios of the spot underlyings
+    at maturity by their initial values"""
     underlying_dimension = UnderlyingDimension.MULTIDIMENSIONAL
 
     def __init__(self, spots: list[float]):
@@ -255,7 +256,7 @@ class MaximumOfPerformances(Underlying):
 
 
 class NthSpot(Underlying):
-
+    """Value of the spot of the n-th underlying among M underlyings (M>=n)"""
     def __init__(self, index: int):
         """
         :param index: underlying index, index=1 corresponds to the first spot S1.
@@ -280,7 +281,7 @@ class NthSpot(Underlying):
 
 
 class Indicators(Underlying):
-
+    """Indicator functions, that is, it is equal to 1 if above the threshold else 0"""
     underlying_dimension = UnderlyingDimension.MULTIDIMENSIONAL
 
     def __init__(self, thresholds: list[float]):
@@ -310,9 +311,9 @@ class DefaultTime(Underlying):
             raise ValueError('Expected strictly negative default level')
         self._a = default_level
 
-    def value(self, times, paths: np.array, jump_path: np.array, payoff_underlying=None) -> np.array:
+    def value(self, times, path: np.array, jump_path: np.array, payoff_underlying=None) -> np.array:
         log_jump_path = np.log(jump_path)
-        return self._value_log(times, paths, log_jump_path, payoff_underlying)
+        return self._value_log(times, path, log_jump_path, payoff_underlying)
 
     def _value_log(self, times, path: np.array, jump_path: np.array, payoff_underlying=None) -> np.array:
         log_jump_ratio = np.diff(jump_path)
@@ -356,7 +357,7 @@ class _DefaultTimes(Underlying):
 
 
 class DefaultTimeNthUnderlying(_DefaultTimes):
-
+    """Default time of the n-th underlying among M underlying (M>=n)"""
     underlying_dimension = UnderlyingDimension.ONEDIMENSIONAL
 
     def __init__(self, default_levels: list[float], underlying_index: int):
@@ -386,7 +387,7 @@ class DefaultTimeNthUnderlying(_DefaultTimes):
 
 
 class NthDefaultTimes(_DefaultTimes):
-
+    """N-th default times, that is the first time when at least n underlyings (out of M, M>n) have defaulted"""
     underlying_dimension = UnderlyingDimension.ONEDIMENSIONAL
 
     def __init__(self, default_levels: list[float], index: int):

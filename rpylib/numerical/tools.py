@@ -1,3 +1,5 @@
+"""Generic helper functions"""
+
 
 from functools import singledispatch
 

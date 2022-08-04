@@ -16,8 +16,8 @@ class ModelType(Enum):
 
 
 class Parameters(abc.ABC):
-    """Wrapper defining parameters class, the only function here is :func:`initialisation` which needed for the
-    calibration process.
+    """Wrapper defining parameters class, the only function here is :func:`initialisation`
+       which is needed for the calibration process.
     """
 
     def initialisation(self):
@@ -46,8 +46,8 @@ class Model:
 
     @abc.abstractmethod
     def drift(self, t: float = 0, x: np.array = 0) -> np.array:
-        """Drift mu(t, x) of the stochastic process. Most of the time it is a constant drift in time and in the
-        underlying variable x.
+        """Drift mu(t, x) of the stochastic process. Most of the time it is a constant drift in time
+        and in the underlying variable x.
         :param t: time t
         :param x: value at time t of the underlyings
         """

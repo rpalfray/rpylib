@@ -15,11 +15,15 @@ from ..model.model import Model
 
 
 class ProcessRepresentation(Enum):
+    """Type of the underlying representation of the process, often the log-process is simulated as it is both easier
+    and faster to do so.
+    """
     IDENDITY = 1  # the process X is simulated via the same representation X
     LOG = 2       # the process X is simulated via the representation Y = log(X)
 
 
 class Process(abc.ABC):
+    """General stochastic process interface"""
 
     def __init__(self, model: Model, process_representation: ProcessRepresentation):
         self.model = model

@@ -238,7 +238,7 @@ class ControlVariates:
         statistics._payoff_statistics_with_cv.stats = cv_stats
 
 
-class NoControlVariates:
+class NoControlVariates(ControlVariates):
     """Dummy class when there is no control variate
 
     """

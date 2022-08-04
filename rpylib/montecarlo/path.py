@@ -132,9 +132,11 @@ class MCPath(abc.ABC):
         self.stochastic_path: StochasticJumpPath = None  # this the stochastic part of the process
 
     def update(self, process_representation: ProcessRepresentation):
+        """Update the evaluation function with regard to the process representation"""
         self.spot.update(process_representation)
 
     def process_spot(self, path):
+        """Process the spot underlying if spot statistics are required"""
         # 'times' is a dummy variable as Spot means the final spot value
         self.spot_underlying = self.spot.value(times=None, path=path, jump_path=None)
 

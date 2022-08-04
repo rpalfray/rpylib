@@ -28,6 +28,7 @@ def a_n(n):
 
 
 def inv_guess_a(c):
+    """Helper function"""
     if c < 2:
         return floor(c)
 
