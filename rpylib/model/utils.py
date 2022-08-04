@@ -156,7 +156,7 @@ def calibrate_model_parameter(model: ExponentialOfLevyModel, parameter: str, par
     model_cls = type(model)
 
     def calibration_fun(value: float) -> float:
-        calibrated_parameters.setattr(parameter, value)
+        calibrated_parameters.__setattr__(parameter, value)
         calibrated_parameters.initialisation()
         calibrated_model = model_cls(spot=model.spot, r=model.r, d=model.d, parameters=calibrated_parameters)
         # FIXME by design, the constructor of the derived classed of ExponentialOfLévyModel are of the above form
@@ -221,7 +221,7 @@ def run_default_calibration(model: ExponentialOfLevyModel, maturity: float, bs_s
     # (the subject being the Parameter object) but this will do for now as this is only here that we need this feature
     # and the alternative of implementing the Observer Pattern is quite heavy compared to the few lines below
     calibrated_parameters = copy.deepcopy(model.levy_model.parameters)
-    calibrated_parameters.setattr(def_calibration.parameter, calibrated_parameter)
+    calibrated_parameters.__setattr__(def_calibration.parameter, calibrated_parameter)
     calibrated_parameters.initialisation()
     calibrated_model = type(model)(spot=model.spot, r=model.r, d=model.d, parameters=calibrated_parameters)
 
