@@ -9,7 +9,7 @@ import os
 import csv
 
 from rpylib.distribution.sampling import SamplingMethod
-from rpylib.grid.spatial import CTMCCredit,CTMCUniformGrid
+from rpylib.grid.spatial import CTMCCredit, CTMCUniformGrid
 from rpylib.model.utils import *
 from rpylib.montecarlo.configuration import ConfigurationStandard
 from rpylib.montecarlo.standard.engine import Engine

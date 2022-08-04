@@ -228,8 +228,8 @@ class ControlVariates:
                 prices = np.array([elmt[k] for elmt in self.prices])
             cv_stats_fine = self.helper_compute_coefficients(x=xx_fine.T, y=yy_fine.T, prices=prices)
             cv_stats_coarse = self.helper_compute_coefficients(x=xx_coarse.T, y=yy_coarse.T, prices=prices)
-            adj_payoff_fine[:,k] = cv_stats_fine
-            adj_payoff_coarse[:,k] = cv_stats_coarse
+            adj_payoff_fine[:, k] = cv_stats_fine
+            adj_payoff_coarse[:, k] = cv_stats_coarse
 
         cv_stats = np.zeros_like(statistics._payoff_statistics_with_cv.stats)
         cv_stats[..., PT.FP] = adj_payoff_fine

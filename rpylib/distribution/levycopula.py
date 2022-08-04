@@ -20,8 +20,9 @@ class LevyCopula:
         """copula function F"""
 
     def conditional_distribution(self, eps: float, x: np.array) -> np.array:
-        """The conditional distribution :math:`F_{\\mathcal{E}}(x)` as defined in 'Lévy copulas: review of recent results'
-        by Peter Tankov"""
+        """The conditional distribution :math:`F_{\\mathcal{E}}(x)` as defined in
+        'Lévy copulas: review of recent results' by Peter Tankov
+        """
         raise NotImplementedError('The conditional_distribution function is not implemented for this Levy copula')
 
     def inverse_conditional_distribution(self, eps: np.array, x: np.array) -> np.array:

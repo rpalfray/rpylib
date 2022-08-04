@@ -205,7 +205,8 @@ class CouplingSimulationFixedTimes(CouplingSimulation):
         fines_states_values = np.zeros(shape=len(fine_states_increments))
         coarse_states_values = np.zeros_like(fines_states_values)
 
-        for k, (slice_fine_states, slice_fine_values) in enumerate(zip(fine_states_increments, fines_states_all_values)):
+        for k, (slice_fine_states, slice_fine_values) \
+                in enumerate(zip(fine_states_increments, fines_states_all_values)):
             if slice_fine_states:
                 slice_coarse_values = self.coupling_states_for_a_slice(slice_fine_states)
                 fines_states_values[k] = slice_fine_values[-1]

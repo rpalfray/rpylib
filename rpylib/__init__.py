@@ -2,4 +2,4 @@
 Multi-level Monte-Carlo methods via a Continuous Markov Chain approximation"""
 
 
-__version__ = '1.0.0'
+__version__ = '1.0'

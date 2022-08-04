@@ -6,14 +6,15 @@
 # -- Project information -----------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#project-information
 
-import os, sys
+import os
+import sys
 sys.path.insert(0, os.path.abspath('../../rpylib'))
 
 project = 'rpylib'
 copyright = '2022, Romain Palfray'
 author = 'Romain Palfray'
-version = '1.0.0'
-release = '1.0.0'
+version = '1.0'
+release = '1.0'
 
 
 # -- General configuration ---------------------------------------------------

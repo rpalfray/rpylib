@@ -45,7 +45,6 @@ class CFVarianceGammaModel:
         #
         # return spot*self._psi_function(x1, y1, gamma) - strike*np.exp(-r*maturity)*self._psi_function(x2, y2, gamma)
 
-
     @staticmethod
     def _phi(a, b, c, x, y):
         """This is the second kind and the degenerate hyper-geometric function of two variables
