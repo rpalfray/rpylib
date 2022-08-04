@@ -28,7 +28,7 @@ def vol_adjustment_ij(i: int, j: int, h: float, levy_model: LevyCopulaModel):
     """For processes with infinite variation, the small jumps of size less than h are approximated by a Brownian motion.
     This function computes the corresponding diffusion matrix.
 
-    :param i: i:th coordinate
+    :param i: i-th coordinate
     :param j: j-th coordinate
     :param levy_model: Lévy copula model
     :param h: spatial step h
