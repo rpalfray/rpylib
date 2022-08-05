@@ -1,11 +1,7 @@
 language: python
 python:
-  - "3.9"
+  - 3.9
 install:
-    - "pip install -r requirements.txt --use-mirrors"
-    - "pip install coverage"
-    - "pip install coveralls"
+  - pip install -r requirements.txt
 script:
-    - "coverage run --source=rpylib setup.py test"
-after_success:
-    coveralls
+  - pytest
