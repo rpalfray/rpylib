@@ -1,5 +1,8 @@
 # rpylib
 
+[![Documentation Status](https://readthedocs.org/projects/rpylib/badge/?version=latest)](https://rpylib.readthedocs.io/en/latest/?badge=latest)
+
+
 ## Scope
 
 This Python pricing library was developed as a companion code for the paper:  
