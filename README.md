@@ -1,6 +1,7 @@
 # rpylib
 
 [![Documentation Status](https://readthedocs.org/projects/rpylib/badge/?version=latest)](https://rpylib.readthedocs.io/en/latest/?badge=latest)
+[![Build Status](https://app.travis-ci.com/rpalfray/rpylib.svg?branch=master)](https://app.travis-ci.com/rpalfray/rpylib)
 
 
 ## Scope
