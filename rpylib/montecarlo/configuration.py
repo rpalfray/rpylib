@@ -22,18 +22,21 @@ from ..product.product import ControlVariates, NoControlVariates, Product
 
 class VarianceReduction(Enum):
     """Variance reduction methods"""
+
     RICHARDSONEXTRAPOLATION = 1
     ANTITHETIC = 2
 
 
 class Engine(Enum):
     """Monte-Carlo engine type"""
+
     STANDARD = 1
     MULTILEVEL = 2
 
 
 class VarianceReductionMethod:
     """Class wrapper for the variance reduction methods"""
+
     def __init__(self):
         self._vrm = []
 
@@ -51,9 +54,14 @@ class VarianceReductionMethod:
 class Configuration:
     """Monte-Carlo engine global configuration"""
 
-    def __init__(self, variance_reduction: VarianceReductionMethod, seed: int = None,
-                 control_variates: ControlVariates = None, activate_spot_statistics: bool = False,
-                 nb_of_processes: int = None):
+    def __init__(
+        self,
+        variance_reduction: VarianceReductionMethod,
+        seed: int = None,
+        control_variates: ControlVariates = None,
+        activate_spot_statistics: bool = False,
+        nb_of_processes: int = None,
+    ):
         """
         :param variance_reduction: list of variance reduction methods to use
         :param seed: seed for the random generator
@@ -65,8 +73,11 @@ class Configuration:
                       one can't have the same seed for each proces.
         """
         if seed and (nb_of_processes is None or nb_of_processes > 1):
-            logging.log(level=logging.WARNING, msg='when using multiprocessing, the random seed is set to a different '
-                                                   'value for each process')
+            logging.log(
+                level=logging.WARNING,
+                msg="when using multiprocessing, the random seed is set to a different "
+                "value for each process",
+            )
         self.seed = seed
         self.activate_spot_statistics = activate_spot_statistics
         self.variance_reduction = variance_reduction or VarianceReductionMethod()
@@ -95,9 +106,16 @@ class Configuration:
 
 class ConfigurationStandard(Configuration):
     """Configuration for the standard Monte-Carlo engine"""
-    def __init__(self, mc_paths: int = 1_000, variance_reduction: VarianceReductionMethod = None, seed: int = None,
-                 control_variates: ControlVariates = None, activate_spot_statistics: bool = False,
-                 nb_of_processes: int = None):
+
+    def __init__(
+        self,
+        mc_paths: int = 1_000,
+        variance_reduction: VarianceReductionMethod = None,
+        seed: int = None,
+        control_variates: ControlVariates = None,
+        activate_spot_statistics: bool = False,
+        nb_of_processes: int = None,
+    ):
         """
         :param mc_paths: number of Monte-Carlo paths
         :param variance_reduction: variance reduction methods
@@ -106,13 +124,19 @@ class ConfigurationStandard(Configuration):
         :param activate_spot_statistics: if true, compute the modelled underlying spot
         :param nb_of_processes: number of processes for parallel computing
         """
-        super().__init__(variance_reduction=variance_reduction, seed=seed, control_variates=control_variates,
-                         activate_spot_statistics=activate_spot_statistics, nb_of_processes=nb_of_processes)
+        super().__init__(
+            variance_reduction=variance_reduction,
+            seed=seed,
+            control_variates=control_variates,
+            activate_spot_statistics=activate_spot_statistics,
+            nb_of_processes=nb_of_processes,
+        )
         self.mc_paths = mc_paths
 
 
 class ConvergenceRates:
     """Definition of the convergence rates (strong, weak and cost) in the MLMC case"""
+
     def __init__(self, alpha: float = None, beta: float = None, gamma: float = None):
         """
         :param alpha: weak convergence rate
@@ -121,10 +145,10 @@ class ConvergenceRates:
             .. note:: the convergence rate are in base 2 in the level `l`, that is in 2**(alpha*l)
         """
         if alpha is not None and beta is not None and gamma is not None:
-            if alpha*beta*gamma < 0.0:
-                raise ValueError('expected alpha, beta and gamma positive')
-            if alpha < 0.5*min(beta, gamma):
-                raise ValueError('expected alpha > 0.5 min(beta, gamma)')
+            if alpha * beta * gamma < 0.0:
+                raise ValueError("expected alpha, beta and gamma positive")
+            if alpha < 0.5 * min(beta, gamma):
+                raise ValueError("expected alpha > 0.5 min(beta, gamma)")
         self.alpha = alpha
         self.beta = beta
         self.gamma = gamma
@@ -135,7 +159,7 @@ def compute_convergence_rates(bg_index: float) -> ConvergenceRates:
     :param bg_index: Blumenthal-Getoor index
     :return: convergence rates alpha (weak convergence), beta (strong convergence) and gamma (cost)
     """
-    alpha = 1.0 - bg_index/2.0
+    alpha = 1.0 - bg_index / 2.0
     beta = 2.0 - bg_index
     gamma = bg_index
     return ConvergenceRates(alpha=alpha, beta=beta, gamma=gamma)
@@ -143,11 +167,20 @@ def compute_convergence_rates(bg_index: float) -> ConvergenceRates:
 
 class ConfigurationMultiLevel(Configuration):
     """Configuration for the Multilevel Monte-Carlo engine"""
-    def __init__(self, variance_reduction: VarianceReductionMethod = None,
-                 convergence_rates: ConvergenceRates = ConvergenceRates(),
-                 convergence_criteria: ConvergenceCriteria = None, initial_level: int = 2, maximum_level: int = 50,
-                 initial_mc_paths: int = 100, seed: int = None, control_variates: ControlVariates = None,
-                 activate_spot_statistics: bool = False, nb_of_processes: int = None):
+
+    def __init__(
+        self,
+        variance_reduction: VarianceReductionMethod = None,
+        convergence_rates: ConvergenceRates = ConvergenceRates(),
+        convergence_criteria: ConvergenceCriteria = None,
+        initial_level: int = 2,
+        maximum_level: int = 50,
+        initial_mc_paths: int = 100,
+        seed: int = None,
+        control_variates: ControlVariates = None,
+        activate_spot_statistics: bool = False,
+        nb_of_processes: int = None,
+    ):
         """
         :param variance_reduction: variance reduction methods
         :param convergence_rates: convergence rates (weak, strong and cost)
@@ -160,8 +193,13 @@ class ConfigurationMultiLevel(Configuration):
         :param activate_spot_statistics: if true, compute the modelled spot underlying
         :param nb_of_processes: number of processes for the multiprocessing implementation
         """
-        super().__init__(variance_reduction=variance_reduction, seed=seed, control_variates=control_variates,
-                         activate_spot_statistics=activate_spot_statistics, nb_of_processes=nb_of_processes)
+        super().__init__(
+            variance_reduction=variance_reduction,
+            seed=seed,
+            control_variates=control_variates,
+            activate_spot_statistics=activate_spot_statistics,
+            nb_of_processes=nb_of_processes,
+        )
         self.convergence_rates = convergence_rates or ConvergenceRates()
         self.convergence_criteria = convergence_criteria or GilesConvergenceCriteria()
         self.initial_level = initial_level

@@ -32,7 +32,7 @@ class HuffmanTree(Sampling):
         return res_states
 
 
-def sample_with_u(u: float, head: 'Node') -> tuple[int, int]:
+def sample_with_u(u: float, head: "Node") -> tuple[int, int]:
     sampling_cost = 0
     ptr = head
     while not ptr.is_leaf:
@@ -50,7 +50,8 @@ def sample_with_u(u: float, head: 'Node') -> tuple[int, int]:
 
 class Node:
     """A node in the tree is defined by its value and whether it is a leaf (or has children nodes)"""
-    __slots__ = ('value', 'is_leaf')
+
+    __slots__ = ("value", "is_leaf")
 
     def __init__(self, value: float, is_leaf: bool):
         self.value = value
@@ -59,9 +60,10 @@ class Node:
 
 class InternalNode(Node):
     """An internal node is not a lead, that is it has at least a left node child or a right node child"""
-    __slots__ = ('left_node', 'right_node')
 
-    def __init__(self, value: float, left_node: Node,  right_node: Node):
+    __slots__ = ("left_node", "right_node")
+
+    def __init__(self, value: float, left_node: Node, right_node: Node):
         super().__init__(value=value, is_leaf=False)
         self.left_node = left_node
         self.right_node = right_node
@@ -69,7 +71,8 @@ class InternalNode(Node):
 
 class Leaf(Node):
     """A leaf node has no children"""
-    __slots__ = ('state', )
+
+    __slots__ = ("state",)
 
     def __init__(self, value: float, state: int):
         super().__init__(value=value, is_leaf=True)
@@ -77,12 +80,13 @@ class Leaf(Node):
 
 
 class Heap:
-
     def __init__(self, nodes: [Node]):
         # the heap is sorted in decreasing order (in the value of the nodes)
         self.nodes = nodes
-        self.nodes.sort(key=attrgetter('value'), reverse=True)
-        self._values = [node.value for node in self.nodes][::-1]  # warning: the values are in increasing order
+        self.nodes.sort(key=attrgetter("value"), reverse=True)
+        self._values = [node.value for node in self.nodes][
+            ::-1
+        ]  # warning: the values are in increasing order
 
     def pop(self) -> Node:
         self._values.pop()

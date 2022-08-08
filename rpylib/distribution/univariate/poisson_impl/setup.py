@@ -6,7 +6,7 @@ import numpy
 from Cython.Build import cythonize
 
 setup(
-    name='Poison Algorithms',
+    name="Poison Algorithms",
     ext_modules=cythonize("hormann.pyx", annotate=True),
-    include_dirs=[numpy.get_include()]
+    include_dirs=[numpy.get_include()],
 )

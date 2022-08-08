@@ -22,7 +22,13 @@ class Product:
     .. note:: American/Bermudan-like products are not in scope for the moment
     """
 
-    def __init__(self, payoff_underlying: Underlying, payoff: Payoff, maturity: float, notional: float = 1.0):
+    def __init__(
+        self,
+        payoff_underlying: Underlying,
+        payoff: Payoff,
+        maturity: float,
+        notional: float = 1.0,
+    ):
         """
         :param payoff_underlying: underlying
         :param payoff: payoff object
@@ -34,7 +40,9 @@ class Product:
         self.maturity = maturity
         self.notional = notional
 
-    def underlying_value(self, times: TimeGrid, path: np.array, jump_path: np.array) -> float:
+    def underlying_value(
+        self, times: TimeGrid, path: np.array, jump_path: np.array
+    ) -> float:
         """Compute the value of the payoff underlying from the underlying path.
 
         :param times: times of the underlying path
@@ -42,7 +50,9 @@ class Product:
         :param jump_path: only pure jump path of the underlying
         :return: the payoff underlying
         """
-        underlying = self.payoff_underlying.value(times=times, path=path, jump_path=jump_path)
+        underlying = self.payoff_underlying.value(
+            times=times, path=path, jump_path=jump_path
+        )
         self.payoff.process(times, path)
         return underlying
 
@@ -60,7 +70,7 @@ class Product:
         :param underlying: underlying value
         :return: the value of the payoff product for a value of the underlying
         """
-        return self.notional*self.payoff(underlying)
+        return self.notional * self.payoff(underlying)
 
     def times_grid(self) -> TimeGrid:
         """Compute the times grid of the product.
@@ -73,8 +83,9 @@ class Product:
 class ControlVariates:
     """Standard control variates object used to decrease the variance of the Monte-Carlo estimator.
 
-        .. note:: by default, the control variates have the same maturity as the product in scope.
+    .. note:: by default, the control variates have the same maturity as the product in scope.
     """
+
     def __init__(self, products: [Product], prices: [Union[float, np.array]]):
         """Build the control variates from a list of products and their market prices.
 
@@ -82,7 +93,9 @@ class ControlVariates:
         :param prices: market prices of these products
         """
         if len(products) != len(prices):
-            raise ValueError('wrong inputs in ControlVariates: payoffs and prices have different sizes')
+            raise ValueError(
+                "wrong inputs in ControlVariates: payoffs and prices have different sizes"
+            )
         self.products = products
         self.prices = prices
         self._underlying_functions = []
@@ -97,10 +110,14 @@ class ControlVariates:
             .. todo:: we need to `order` the underlying so that one can be computed from another or at least
                       we need some kind of hierarchy mapping to express this relationship.
         """
-        self._underlying_functions = [p.payoff_underlying.imply_from_payoff_underlying(payoff_underlying_type)
-                                      for p in self.products]
+        self._underlying_functions = [
+            p.payoff_underlying.imply_from_payoff_underlying(payoff_underlying_type)
+            for p in self.products
+        ]
 
-    def process(self, times, path: np.array, jump_path: np.array, payoff_underlying) -> np.array:
+    def process(
+        self, times, path: np.array, jump_path: np.array, payoff_underlying
+    ) -> np.array:
         """Process the path information: compute the payoff underlyings, then the payoff value.
 
         :param times: times of the path
@@ -109,8 +126,13 @@ class ControlVariates:
         :param payoff_underlying: payoff underlying values
         :return: the value of the payoff for these underlyings path
         """
-        payoff_underlyings = [fun(times, path, jump_path, payoff_underlying) for fun in self._underlying_functions]
-        payoffs = [product(value) for product, value in zip(self.products, payoff_underlyings)]
+        payoff_underlyings = [
+            fun(times, path, jump_path, payoff_underlying)
+            for fun in self._underlying_functions
+        ]
+        payoffs = [
+            product(value) for product, value in zip(self.products, payoff_underlyings)
+        ]
         # the following idea is that we want a 2d-array even for a 1d-array
         # ndmin=2 will create a 2d array but the transposed version of what we want
         # in the case of a 2d-array input, the line below just transposes twice the array.
@@ -118,8 +140,16 @@ class ControlVariates:
 
         return np.array(np.array(payoffs).T, ndmin=2).T
 
-    def process_mlmc(self, times, path_fine, path_coarse, jump_path_fine, jump_path_coarse,
-                     payoff_underlying_from_FP, payoff_underlying_from_CP) -> np.array:
+    def process_mlmc(
+        self,
+        times,
+        path_fine,
+        path_coarse,
+        jump_path_fine,
+        jump_path_coarse,
+        payoff_underlying_from_FP,
+        payoff_underlying_from_CP,
+    ) -> np.array:
         """Process the path information in the case of the MLMC
 
         :param times: times of the path
@@ -133,15 +163,37 @@ class ControlVariates:
 
         .. seealso:: this is the MLMC version of :func:`process`
         """
-        payoff_underlyings_from_fine = np.array([fun(times, path_fine, jump_path_fine, payoff_underlying_from_FP)
-                                                 for fun in self._underlying_functions])
-        payoff_underlyings_from_coarse = np.array([fun(times, path_coarse, jump_path_coarse, payoff_underlying_from_CP)
-                                                   for fun in self._underlying_functions])
-        payoffs_fine = np.array([product(value) for product, value in zip(self.products, payoff_underlyings_from_fine)])
-        payoffs_coarse = np.array([product(value) for product, value in zip(self.products,
-                                                                            payoff_underlyings_from_coarse)])
+        payoff_underlyings_from_fine = np.array(
+            [
+                fun(times, path_fine, jump_path_fine, payoff_underlying_from_FP)
+                for fun in self._underlying_functions
+            ]
+        )
+        payoff_underlyings_from_coarse = np.array(
+            [
+                fun(times, path_coarse, jump_path_coarse, payoff_underlying_from_CP)
+                for fun in self._underlying_functions
+            ]
+        )
+        payoffs_fine = np.array(
+            [
+                product(value)
+                for product, value in zip(self.products, payoff_underlyings_from_fine)
+            ]
+        )
+        payoffs_coarse = np.array(
+            [
+                product(value)
+                for product, value in zip(self.products, payoff_underlyings_from_coarse)
+            ]
+        )
 
-        return np.array([np.array(np.array(payoffs_fine).T, ndmin=2), np.array(np.array(payoffs_coarse).T, ndmin=2)]).T
+        return np.array(
+            [
+                np.array(np.array(payoffs_fine).T, ndmin=2),
+                np.array(np.array(payoffs_coarse).T, ndmin=2),
+            ]
+        ).T
 
     @staticmethod
     def helper_compute_coefficients(x: np.array, y: np.array, prices: np.array):
@@ -162,15 +214,18 @@ class ControlVariates:
                 inv_sigma_x = np.linalg.inv(sigma_x)
                 b_star = inv_sigma_x @ sigma_xy
         except np.linalg.LinAlgError:
-            logging.log(level=logging.WARNING, msg='control variate not taken into account in this pass as the '
-                                                   'correlation matrix is not positive definite')
+            logging.log(
+                level=logging.WARNING,
+                msg="control variate not taken into account in this pass as the "
+                "correlation matrix is not positive definite",
+            )
             b_star = np.zeros_like(sigma_xy)
 
         # update statistics input
         cv_stats = y - np.dot(b_star, (x - prices).T)
         return cv_stats
 
-    def compute_coefficients(self, statistics: 'MCStatistics') -> None:
+    def compute_coefficients(self, statistics: "MCStatistics") -> None:
         """Compute the (optimal) coefficients of the control variates.
 
         These formulas can be found in `Monte-Carlo Methods in Financial Engineering` by Paul Glasserman - 4.1.2
@@ -194,7 +249,7 @@ class ControlVariates:
             res[:, k] = cv_stats
         statistics._payoff_statistics_with_cv.stats = res
 
-    def compute_coefficients_mlmc(self, statistics: 'MCStatistics', level: int) -> None:
+    def compute_coefficients_mlmc(self, statistics: "MCStatistics", level: int) -> None:
         """Compute the (optimal) coefficients of the control variates for the MLMC.
 
         :param statistics: statistics object
@@ -221,13 +276,19 @@ class ControlVariates:
 
         adj_payoff_fine = np.empty_like(Y_fine)
         adj_payoff_coarse = np.empty_like(Y_coarse)
-        for k, (xx_fine, yy_fine, xx_coarse, yy_coarse) in enumerate(zip(X_fine.T, Y_fine.T, X_coarse.T, Y_coarse.T)):
+        for k, (xx_fine, yy_fine, xx_coarse, yy_coarse) in enumerate(
+            zip(X_fine.T, Y_fine.T, X_coarse.T, Y_coarse.T)
+        ):
             if isinstance(self.prices[0], Real):
                 prices = self.prices[k]
             else:
                 prices = np.array([elmt[k] for elmt in self.prices])
-            cv_stats_fine = self.helper_compute_coefficients(x=xx_fine.T, y=yy_fine.T, prices=prices)
-            cv_stats_coarse = self.helper_compute_coefficients(x=xx_coarse.T, y=yy_coarse.T, prices=prices)
+            cv_stats_fine = self.helper_compute_coefficients(
+                x=xx_fine.T, y=yy_fine.T, prices=prices
+            )
+            cv_stats_coarse = self.helper_compute_coefficients(
+                x=xx_coarse.T, y=yy_coarse.T, prices=prices
+            )
             adj_payoff_fine[:, k] = cv_stats_fine
             adj_payoff_coarse[:, k] = cv_stats_coarse
 
@@ -239,22 +300,30 @@ class ControlVariates:
 
 
 class NoControlVariates(ControlVariates):
-    """Dummy class when there is no control variate
+    """Dummy class when there is no control variate"""
 
-    """
-
-    def process(self, times, path: np.array, jump_path: np.array, payoff_underlying) -> np.array:
+    def process(
+        self, times, path: np.array, jump_path: np.array, payoff_underlying
+    ) -> np.array:
         return 0.0
 
-    def process_mlmc(self, times, path_fine, path_coarse, jump_path_fine, jump_path_coarse, payoff_underlying_from_FP,
-                     payoff_underlying_from_CP) -> np.array:
+    def process_mlmc(
+        self,
+        times,
+        path_fine,
+        path_coarse,
+        jump_path_fine,
+        jump_path_coarse,
+        payoff_underlying_from_FP,
+        payoff_underlying_from_CP,
+    ) -> np.array:
         return 0.0
 
     def initialisation(self, payoff_underlying_type) -> None:
         pass
 
-    def compute_coefficients(self, statistics: 'MCStatistics'):
+    def compute_coefficients(self, statistics: "MCStatistics"):
         pass
 
-    def compute_coefficients_mlmc(self, statistics: 'MCStatistics', level: int):
+    def compute_coefficients_mlmc(self, statistics: "MCStatistics", level: int):
         pass

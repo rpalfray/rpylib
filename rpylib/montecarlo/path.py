@@ -15,7 +15,9 @@ from ..product.product import ControlVariates, Product
 from ..product.underlying import Spot
 
 
-def create_path(configuration: Configuration, deterministic_path: Callable[[np.array], NDArray]):
+def create_path(
+    configuration: Configuration, deterministic_path: Callable[[np.array], NDArray]
+):
     """
     :param configuration: Monte-Carlo configuration
     :param deterministic_path: values of the deterministic underlying
@@ -27,17 +29,25 @@ def create_path(configuration: Configuration, deterministic_path: Callable[[np.a
         if has_antithetic:
             raise NotImplementedError
 
-        return MCPath(deterministic_path=deterministic_path,
-                      activate_spot_underlying=configuration.activate_spot_statistics)
+        return MCPath(
+            deterministic_path=deterministic_path,
+            activate_spot_underlying=configuration.activate_spot_statistics,
+        )
 
-    if isinstance(configuration, rpylib.montecarlo.configuration.ConfigurationMultiLevel):
+    if isinstance(
+        configuration, rpylib.montecarlo.configuration.ConfigurationMultiLevel
+    ):
         if has_antithetic:
-            raise NotImplementedError("Antithetic method not yet implemented for Multilevel Monte-Carlo")
+            raise NotImplementedError(
+                "Antithetic method not yet implemented for Multilevel Monte-Carlo"
+            )
 
-        return MLMCPath(deterministic_path=deterministic_path,
-                        activate_spot_underlying=configuration.activate_spot_statistics)
+        return MLMCPath(
+            deterministic_path=deterministic_path,
+            activate_spot_underlying=configuration.activate_spot_statistics,
+        )
 
-    raise NotImplementedError('create_path')
+    raise NotImplementedError("create_path")
 
 
 class StochasticPath:
@@ -59,11 +69,14 @@ class StochasticPath:
 class StochasticJumpPath(StochasticPath):
     """Stochastic path with a jump component
 
-        .. todo:: find a better name?
+    .. todo:: find a better name?
     """
-    __slots__ = ('jump_times', 'diffusion_path', 'jump_path')
 
-    def __init__(self, jump_times: np.array, diffusion_path: np.array, jump_path: np.array):
+    __slots__ = ("jump_times", "diffusion_path", "jump_path")
+
+    def __init__(
+        self, jump_times: np.array, diffusion_path: np.array, jump_path: np.array
+    ):
         """
         :param jump_times: jump times
         :param diffusion_path: pure diffusive component
@@ -89,11 +102,17 @@ class StochasticJumpPath(StochasticPath):
 
 
 class StochasticSDEPath(StochasticJumpPath):
-    """Stochastic path for a process defined by a SDE
-    """
-    __slots__ = 'drift'
+    """Stochastic path for a process defined by a SDE"""
 
-    def __init__(self, drift: np.array, jump_times: np.array, diffusion_path: np.array, jump_path: np.array):
+    __slots__ = "drift"
+
+    def __init__(
+        self,
+        drift: np.array,
+        jump_times: np.array,
+        diffusion_path: np.array,
+        jump_path: np.array,
+    ):
         """
         :param drift: SDE drift values
         :param jump_times: jump times
@@ -114,7 +133,12 @@ class MCPath(abc.ABC):
     """MCPath handles the different ways of storing a (possibly multidimensional) Monte-Carlo path, and it is also
     responsible for computing the underlying and the final payoff values.
     """
-    def __init__(self, deterministic_path: Callable[[np.array], np.array], activate_spot_underlying: bool):
+
+    def __init__(
+        self,
+        deterministic_path: Callable[[np.array], np.array],
+        activate_spot_underlying: bool,
+    ):
         """
         :param deterministic_path: function that gives the deterministic value of the process
         :param activate_spot_underlying: if True then compute the modelled underlying too
@@ -129,7 +153,9 @@ class MCPath(abc.ABC):
             self.process_spot = lambda path: None
 
         self.deterministic_path = deterministic_path
-        self.stochastic_path: StochasticJumpPath = None  # this the stochastic part of the process
+        self.stochastic_path: StochasticJumpPath = (
+            None  # this the stochastic part of the process
+        )
 
     def update(self, process_representation: ProcessRepresentation):
         """Update the evaluation function with regard to the process representation"""
@@ -153,7 +179,9 @@ class MCPath(abc.ABC):
         self.process_spot(path)
         self.payoff = product(payoff_underlying)
         # add control variates -- FIXME: to be optimised -> the spot underlying is computed several times
-        self.payoff_control_variates = control_variates.process(times, path, jump_path, payoff_underlying)
+        self.payoff_control_variates = control_variates.process(
+            times, path, jump_path, payoff_underlying
+        )
 
     def discount(self, df: float):
         """Discount the payoff with df
@@ -168,7 +196,12 @@ class MCPath(abc.ABC):
 
 class MLMCPath(MCPath):
     """Handling of the path for the Multilevel Monte-Carlo"""
-    def __init__(self, deterministic_path: Callable[[np.array], np.array], activate_spot_underlying: bool):
+
+    def __init__(
+        self,
+        deterministic_path: Callable[[np.array], np.array],
+        activate_spot_underlying: bool,
+    ):
         """
         :param deterministic_path: function that gives the deterministic value of the process
         :param activate_spot_underlying: if True then compute the modelled underlying too
@@ -185,7 +218,9 @@ class MLMCPath(MCPath):
         """
         spot_fine = self.spot.value(times=None, jump_path=None, path=path_fine)
         spot_coarse = self.spot.value(times=None, jump_path=None, path=path_coarse)
-        self.spot_underlying = np.hstack((spot_fine[np.newaxis].T, spot_coarse[np.newaxis].T))
+        self.spot_underlying = np.hstack(
+            (spot_fine[np.newaxis].T, spot_coarse[np.newaxis].T)
+        )
 
     def process(self, product: Product, control_variates: ControlVariates) -> None:
         """Processing the payoff for both the fine and coarse paths
@@ -202,14 +237,25 @@ class MLMCPath(MCPath):
         path_coarse = path[PT.CP, ...]
         jump_path_fine = jump_path[PT.FP, ...]
         jump_path_coarse = jump_path[PT.CP, ...]
-        payoff_underlying_from_fp = product.underlying_value(times, path_fine, jump_path_fine)
-        payoff_underlying_from_cp = product.underlying_value(times, path_coarse, jump_path_coarse)
-        self.payoff = np.array([product(payoff_underlying_from_fp), product(payoff_underlying_from_cp)])
+        payoff_underlying_from_fp = product.underlying_value(
+            times, path_fine, jump_path_fine
+        )
+        payoff_underlying_from_cp = product.underlying_value(
+            times, path_coarse, jump_path_coarse
+        )
+        self.payoff = np.array(
+            [product(payoff_underlying_from_fp), product(payoff_underlying_from_cp)]
+        )
         self.process_spot_level_l(path_fine, path_coarse)
-        self.payoff_control_variates = control_variates.process_mlmc(times, path_fine, path_coarse,
-                                                                     jump_path_fine, jump_path_coarse,
-                                                                     payoff_underlying_from_fp,
-                                                                     payoff_underlying_from_cp)
+        self.payoff_control_variates = control_variates.process_mlmc(
+            times,
+            path_fine,
+            path_coarse,
+            jump_path_fine,
+            jump_path_coarse,
+            payoff_underlying_from_fp,
+            payoff_underlying_from_cp,
+        )
 
     def process_l0(self, product: Product, control_variates: ControlVariates) -> None:
         """Processing the payoff for the first level (=0) that is when there is no coarse process
@@ -224,5 +270,9 @@ class MLMCPath(MCPath):
         payoff = product(payoff_underlying)
         self.payoff = np.array([payoff, 0.0])
         self.process_spot(path)
-        self.payoff_control_variates = control_variates.process(times=times, path=path, jump_path=jump_path,
-                                                                payoff_underlying=payoff_underlying)
+        self.payoff_control_variates = control_variates.process(
+            times=times,
+            path=path,
+            jump_path=jump_path,
+            payoff_underlying=payoff_underlying,
+        )

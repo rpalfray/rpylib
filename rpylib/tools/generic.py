@@ -9,7 +9,7 @@ from gmpy2 import qdiv
 
 
 def lazy_indices_product(args: list[int]):
-    """ itertools.product can blow up the memory because:
+    """itertools.product can blow up the memory because:
      'Before `product()` runs, it completely consumes the input iterables, keeping pools of values in memory to
      generate the products.' (-> https://docs.python.org/3/library/itertools.html#itertools.product).
      There is sometimes a need for a 'lazy' cartesian product. The following code is inspired from:
@@ -24,7 +24,9 @@ def lazy_indices_product(args: list[int]):
     """
     moduli = args
     denominators = [1] + list(accumulate(reversed(moduli[1:]), mul))
-    nb_of_elements = denominators[-1]*args[0]
+    nb_of_elements = denominators[-1] * args[0]
 
     for n in range(nb_of_elements):
-        yield tuple(int(floor(qdiv(n, denominators[k])) % moduli[k]) for k, _ in enumerate(args))
+        yield tuple(
+            int(floor(qdiv(n, denominators[k])) % moduli[k]) for k, _ in enumerate(args)
+        )

@@ -12,6 +12,7 @@ from ...sampling import Sampling
 
 class Knuth(Sampling):
     """Knuth algorithm for generating Poisson random variable"""
+
     def __init__(self, lam: int):
         super().__init__()
         self.lam = lam

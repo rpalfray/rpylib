@@ -22,7 +22,7 @@ def a_n(n):
     :return: the sequence of the sum of the divisor of k for k in [1,n]
     """
     sqrt_x = floor(sqrt(n))
-    res = 2*sum(n // k for k in range(1, sqrt_x+1)) - sqrt_x**2
+    res = 2 * sum(n // k for k in range(1, sqrt_x + 1)) - sqrt_x**2
 
     return res
 
@@ -35,13 +35,15 @@ def inv_guess_a(c):
     log_c = log(c)
 
     def f_fp_fp2(log_n):
-        aux = log_n + 2*euler_gamma - 1
+        aux = log_n + 2 * euler_gamma - 1
         f = log_n - log_c + log(aux)
-        fp = 1 + 1/aux
-        fp2 = -1/aux**2
+        fp = 1 + 1 / aux
+        fp2 = -1 / aux**2
         return f, fp, fp2
 
-    sol = scipy.optimize.root_scalar(f=f_fp_fp2, x0=log_c, fprime2=True, method='halley')
+    sol = scipy.optimize.root_scalar(
+        f=f_fp_fp2, x0=log_c, fprime2=True, method="halley"
+    )
     res = sol.root
     return int(np.exp(res))
 
@@ -54,7 +56,7 @@ def upper_bound_a_n(z):
     if z == 0:
         return 1
 
-    delta_c = 3 * z**(1/4)
+    delta_c = 3 * z ** (1 / 4)
     n_low_bound = inv_guess_a(max(0, z - delta_c))
     n_guess = inv_guess_a(z)
     n_high_bound = inv_guess_a(z + delta_c)

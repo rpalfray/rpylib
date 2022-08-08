@@ -10,6 +10,7 @@ import numpy as np
 
 class SamplingMethod(Enum):
     """Sampling method type"""
+
     ALIAS = 1
     TABLE = 2
     BINARYSEARCHTREE = 3
@@ -21,6 +22,7 @@ class SamplingMethod(Enum):
 
 class Sampling:
     """Base class for sampling method"""
+
     def __init__(self):
         self.sampling_cost = 0
 

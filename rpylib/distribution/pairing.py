@@ -32,7 +32,7 @@ class Pairing:
 
     def projection(self, z: int, dim=2) -> tuple[int, ...]:
         if dim > 2:
-            test = self.projection(z, dim-1)
+            test = self.projection(z, dim - 1)
             p, q = test[0], test[1:]
             return self.projection2d(p) + q
 
@@ -49,6 +49,7 @@ class Pairing:
 
 class Cantor(Pairing):
     """The famous Cantor pairing"""
+
     def projection(self, z: int, dim=2) -> tuple[int, ...]:
         if dim != 2:
             raise NotImplementedError
@@ -57,12 +58,12 @@ class Cantor(Pairing):
     @staticmethod
     def pairing2d(x: int, y: int) -> int:
         # use //2 to force to return int
-        return (pow(x + y, 2) + 3*x + y)//2
+        return (pow(x + y, 2) + 3 * x + y) // 2
 
     @staticmethod
     def projection2d(z: int) -> tuple[int, int]:
-        omega = floor((-1 + sqrt(1+8*z))/2)
-        return int(z - omega*(omega + 1)/2), int(omega*(omega + 3)/2 - z)
+        omega = floor((-1 + sqrt(1 + 8 * z)) / 2)
+        return int(z - omega * (omega + 1) / 2), int(omega * (omega + 3) / 2 - z)
 
 
 class RosenbergStrong(Pairing):
@@ -73,29 +74,29 @@ class RosenbergStrong(Pairing):
         if (d := len(x)) > 1:
             y = self.pairing(x[:-1])
             m = max(x)
-            return y + m**d + (m - x[-1])*((m + 1)**(d-1) - m**(d-1))
+            return y + m**d + (m - x[-1]) * ((m + 1) ** (d - 1) - m ** (d - 1))
 
         return x[0]
 
     @lru_cache(maxsize=2**5)
     def projection(self, z: int, dim=2) -> tuple[int, ...]:
         if dim == 1:
-            return z,
+            return (z,)
 
         # note:: I add epsilon in "m = floor(z**(1/dim) + epsilon)" because of overflow.
         # For example 64**(1/3) gives 3.99999999 which will be rounded to 3 instead of 4
-        m = floor(z**(1/dim) + self._epsilon)
-        m_d1 = m**(dim-1)
-        m_d = m*m_d1
-        aux = (m + 1)**(dim-1) - m_d1
-        xd = m - floor(max(0, z - m_d - m_d1)/aux)
-        p = self.projection(z - m_d - (m - xd)*aux, dim=dim-1)
+        m = floor(z ** (1 / dim) + self._epsilon)
+        m_d1 = m ** (dim - 1)
+        m_d = m * m_d1
+        aux = (m + 1) ** (dim - 1) - m_d1
+        xd = m - floor(max(0, z - m_d - m_d1) / aux)
+        p = self.projection(z - m_d - (m - xd) * aux, dim=dim - 1)
         return p + (xd,)
 
     @staticmethod
     def pairing2d(x: int, y: int) -> int:
         sup = max(x, y)
-        return sup*(sup + 1) + x - y
+        return sup * (sup + 1) + x - y
 
     @staticmethod
     def projection2d(z: int) -> tuple[int, int]:
@@ -104,11 +105,10 @@ class RosenbergStrong(Pairing):
         if z1 < m:
             return z1, m
         else:
-            return m, 2*m - z1
+            return m, 2 * m - z1
 
 
 class Szudzik(Pairing):
-
     @staticmethod
     def pairing2d(x: int, y: int) -> int:
         if x >= y:
@@ -127,7 +127,7 @@ class Szudzik(Pairing):
 
 
 class HyperbolicPairing(Pairing):
-    """ From 'Managing storage for extendible arrays' by Rosenberg"""
+    """From 'Managing storage for extendible arrays' by Rosenberg"""
 
     @staticmethod
     def pairing2d(x: int, y: int) -> int:
@@ -137,9 +137,9 @@ class HyperbolicPairing(Pairing):
         xx = x + 1
         yy = y + 1
 
-        n = xx*yy
+        n = xx * yy
 
-        z = a_n(n-1)
+        z = a_n(n - 1)
         n_factorisation = factorint(n)
 
         if n_factorisation:
@@ -149,7 +149,7 @@ class HyperbolicPairing(Pairing):
             cum_prod_exponents = 1
             for i, prime in enumerate(sorted_primes):
                 ri = multiplicity(prime, xx)
-                offset += ri*cum_prod_exponents
+                offset += ri * cum_prod_exponents
                 cum_prod_exponents *= 1 + n_factorisation[prime]
             z += offset
 
@@ -173,7 +173,7 @@ class HyperbolicPairing(Pairing):
             aux = np.array([1 + n_factorisation[key] for key in sorted_primes])
             for i, prime in enumerate(sorted_primes):
                 ti = n_factorisation[prime]
-                x_exponent = floor((z - a_n(n-1))/np.prod(aux[:i])) % (ti + 1)
+                x_exponent = floor((z - a_n(n - 1)) / np.prod(aux[:i])) % (ti + 1)
                 x_exponents.append(x_exponent)
 
             x = np.prod([prime**r for prime, r in zip(sorted_primes, x_exponents)])
@@ -203,7 +203,7 @@ class PepisKalmar(Pairing):
 
     @staticmethod
     def pairing2d(x: int, y: int) -> int:
-        return 2**y*(2*x + 1) - 1
+        return 2**y * (2 * x + 1) - 1
 
     @staticmethod
     def projection2d(z: int) -> tuple[int, int]:
@@ -218,21 +218,22 @@ class PepisKalmar(Pairing):
 def mapping_to_z(n: int) -> int:
     """mapping 0, 1, -1, 2, -2, 3, -3,... to 0, 1, 2, 3, 4, 5, 6,..."""
     if n > 0:
-        return 2*n - 1
+        return 2 * n - 1
     else:
-        return -2*n
+        return -2 * n
 
 
 def projection_to_z(z: int) -> int:
     """mapping 0, 1, 2, 3, 4, 5, 6,... to 0, 1, -1, 2, -2, 3, -3,..."""
     q, r = divmod(z, 2)
-    return q*(2*r - 1) + r
+    return q * (2 * r - 1) + r
 
 
 class PairingToZd:
     """
     Pairing :math:`\\mathbb{N}` with :math:`\\mathbb{Z}^d`
     """
+
     def __init__(self, pairing: Pairing, dimension: int = 2, omit_zero: bool = True):
         self.n_pairing = pairing
         self.dimension = dimension
@@ -267,6 +268,7 @@ class PairingToZ1d:
     """
     Mapping 0, 1, 2, 3,... to the states in an interval :math:`[-L, R], L>0, R>0, L\\neq R`
     """
+
     def __init__(self, interval: tuple[int, int], omit_zero: bool = True):
         l, r = interval
         self.left, self.right = l, r
@@ -288,7 +290,7 @@ class PairingToZ1d:
         if abs(x) <= min(self.right, -self.left):
             paired = mapping_to_z(x)
         else:
-            if self.right > - self.left:
+            if self.right > -self.left:
                 paired = x - self.left
             else:
                 paired = self.right - x
@@ -319,19 +321,17 @@ class PairingToZ1d:
 
 
 class Boundary:
-    """Boundary for a domain, the default is that there is no boundary
-    """
+    """Boundary for a domain, the default is that there is no boundary"""
 
     def __call__(self, x: np.array) -> bool:
         """return True if x is outside the boundary"""
         return False
 
     def __repr__(self):
-        return 'no boundary'
+        return "no boundary"
 
 
 class RectangleBoundary(Boundary):
-
     def __init__(self, truncations: list[tuple[int, int]]):
         self.truncations = truncations
 
@@ -344,32 +344,32 @@ class RectangleBoundary(Boundary):
         return np.any(np.abs(x) > boundaries)
 
     def __repr__(self):
-        return 'rectangle boundary'
+        return "rectangle boundary"
 
 
 class SimplexBoundary(Boundary):
-
     def __init__(self, truncations: list[tuple[int, int]]):
         self.truncations_left = np.array([t[0] for t in truncations])
         self.truncations_right = np.array([t[1] for t in truncations])
 
     def __call__(self, x: np.array) -> bool:
         # pick the corresponding boundaries
-        normalised_x = x / np.where(x < 0, self.truncations_left, self.truncations_right)
+        normalised_x = x / np.where(
+            x < 0, self.truncations_left, self.truncations_right
+        )
         return np.sum(normalised_x) > 1
 
     def __repr__(self):
-        return 'simplex boundary'
+        return "simplex boundary"
 
 
 class MyBoundary(Boundary):
-
     def __init__(self, truncations: list[tuple[int, int]], threshold: float):
         self.truncations = truncations
         self._c = threshold
 
     def __repr__(self):
-        return 'my boundary'
+        return "my boundary"
 
     @staticmethod
     def b_fun(x: float, r1, r2, c):
@@ -378,13 +378,15 @@ class MyBoundary(Boundary):
         if c > r1:
             return 0
 
-        gamma = c/(r1-c)
-        alpha = r1*(r2-c)
-        beta = (r1-r2)
-        return (alpha/x + beta)*gamma
+        gamma = c / (r1 - c)
+        alpha = r1 * (r2 - c)
+        beta = r1 - r2
+        return (alpha / x + beta) * gamma
 
     def __call__(self, x: np.array) -> bool:
-        for (xi, xi_boundaries), (xj, xj_boundaries) in combinations(zip(x, self.truncations), 2):
+        for (xi, xi_boundaries), (xj, xj_boundaries) in combinations(
+            zip(x, self.truncations), 2
+        ):
             r1 = -xi_boundaries[0] if xi < 0 else xi_boundaries[1]
             r2 = -xj_boundaries[0] if xj < 0 else xj_boundaries[1]
             if abs(xj) > self.b_fun(abs(xi), r1, r2, self._c):
@@ -427,7 +429,9 @@ class Domain:
         # - count the number of states in the domain
         # - determine the frontier of the domain (i.e. the states that are at the frontier -> in the grid and the domain
         #   but its neighbour states are either outside the grid or outside the domain)
-        frontier_state_indices = deque()  # we store the projected state indices, which is less efficient than storing
+        frontier_state_indices = (
+            deque()
+        )  # we store the projected state indices, which is less efficient than storing
         # the state increments directly, as we will need to retrieve the state later but more memory efficient
         # than storing all the states (tuples of ints)
         origin_coordinate = self.grid.origin_coordinate
@@ -438,32 +442,44 @@ class Domain:
         all_sizes = [axis.size for axis in axes[:-1]]
         last_size = axes[-1].size
         origin_last_coordinate = origin_coordinate[-1]
-        left_size, right_size = -origin_last_coordinate, last_size - origin_last_coordinate
+        left_size, right_size = (
+            -origin_last_coordinate,
+            last_size - origin_last_coordinate,
+        )
 
         for ks in lazy_indices_product(all_sizes):
             ks_shifted = tuple(ki - origin_last_coordinate for ki in ks)
             outside_states = []
             all_states = []
             for k in range(left_size, right_size):
-                state_increment = (ks_shifted + (k,))
+                state_increment = ks_shifted + (k,)
                 # the state is inside in the grid by construction, so we only test if it is outside the domain
-                outside_states.append(self.outside(self.grid[origin_coordinate + state_increment]))
+                outside_states.append(
+                    self.outside(self.grid[origin_coordinate + state_increment])
+                )
                 all_states.append(pairing.pair(state_increment))
 
             if not all(outside_states):
-                frontier_left_index = next(x for x, y in zip(all_states, outside_states) if not y)
-                frontier_right_index = next(x for x, y in zip(reversed(all_states), reversed(outside_states)) if not y)
+                frontier_left_index = next(
+                    x for x, y in zip(all_states, outside_states) if not y
+                )
+                frontier_right_index = next(
+                    x
+                    for x, y in zip(reversed(all_states), reversed(outside_states))
+                    if not y
+                )
                 frontier_state_indices.appendleft(frontier_left_index)
                 frontier_state_indices.appendleft(frontier_right_index)
             else:
                 axis_state_index = all_states[origin_last_coordinate]
-                frontier_state_indices.appendleft(axis_state_index)  # keep the state on the (last) axis
+                frontier_state_indices.appendleft(
+                    axis_state_index
+                )  # keep the state on the (last) axis
 
         return frontier_state_indices
 
 
 class StatesManager:
-
     def __init__(self, pairing: PairingToZd, domain: Domain, grid: CTMCGrid):
         """
         :param pairing: pairing object
@@ -493,7 +509,9 @@ class StatesManager:
         state_increment = self.pairing.project(index)
         return state_increment
 
-    def project_index_to_state_increment(self, x: int, max_logged: int = -1) -> tuple[tuple[int, ...], bool]:
+    def project_index_to_state_increment(
+        self, x: int, max_logged: int = -1
+    ) -> tuple[tuple[int, ...], bool]:
         """Return the state increment and a boolean which is True if we have exhausted all the states in the domain
 
         :param x: current index to be mapped to a state increment

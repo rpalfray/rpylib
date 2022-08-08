@@ -18,8 +18,9 @@ class ProcessRepresentation(Enum):
     """Type of the underlying representation of the process, often the log-process is simulated as it is both easier
     and faster to do so.
     """
+
     IDENDITY = 1  # the process X is simulated via the same representation X
-    LOG = 2       # the process X is simulated via the representation Y = log(X)
+    LOG = 2  # the process X is simulated via the representation Y = log(X)
 
 
 class Process(abc.ABC):
@@ -29,7 +30,9 @@ class Process(abc.ABC):
         self.model = model
         self.process_representation = process_representation
 
-    def initialisation(self, product: 'Product', max_step_epsilon: float = None) -> None:
+    def initialisation(
+        self, product: "Product", max_step_epsilon: float = None
+    ) -> None:
         """Initialisation of the process from the characteristics of the product in scope
 
         :param product: financial product
@@ -51,25 +54,25 @@ class Process(abc.ABC):
         :param times: times of the path
         :return: the deterministic part of the path
         """
-        return self.model.x0_value() + self.process_drift()*times
+        return self.model.x0_value() + self.process_drift() * times
 
     @abc.abstractmethod
     def one_simulation_cost(self, product) -> float:
-        """ Returns: the simulating cost corresponding to the numbers of uniform random variables simulated"""
+        """Returns: the simulating cost corresponding to the numbers of uniform random variables simulated"""
 
     @abc.abstractmethod
     def reset_one_simulation_cost(self) -> None:
-        """ Reset the simulation cost"""
+        """Reset the simulation cost"""
 
     @abc.abstractmethod
-    def pre_computation(self, mc_paths: int,  product: 'Product') -> None:
+    def pre_computation(self, mc_paths: int, product: "Product") -> None:
         """Pre-computation, for example simulate the random variables if possible
         :param mc_paths: number of Monte-Carlo paths
         :param product: financial product to price
         """
 
     @abc.abstractmethod
-    def simulate_one_path(self) -> 'StochasticPath':
+    def simulate_one_path(self) -> "StochasticPath":
         """Simulate (only) one path of the non-deterministic part of the underlying"""
 
     def df(self, t: float) -> float:

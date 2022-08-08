@@ -8,8 +8,12 @@ import numpy as np
 
 class ConvergenceCriteria:
     """Characterisation of the criteria convergence and the update of the number of paths after each pass"""
-    def __init__(self, criteria: Callable[[float, np.array, float], bool],
-                 compute_mc_paths: Callable[[float, np.array, np.array], np.array]):
+
+    def __init__(
+        self,
+        criteria: Callable[[float, np.array, float], bool],
+        compute_mc_paths: Callable[[float, np.array, np.array], np.array],
+    ):
         """
         :param criteria: criteria convergence function
         :param compute_mc_paths: function updating the number of paths for each level
@@ -27,8 +31,12 @@ def compute_mc_paths_giles(rmse: float, vl: np.array, cl: np.array) -> np.array:
     """
     theta = 0.25
     cl_zerocost = cl.copy()
-    cl_zerocost[cl_zerocost == 0] = 1e30  # to avoid potential division by 0 in the following line
-    return np.ceil(np.sqrt(vl/cl_zerocost)*np.sum(np.sqrt(vl*cl))/((1 - theta)*rmse**2)).astype(int)
+    cl_zerocost[
+        cl_zerocost == 0
+    ] = 1e30  # to avoid potential division by 0 in the following line
+    return np.ceil(
+        np.sqrt(vl / cl_zerocost) * np.sum(np.sqrt(vl * cl)) / ((1 - theta) * rmse**2)
+    ).astype(int)
 
 
 def criteria_giles(alpha: float, ml: np.array, rmse: float) -> bool:
@@ -39,8 +47,8 @@ def criteria_giles(alpha: float, ml: np.array, rmse: float) -> bool:
     :param rmse: root-mean square error
     :return: true if the convergence criteria has been met
     """
-    rem = max(ml[-1], ml[-2]/2**alpha, ml[-3]/2**(2*alpha))/(2**alpha - 1)
-    return rem <= rmse/np.sqrt(2)
+    rem = max(ml[-1], ml[-2] / 2**alpha, ml[-3] / 2 ** (2 * alpha)) / (2**alpha - 1)
+    return rem <= rmse / np.sqrt(2)
 
 
 def criteria_run_to_maximum_level(alpha: float, ml: np.array, rmse: float) -> bool:
@@ -51,6 +59,7 @@ def criteria_run_to_maximum_level(alpha: float, ml: np.array, rmse: float) -> bo
 
 
 class GilesConvergenceCriteria(ConvergenceCriteria):
-
     def __init__(self):
-        super().__init__(criteria=criteria_giles, compute_mc_paths=compute_mc_paths_giles)
+        super().__init__(
+            criteria=criteria_giles, compute_mc_paths=compute_mc_paths_giles
+        )

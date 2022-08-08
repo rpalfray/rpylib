@@ -16,12 +16,14 @@ from ..univariate.poisson_impl.numpyimpl import PoissonNumpy
 
 class ALGORITHM(Enum):
     """Poisson generator algorithms"""
+
     NUMPY = 1
     KNUTH = 2
 
 
 class Poisson(Sampling):
     """Poisson random variate"""
+
     def __init__(self, lam: Union[int, float], algorithm: ALGORITHM = ALGORITHM.NUMPY):
         """
         :param lam: rate/intensity parameter
@@ -35,7 +37,7 @@ class Poisson(Sampling):
         elif algorithm == ALGORITHM.KNUTH:
             self.generator = Knuth(lam)
         else:
-            raise ValueError('Poisson algorithm not yet implemented')
+            raise ValueError("Poisson algorithm not yet implemented")
 
     def sample(self, size: int = 1) -> NDArray[np.float]:
         return self.generator.sample(size=size)

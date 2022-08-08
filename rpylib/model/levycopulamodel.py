@@ -39,7 +39,7 @@ def volume(f, a, b) -> float:
         u = (ai if pi == 0 else bi for pi, ai, bi in zip(p, a, b))
         n_power = n - sum(p)
         factor = -1 if n_power % 2 else 1
-        res += factor*f(u)
+        res += factor * f(u)
 
     return res
 
@@ -64,8 +64,8 @@ def margin(f, indices: list[int], dimension: int):
         res = 0
         for p in product([-np.inf, np.inf], repeat=nb):
             u_array[c_indices] = p
-            this_sign = reduce(lambda x, y: sign(x)*sign(y), p, 1.0)
-            res += f(u_array)*this_sign
+            this_sign = reduce(lambda x, y: sign(x) * sign(y), p, 1.0)
+            res += f(u_array) * this_sign
 
         return res
 
@@ -73,8 +73,8 @@ def margin(f, indices: list[int], dimension: int):
 
 
 class LevyCopulaModel(Model):
-    """Multidimensional Lévy process modelled via a Lévy copula
-    """
+    """Multidimensional Lévy process modelled via a Lévy copula"""
+
     def __init__(self, models: [LevyModel], copula: LevyCopula):
         """
         :param models: processes characterising the margins of the copula
@@ -83,10 +83,16 @@ class LevyCopulaModel(Model):
         super().__init__()
         # for simplicity, we assume that the underlyings models are either all ExponentialOfLévyModels or all LévyModel
         # (i.e. in the sense that none of them are ExponentialOfLévyModels)
-        all_exp_of_levy_model = all(isinstance(model, ExponentialOfLevyModel) for model in models)
-        none_exp_of_levy_model = all(not isinstance(model, ExponentialOfLevyModel) for model in models)
+        all_exp_of_levy_model = all(
+            isinstance(model, ExponentialOfLevyModel) for model in models
+        )
+        none_exp_of_levy_model = all(
+            not isinstance(model, ExponentialOfLevyModel) for model in models
+        )
         if not (all_exp_of_levy_model or none_exp_of_levy_model):
-            raise ValueError('Expected all models or none of them to be ExponentialOfLevyModel')
+            raise ValueError(
+                "Expected all models or none of them to be ExponentialOfLevyModel"
+            )
 
         self.process_representation = ProcessRepresentation.IDENDITY
         if all_exp_of_levy_model:
@@ -107,7 +113,7 @@ class LevyCopulaModel(Model):
             self.mass = self._mass_3d  # hard-coded version for 3d version
 
     def __repr__(self):
-        return f'LevyCopulaModel(models={self.models}, copula={self.copula})'
+        return f"LevyCopulaModel(models={self.models}, copula={self.copula})"
 
     def dimension(self) -> int:
         return self._dimension
@@ -135,7 +141,7 @@ class LevyCopulaModel(Model):
         return all(model.finite_first_moment() for model in self.models)
 
     def levy_exponent(self, x: Union[complex, list[complex]]) -> complex:
-        raise NotImplementedError('not implemented yet for Levy copula')
+        raise NotImplementedError("not implemented yet for Levy copula")
 
     def blumenthal_getoor_index(self) -> float:
         """
@@ -144,10 +150,10 @@ class LevyCopulaModel(Model):
         return max(model.blumenthal_getoor_index() for model in self.models)
 
     def characteristic_function(self, t: float, x: complex) -> complex:
-        raise NotImplementedError('not implemented yet for Levy copula')
+        raise NotImplementedError("not implemented yet for Levy copula")
 
-    def cdf(self, t: float, x: 'np.array'):
-        raise NotImplementedError('not implemented yet for Levy copula')
+    def cdf(self, t: float, x: "np.array"):
+        raise NotImplementedError("not implemented yet for Levy copula")
 
     def _mass_nd(self, a, b, indices: list[int] = None):
         """Integration of the I-margin of the Lévy measure over [a1, b1]x[a2, b2]x...x[an, bn]
@@ -187,7 +193,7 @@ class LevyCopulaModel(Model):
             i_tail_integrals = partial(self.margin_tail_integral, indices)
             eps = -1 if len(a) % 2 else 1
             res = volume(i_tail_integrals, a, b)
-            return eps*res
+            return eps * res
 
     def _mass_1d(self, a, b, index):
         u = partial(self.marginal_tail_integral, index)
@@ -254,9 +260,16 @@ class LevyCopulaModel(Model):
 
         u = partial(self.margin_tail_integral, indices)
 
-        vol = u(a) - u(b) \
-              - u((a1, a2, b3)) - u((a1, b2, a3)) + u((a1, b2, b3)) \
-              - u((b1, a2, a3)) + u((b1, a2, b3)) + u((b1, b2, a3))
+        vol = (
+            u(a)
+            - u(b)
+            - u((a1, a2, b3))
+            - u((a1, b2, a3))
+            + u((a1, b2, b3))
+            - u((b1, a2, a3))
+            + u((b1, a2, b3))
+            + u((b1, b2, a3))
+        )
 
         return aux + vol
 
@@ -265,19 +278,25 @@ class LevyCopulaModel(Model):
 
     def diffusion_coefficient(self) -> float:
         """:return: the diffusion coefficient"""
-        raise NotImplementedError('not implemented yet for Levy copula')
+        raise NotImplementedError("not implemented yet for Levy copula")
 
     def plot_density(self, t: float, show: bool = False) -> None:
-        raise NotImplementedError('not implemented yet for Levy copula')
+        raise NotImplementedError("not implemented yet for Levy copula")
 
-    def plot_cdf(self, t: float, data: np.array, log_normalisation: bool = True, show: bool = False,
-                 title='') -> None:
-        raise NotImplementedError('not implemented yet for Levy copula')
+    def plot_cdf(
+        self,
+        t: float,
+        data: np.array,
+        log_normalisation: bool = True,
+        show: bool = False,
+        title="",
+    ) -> None:
+        raise NotImplementedError("not implemented yet for Levy copula")
 
     @lru_cache(maxsize=2**10)
     def marginal_tail_integral(self, i: int, x: float) -> float:
         """Tail integral of the i-th marginal"""
-        return sign(x)*self._marginal_levy_measure[i].integrate(*interval_I(x))
+        return sign(x) * self._marginal_levy_measure[i].integrate(*interval_I(x))
 
     def margin_tail_integral(self, indices: list[int], x: Iterator[int]):
         if indices == self._full_indices:
@@ -287,9 +306,13 @@ class LevyCopulaModel(Model):
             i0, x0 = indices[0], next(x)
             return self.marginal_tail_integral(i0, x0)
 
-        i_copula = margin(self.copula, indices, self._dimension)  # args: f, indices, dimension - not passed as kwarg
+        i_copula = margin(
+            self.copula, indices, self._dimension
+        )  # args: f, indices, dimension - not passed as kwarg
         # for (slight) optimisation purpose
-        return i_copula(np.array([self.marginal_tail_integral(i, xi) for i, xi in zip(indices, x)]))
+        return i_copula(
+            np.array([self.marginal_tail_integral(i, xi) for i, xi in zip(indices, x)])
+        )
 
     def tail_integrals(self, x) -> float:
         """Calculate the tail integral of the I-margin of the Lévy copula
@@ -301,7 +324,9 @@ class LevyCopulaModel(Model):
                      * :math:`I(x) = (x, \\inf)` if :math:`x\\geq 0`
                      * and :math:`I(x) = (-\\inf, x]` if :math:`x<0`
         """
-        return self.copula(np.array([self.marginal_tail_integral(i, xi) for i, xi in enumerate(x)]))
+        return self.copula(
+            np.array([self.marginal_tail_integral(i, xi) for i, xi in enumerate(x)])
+        )
 
     def inverse_tail_integral(self, i, x):
         """

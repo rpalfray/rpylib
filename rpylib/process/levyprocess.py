@@ -24,7 +24,7 @@ def simulate_diffusion_with_brownian_increments(scaled_stddev, brownian_incremen
     :param brownian_increments: standard Brownian increments
     :return: vector of cumulative Brownian increments
     """
-    diffs = scaled_stddev*brownian_increments
+    diffs = scaled_stddev * brownian_increments
     return np.cumsum(diffs)
 
 
@@ -39,8 +39,11 @@ class LevyProcess(Process):
     then option 1. is chosen otherwise we just go with option 2. as the simulation is slightly faster (because there is
     no need to simulate the jump times)
     """
+
     def __init__(self, model: Union[LevyModel, LevyCopulaModel]):
-        super().__init__(model=model, process_representation=model.process_representation)
+        super().__init__(
+            model=model, process_representation=model.process_representation
+        )
         self.model = model
         self._path_simulation: Simulation = Simulation(self)
         self._uniform = Uniform()
@@ -55,7 +58,7 @@ class LevyProcess(Process):
         :param dt: time increment
         :return: number of jumps
         """
-        poisson = Poisson(dt*self.intensity())
+        poisson = Poisson(dt * self.intensity())
         res = poisson.sample()[0]
         return res
 
@@ -69,7 +72,7 @@ class LevyProcess(Process):
         jump_times = []
         rdm, intensity = self._uniform, self.intensity()
         while True:
-            t += -np.log(rdm.sample())/intensity
+            t += -np.log(rdm.sample()) / intensity
             if t < dt:
                 jump_times.append(t)
             else:
@@ -84,7 +87,7 @@ class LevyProcess(Process):
         :param n: number of jumps
         :return: jump times
         """
-        res = dt*np.random.random_sample(size=n)
+        res = dt * np.random.random_sample(size=n)
         return np.sort(res)
 
     def one_simulation_cost(self, product) -> float:
@@ -101,7 +104,9 @@ class LevyProcess(Process):
     def initialisation(self, product: Product, max_step_epsilon: float = None):
         """Initialisation of auxiliary objects"""
         if max_step_epsilon is not None:
-            self._path_simulation = SimulationMaximumStep(self, epsilon=max_step_epsilon)
+            self._path_simulation = SimulationMaximumStep(
+                self, epsilon=max_step_epsilon
+            )
         elif product.payoff.payoff_dates_type == PayoffDates.DETERMINISTIC:
             self._path_simulation = SimulationFixedTimes(self)
         else:
@@ -169,16 +174,18 @@ class SimulationFixedTimes(Simulation):
         for k, (tp, tm) in enumerate(zip(times[1:], times)):
             dt = tp - tm
             poisson_np_array[:, k] = [nb_jump_dt(dt) for _ in range(mc_paths)]
-        self._brownian_increments = deque(np.random.normal(size=(mc_paths, self.process.dimension(), nb)).tolist())
+        self._brownian_increments = deque(
+            np.random.normal(size=(mc_paths, self.process.dimension(), nb)).tolist()
+        )
         self._poisson_rv = deque(poisson_np_array.tolist())
 
     def simulate_one_path(self) -> StochasticPath:
         """Simulation of the path for deterministic payoff dates"""
         # simulate the jump values
-        jumps = np.concatenate(([0.0], + self.simulate_jumps()))
+        jumps = np.concatenate(([0.0], +self.simulate_jumps()))
 
         # simulate the diffusion part
-        diff = np.concatenate(([0.0], + self.simulate_diffusion(self._sqrt_dts)))
+        diff = np.concatenate(([0.0], +self.simulate_diffusion(self._sqrt_dts)))
 
         return StochasticJumpPath(self._times, diff, jumps)
 
@@ -190,8 +197,10 @@ class SimulationFixedTimes(Simulation):
         return jump_values
 
     def simulate_diffusion(self, sqrt_dts):
-        stddev = sqrt_dts*self.process.model.diffusion_coefficient()
-        return simulate_diffusion_with_brownian_increments(stddev, self._brownian_increments.popleft())
+        stddev = sqrt_dts * self.process.model.diffusion_coefficient()
+        return simulate_diffusion_with_brownian_increments(
+            stddev, self._brownian_increments.popleft()
+        )
 
 
 class SimulationWithJumpTimes(Simulation):
@@ -213,13 +222,13 @@ class SimulationWithJumpTimes(Simulation):
         # simulate the jump values
         jump_times, jumps = self.simulate_jumps()
         # add values for t=0 and t=maturity
-        jump_times = np.concatenate(([0.0], + jump_times, [self._maturity]))
+        jump_times = np.concatenate(([0.0], +jump_times, [self._maturity]))
         final_jump = 0 if jumps.size == 0 else jumps[-1]
-        jumps = np.concatenate(([0.0], + jumps, [final_jump]))
+        jumps = np.concatenate(([0.0], +jumps, [final_jump]))
 
         # simulate the diffusion part
         sqrt_dts = np.sqrt(np.diff(jump_times))
-        diff = np.concatenate(([0.0], + self.simulate_diffusion(sqrt_dts)))
+        diff = np.concatenate(([0.0], +self.simulate_diffusion(sqrt_dts)))
 
         return StochasticJumpPath(jump_times, diff, jumps)
 
@@ -233,13 +242,15 @@ class SimulationWithJumpTimes(Simulation):
             dt = tp - tm
             new_jumps = tm + jump_times_simulation(dt, nb_jump_dt(dt))
             jump_times = np.append(jump_times, new_jumps)
-            increments = np.append(increments, [jump_increment(n=jp.size) for jp in new_jumps])
+            increments = np.append(
+                increments, [jump_increment(n=jp.size) for jp in new_jumps]
+            )
         jump_values = np.cumsum(increments)
 
         return jump_times, jump_values
 
     def simulate_diffusion(self, sqrt_dts):
-        stddev = sqrt_dts*self.process.model.diffusion_coefficient()
+        stddev = sqrt_dts * self.process.model.diffusion_coefficient()
         brownian_increments = np.random.normal(size=stddev.size)
         return simulate_diffusion_with_brownian_increments(stddev, brownian_increments)
 
@@ -247,7 +258,8 @@ class SimulationWithJumpTimes(Simulation):
 class SimulationMaximumStep(SimulationWithJumpTimes):
     """Simulation of the path at the stochastic times of the path but a step size of size epsilon is added for any
     time increment greater than epsilon (that is the maximum times grid is epsilon)
-     """
+    """
+
     def __init__(self, process: LevyProcess, epsilon: float):
         """
         :param process: Lévy process
@@ -272,9 +284,12 @@ class SimulationMaximumStep(SimulationWithJumpTimes):
             while positions.size > 0:
                 aug_dts[positions] -= epsilon
                 aug_dts = np.insert(aug_dts, positions, epsilon)
-                aug_jump_values = np.insert(aug_jump_values, positions,
-                                            np.where(positions == 0, 0, aug_jump_values[..., positions - 1]),
-                                            axis=-1)
+                aug_jump_values = np.insert(
+                    aug_jump_values,
+                    positions,
+                    np.where(positions == 0, 0, aug_jump_values[..., positions - 1]),
+                    axis=-1,
+                )
                 positions = np.flatnonzero(aug_dts > epsilon)
             aug_jump_times = np.cumsum(aug_dts)
 
@@ -284,7 +299,9 @@ class SimulationMaximumStep(SimulationWithJumpTimes):
 
     def pre_computation(self, mc_paths: int, product: Product):
         super().pre_computation(mc_paths=mc_paths, product=product)
-        build_finer_grid = self.create_build_finer_grid_fun(epsilon=self.epsilon, maturity=product.maturity)
+        build_finer_grid = self.create_build_finer_grid_fun(
+            epsilon=self.epsilon, maturity=product.maturity
+        )
         self.build_finer_grid = MethodType(build_finer_grid, self)
 
     def simulate_jumps(self):

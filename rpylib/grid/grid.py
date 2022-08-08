@@ -11,9 +11,9 @@ from ..tools.parameter import strictly_positive
 
 
 class Coordinate1D:
-    """Coordinate for an axis (one-dimensional grid)
-    """
-    __slots__ = ('value',)
+    """Coordinate for an axis (one-dimensional grid)"""
+
+    __slots__ = ("value",)
 
     def __init__(self, coordinate: int):
         """
@@ -22,7 +22,7 @@ class Coordinate1D:
         self.value = coordinate
 
     def __repr__(self):
-        return 'Coordinate1D(' + str(self.value) + ')'
+        return "Coordinate1D(" + str(self.value) + ")"
 
     def __neg__(self):
         return Coordinate1D(-self.value)
@@ -40,7 +40,7 @@ class Coordinate1D:
         return self.value == other
 
     def __mul__(self, other):
-        return Coordinate1D(self.value*other)
+        return Coordinate1D(self.value * other)
 
     def __rmul__(self, other):
         return self.__imul__(other)
@@ -54,9 +54,9 @@ class Coordinate1D:
 
 
 class CoordinateND:
-    """Coordinate for a n-dimensional grid
-    """
-    __slots__ = ('value',)
+    """Coordinate for a n-dimensional grid"""
+
+    __slots__ = ("value",)
 
     def __init__(self, coordinates: Iterable[int]):
         """
@@ -66,7 +66,7 @@ class CoordinateND:
 
     def __repr__(self):
         dim = str(len(self.value))
-        return 'Coordinate' + dim + 'D' + repr(self.value) + ''
+        return "Coordinate" + dim + "D" + repr(self.value) + ""
 
     def __neg__(self):
         return CoordinateND((-u for u in self.value))
@@ -84,13 +84,13 @@ class CoordinateND:
         return all(u == v for u, v in zip(self.value, other))
 
     def __mul__(self, other):
-        return CoordinateND((v*other for v in self.value))
+        return CoordinateND((v * other for v in self.value))
 
     def __rmul__(self, other):
         return self.__imul__(other)
 
     def __imul__(self, other):
-        self.value = tuple(val*other for val in self.value)
+        self.value = tuple(val * other for val in self.value)
         return self
 
     def __getitem__(self, item):
@@ -101,8 +101,8 @@ class CoordinateND:
 
 
 class Coordinates:
-    """General Coordinates object which handles both one-dimensional and n-dimensional cases
-    """
+    """General Coordinates object which handles both one-dimensional and n-dimensional cases"""
+
     def __new__(cls, coordinates):
         if isinstance(coordinates, Iterable):
             return CoordinateND(coordinates)
@@ -118,9 +118,10 @@ class Grid:
         For a 2d-grid specified by the axes [a_0,a_1,...,a_K] and [b_0,b_1,...,b_L], the point of coordinates (i,j)
         has value (a_i, b_j)
     """
+
     def __init__(self, axes: list[np.array]):
         if not isinstance(axes, list):
-            raise ValueError('the axes input should be a list of np.arrays')
+            raise ValueError("the axes input should be a list of np.arrays")
 
         self.axes = axes
         self.dimension = len(axes)
@@ -154,17 +155,25 @@ class Uniform1DGrid:
     :param end: end element of the axes (included)
     :param num: (strictly positive) number of points between start and end
     """
-    num: int = strictly_positive('num')
+
+    num: int = strictly_positive("num")
 
     def __init__(self, start: float, end: float, num: int):
         if start > end:
-            raise ValueError('expected start<end')
+            raise ValueError("expected start<end")
 
         self.start = float(start)
         self.end = float(end)
         self.num = int(num)
 
-        grid, self.step = np.linspace(start=start, stop=end, num=self.num, endpoint=True, retstep=True, dtype=np.float)
+        grid, self.step = np.linspace(
+            start=start,
+            stop=end,
+            num=self.num,
+            endpoint=True,
+            retstep=True,
+            dtype=np.float,
+        )
         self.grid = grid
 
     def __len__(self):
@@ -174,4 +183,4 @@ class Uniform1DGrid:
         return self.grid[item]
 
     def __str__(self) -> str:
-        return f'UniformGrid(start={self.start}, end={self.end}, step={self.step})'
+        return f"UniformGrid(start={self.start}, end={self.end}, step={self.step})"

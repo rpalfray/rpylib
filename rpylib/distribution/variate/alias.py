@@ -14,6 +14,7 @@ from ..univariate.uniform import Uniform
 
 class AliasMethod(Sampling):
     """Alias Method"""
+
     def __init__(self, probabilities: np.array, states: Callable[[list[int]], Any]):
         """
         :param probabilities: vector of probabilities (which must sum to 1)
@@ -24,7 +25,7 @@ class AliasMethod(Sampling):
         p = np.array(probabilities, dtype=np.float)
         self.K = p.size
         if p.size >= np.iinfo(np.uint).max:
-            raise ValueError('AliasMethod: input is too big and will lead to overflow')
+            raise ValueError("AliasMethod: input is too big and will lead to overflow")
 
         self.J, self.q = create_alias(p)
         self.uniform = Uniform()

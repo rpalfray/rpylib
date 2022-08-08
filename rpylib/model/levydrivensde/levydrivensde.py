@@ -17,8 +17,9 @@ from rpylib.process.process import ProcessRepresentation
 
 class SDEFunction:
     """Function h corresponding to the SDE dX = h(X) dYs
-        h is function from R^m to R^(mxd) where m is the dimension of X and d the dimension of the Lévy driver Y
+    h is function from R^m to R^(mxd) where m is the dimension of X and d the dimension of the Lévy driver Y
     """
+
     def __init__(self, m: int, d: int):
         """
         :param m: dimension of the modelled underlying
@@ -32,6 +33,7 @@ class SDEFunction:
 
 class Constant(SDEFunction):
     """Constant function h"""
+
     def __init__(self, m: int = 1, d: int = 1, constant: float = 1):
         super().__init__(m=m, d=d)
         self.constant_matrix = np.full(shape=(m, d), fill_value=constant)
@@ -58,6 +60,7 @@ class DiagX(SDEFunction):
 class LiborSDEFunction(SDEFunction):
     """The function h is such that h(x) = sigma where sigma is an array of size mxd with m the number of underlying
     Libor rates and d the model dimension"""
+
     def __init__(self, sigma: np.array, tenors: np.array):
         """
         :param sigma: matrix sigma
@@ -80,12 +83,13 @@ class LiborSDEFunction(SDEFunction):
             return res
 
     def __call__(self, t: float, x: np.array) -> np.array:
-        return self.sigma(t)*x
+        return self.sigma(t) * x
 
 
 class ForwardMarketSDEFunction(SDEFunction):
     """The function h is such that h(x) = sigma where sigma is an array of size mxd with m the number of underlying
     OIS rates and d the model dimension"""
+
     def __init__(self, sigma: np.array, tenors: np.array):
         """
         :param sigma: matrix sigma
@@ -105,12 +109,14 @@ class ForwardMarketSDEFunction(SDEFunction):
             return self._sigma
         else:
             res = self._sigma.copy()
-            g = np.minimum(1, np.maximum(0, self.tenors - t)/(self.tenors[1:] - self.tenors[:-1]))
-            res = res*np.diag(g)
+            g = np.minimum(
+                1, np.maximum(0, self.tenors - t) / (self.tenors[1:] - self.tenors[:-1])
+            )
+            res = res * np.diag(g)
             return res
 
     def __call__(self, t: float, x: np.array) -> np.array:
-        return self.sigma(t)*x
+        return self.sigma(t) * x
 
 
 LevyDriver = Union[LevyModel, LevyCopulaModel]
@@ -120,9 +126,15 @@ class LevyDrivenSDEModel(Model):
     """Representation of the process X which is solution of: dX = h(X) dY, X(0) = X_0 where Y is a pure jump Lévy
     process
     """
+
     process_representation = ProcessRepresentation.IDENDITY
 
-    def __init__(self, driver: LevyDriver, x0: Union[float, np.array] = 0., a: SDEFunction = None):
+    def __init__(
+        self,
+        driver: LevyDriver,
+        x0: Union[float, np.array] = 0.0,
+        a: SDEFunction = None,
+    ):
         """
         :param driver: SDE driver
         :param x0: initial value of X
@@ -139,9 +151,12 @@ class LevyDrivenSDEModel(Model):
         # check consistency with the dimension
         m, d = self.a.shape
         if d != self._d or m != self._m:
-            raise ValueError('Expected \'a\' to be a function from R^m to R^(mxd) where m is the dimension of x0(={}) '
-                             'and d is the dimension of the driver(={}), found m={} and d={}'
-                             .format(self._m, self._d, m, d))
+            raise ValueError(
+                "Expected 'a' to be a function from R^m to R^(mxd) where m is the dimension of x0(={}) "
+                "and d is the dimension of the driver(={}), found m={} and d={}".format(
+                    self._m, self._d, m, d
+                )
+            )
 
     def truncate_levy_measure(self, truncations) -> None:
         self.driver.truncate_levy_measure(truncations=truncations)

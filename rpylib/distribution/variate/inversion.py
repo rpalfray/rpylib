@@ -17,7 +17,12 @@ class InversionMethod(Sampling):
     The inversion method might be slower than other methods but one of the benefits is that there is no pre-computation
     and therefore no (much) impact on memory
     """
-    def __init__(self, probability_to_jump_to_state: Callable[[tuple[int, ...]], float], state_manager: StatesManager):
+
+    def __init__(
+        self,
+        probability_to_jump_to_state: Callable[[tuple[int, ...]], float],
+        state_manager: StatesManager,
+    ):
         super().__init__()
         self.state_manager = state_manager
         self.probability_to_jump_to_state = probability_to_jump_to_state
@@ -46,11 +51,15 @@ class InversionMethod(Sampling):
 
         if u > (s := cum_probabilities[-1]):
             x = len(cum_probabilities) - 1
-            project_index_to_state_increment = self.state_manager.project_index_to_state_increment
+            project_index_to_state_increment = (
+                self.state_manager.project_index_to_state_increment
+            )
             probability_to_jump_to_state = self.probability_to_jump_to_state
             while u > s:
                 x += 1
-                state_increment, break_here = project_index_to_state_increment(x, self._max_storage)
+                state_increment, break_here = project_index_to_state_increment(
+                    x, self._max_storage
+                )
                 if break_here:
                     break
                 else:

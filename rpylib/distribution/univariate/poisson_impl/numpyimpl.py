@@ -10,6 +10,7 @@ from ....distribution.sampling import Sampling
 
 class PoissonNumpy(Sampling):
     """Poisson generator from numpy"""
+
     def __init__(self, lam: float):
         super().__init__()
         self.lam = lam

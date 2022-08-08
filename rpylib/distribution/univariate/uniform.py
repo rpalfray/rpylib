@@ -12,6 +12,7 @@ from ..sampling import Sampling
 
 class Uniform(Sampling):
     """Uniform random variate generator"""
+
     def __init__(self, low: float = 0.0, high: float = 1.0) -> None:
         super().__init__()
         self.low = low

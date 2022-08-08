@@ -8,16 +8,16 @@ import numpy as np
 
 
 class ModelType(Enum):
-    BLACKSCHOLES = 1    # Black-Scholes model
-    MERTON = 2          # Merton model
-    HEM = 3             # Hyper-Exponential Jump Diffusion model
-    VG = 4              # Variance-Gamma model
-    CGMY = 5            # Car-Geman-Madam-Yor model
+    BLACKSCHOLES = 1  # Black-Scholes model
+    MERTON = 2  # Merton model
+    HEM = 3  # Hyper-Exponential Jump Diffusion model
+    VG = 4  # Variance-Gamma model
+    CGMY = 5  # Car-Geman-Madam-Yor model
 
 
 class Parameters(abc.ABC):
     """Wrapper defining parameters class, the only function here is :func:`initialisation`
-       which is needed for the calibration process.
+    which is needed for the calibration process.
     """
 
     def initialisation(self):
@@ -27,11 +27,12 @@ class Parameters(abc.ABC):
 
 class Model:
     """Abstract class of a pricing model, subclasses need to implement a few functions::
-        :func:`dimension`
-        :func:`drift`
-        :func:`process_drift` if the model can be directly simulated
-        :func:`df`
+    :func:`dimension`
+    :func:`drift`
+    :func:`process_drift` if the model can be directly simulated
+    :func:`df`
     """
+
     def __init__(self):
         # nothing to see here, move along
         pass
@@ -53,9 +54,10 @@ class Model:
         """
 
     def process_drift(self) -> np.array:
-        """Drift mu(t, x) of the underlying stochastic process
-        """
-        raise NotImplementedError('This model cannot be simulated directly or it has not been implemented yet')
+        """Drift mu(t, x) of the underlying stochastic process"""
+        raise NotImplementedError(
+            "This model cannot be simulated directly or it has not been implemented yet"
+        )
 
     @abc.abstractmethod
     def df(self, t: float) -> float:

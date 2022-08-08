@@ -19,7 +19,8 @@ from ...grid.spatial import CTMCGrid
 
 class Point:
     """Representation of a point in the state grid"""
-    __slots__ = ('coordinates', 'value')
+
+    __slots__ = ("coordinates", "value")
 
     def __init__(self, coordinates, value):
         """
@@ -30,7 +31,7 @@ class Point:
         self.value = value
 
     def __repr__(self):
-        return f'Point({self.coordinates}, {self.value})'
+        return f"Point({self.coordinates}, {self.value})"
 
 
 class BinarySearchTreeAdapted1D(Sampling):
@@ -44,13 +45,15 @@ class BinarySearchTreeAdapted1D(Sampling):
         self.origin_coordinate = grid.origin_coordinate.value
         self._proba_left_axis = 0
         if self.intensity_of_jumps > 0:
-            self._proba_left_axis = model.mass(-np.inf, -grid.h/2)/self.intensity_of_jumps
+            self._proba_left_axis = (
+                model.mass(-np.inf, -grid.h / 2) / self.intensity_of_jumps
+            )
         self._coordinates_left_axis = 0, self.origin_coordinate - 1
-        self._coordinates_right_axis = self.origin_coordinate+1, len(self.axis) - 1
+        self._coordinates_right_axis = self.origin_coordinate + 1, len(self.axis) - 1
 
     @lru_cache(maxsize=2**18)
     def _compute_probability(self, a, b):
-        return self.model.mass(a, b)/self.intensity_of_jumps
+        return self.model.mass(a, b) / self.intensity_of_jumps
 
     def sample(self, size: int = 1) -> np.array:
         res = [self.sample_with_u(u) for u in self.uniform.sample(size=size)]
@@ -65,13 +68,15 @@ class BinarySearchTreeAdapted1D(Sampling):
             current_p -= self._proba_left_axis
 
         while left != right:
-            middle = (left + right)//2
+            middle = (left + right) // 2
             l, r = left, middle  # choose left interval by default
-            a, b = 0.5*(axis[max(0, l-1)] + axis[l]), 0.5*(axis[r] + axis[min(len(axis) - 1, r+1)])
+            a, b = 0.5 * (axis[max(0, l - 1)] + axis[l]), 0.5 * (
+                axis[r] + axis[min(len(axis) - 1, r + 1)]
+            )
             p = self._compute_probability(a, b)
 
             if current_p > p:
-                left = min(right, middle+1)
+                left = min(right, middle + 1)
                 current_p -= p
             else:
                 right = middle
@@ -81,10 +86,15 @@ class BinarySearchTreeAdapted1D(Sampling):
 
 
 class BinarySearchTreeAdapted(Sampling):
-
     def __init__(self, model: LevyModel, grid: CTMCGrid):
         super().__init__()
-        ps, cs, is_axis, precomputed_cum_p_for_axes, intensity_of_jumps = self._pre_computation(model=model, grid=grid)
+        (
+            ps,
+            cs,
+            is_axis,
+            precomputed_cum_p_for_axes,
+            intensity_of_jumps,
+        ) = self._pre_computation(model=model, grid=grid)
         self._buckets_probabilities = ps
         self._buckets_coordinates = cs
         self._cum_ps = np.cumsum(ps)
@@ -109,9 +119,15 @@ class BinarySearchTreeAdapted(Sampling):
         for k, axis in enumerate(grid.axes):
             axis_origin_c = origin_coordinate[k]
             hl, hr = h_left[k], h_right[k]
-            cs = [axis_origin_c, axis_origin_c], [0, axis_origin_c-1], [axis_origin_c+1, len(axis)-1]
+            cs = (
+                [axis_origin_c, axis_origin_c],
+                [0, axis_origin_c - 1],
+                [axis_origin_c + 1, len(axis) - 1],
+            )
             vs = (hl, hr), (axis[0], hl), (hr, axis[-1])
-            pts = tuple((Point(cl, vl), Point(cr, vr)) for (cl, cr), (vl, vr) in zip(cs, vs))
+            pts = tuple(
+                (Point(cl, vl), Point(cr, vr)) for (cl, cr), (vl, vr) in zip(cs, vs)
+            )
             intervals.append(pts)
 
         cartesian_product = product(*intervals)
@@ -122,7 +138,7 @@ class BinarySearchTreeAdapted(Sampling):
         masses = []
         buckets_coordinates = []
         is_cached_axis = []
-        low_nb_of_pts = len(grid.axes)*len(grid.axes[0]) < 10_001
+        low_nb_of_pts = len(grid.axes) * len(grid.axes[0]) < 10_001
         for c_set in cartesian_product:
             a_pts, b_pts = zip(*c_set)
             a = [a_pt.value for a_pt in a_pts]
@@ -131,7 +147,9 @@ class BinarySearchTreeAdapted(Sampling):
             b_c = [b_pt.coordinates for b_pt in b_pts]
             p = model.mass(a, b)
             intensity_of_jumps += p
-            is_an_axis_and_low_nb_pts = low_nb_of_pts and sum(l != r for l, r in zip(a_c, b_c)) == 1
+            is_an_axis_and_low_nb_pts = (
+                low_nb_of_pts and sum(l != r for l, r in zip(a_c, b_c)) == 1
+            )
             masses.append(p)
             buckets_coordinates.append(list(zip(a_c, b_c)))
             is_cached_axis.append(is_an_axis_and_low_nb_pts)
@@ -148,17 +166,26 @@ class BinarySearchTreeAdapted(Sampling):
                     pt = Coordinates(pt_list)
                     left_middle_point = grid.middle(grid.left_point(pt), grid[pt])
                     right_middle_point = grid.middle(grid[pt], grid.right_point(pt))
-                    p = model.mass(a=left_middle_point, b=right_middle_point)/intensity_of_jumps
+                    p = (
+                        model.mass(a=left_middle_point, b=right_middle_point)
+                        / intensity_of_jumps
+                    )
                     ps.append(p)
                 precomputed_cum_p_for_axes[k] = np.cumsum(ps)
 
-        probabilities = [mass/intensity_of_jumps for mass in masses]
+        probabilities = [mass / intensity_of_jumps for mass in masses]
 
-        return probabilities, buckets_coordinates, is_cached_axis, precomputed_cum_p_for_axes, intensity_of_jumps
+        return (
+            probabilities,
+            buckets_coordinates,
+            is_cached_axis,
+            precomputed_cum_p_for_axes,
+            intensity_of_jumps,
+        )
 
     @lru_cache(maxsize=2**18)
     def _compute_probability(self, a, b):
-        return self.model.mass(a, b)/self.intensity_of_jumps
+        return self.model.mass(a, b) / self.intensity_of_jumps
 
     def cost(self) -> int:
         return self.uniform.cost()
@@ -173,20 +200,35 @@ class BinarySearchTreeAdapted(Sampling):
     def sample_with_us(self, us: np.array):
         # find the bucket where to sample the state
         bucket_positions = np.searchsorted(self._cum_ps, us)
-        bucket_coordinates = [self._buckets_coordinates[bucket_position] for bucket_position in bucket_positions]
+        bucket_coordinates = [
+            self._buckets_coordinates[bucket_position]
+            for bucket_position in bucket_positions
+        ]
         positions = np.where(bucket_positions > 0)
-        us[positions] -= np.array([self._cum_ps[bucket_positions[position]-1] for position in positions]).ravel()
+        us[positions] -= np.array(
+            [self._cum_ps[bucket_positions[position] - 1] for position in positions]
+        ).ravel()
 
         state_increments = []
-        for these_bucket_coordinates, bucket_position, prob in zip(bucket_coordinates, bucket_positions, us):
+        for these_bucket_coordinates, bucket_position, prob in zip(
+            bucket_coordinates, bucket_positions, us
+        ):
             if self._is_axis[bucket_position]:
                 # find the position of the state
-                state_ith_pos = np.searchsorted(self._precomputed_cum_p_for_axes[bucket_position], prob)
+                state_ith_pos = np.searchsorted(
+                    self._precomputed_cum_p_for_axes[bucket_position], prob
+                )
                 a_c, b_c = list(zip(*these_bucket_coordinates))
-                state = tuple(l if l == r else l + state_ith_pos for l, r in zip(a_c, b_c))
-                state_increment = tuple(v - o for v, o in zip(state, self.grid.origin_coordinate))
+                state = tuple(
+                    l if l == r else l + state_ith_pos for l, r in zip(a_c, b_c)
+                )
+                state_increment = tuple(
+                    v - o for v, o in zip(state, self.grid.origin_coordinate)
+                )
             else:
-                state_increment = self.sample_one_bucket(coordinates=these_bucket_coordinates, probability=prob)
+                state_increment = self.sample_one_bucket(
+                    coordinates=these_bucket_coordinates, probability=prob
+                )
             state_increments.append(state_increment)
 
         return state_increments
@@ -210,8 +252,10 @@ class BinarySearchTreeAdapted(Sampling):
                     b = grid.middle(grid[b_cc], grid.right_point(b_cc))
                     p = self._compute_probability(a, b)
                     if current_probability > p:
-                        result[k] = min(right, middle+1), right
+                        result[k] = min(right, middle + 1), right
                         current_probability -= p
 
-        state_increment = tuple(c[0] - o for c, o in zip(result, grid.origin_coordinate))
+        state_increment = tuple(
+            c[0] - o for c, o in zip(result, grid.origin_coordinate)
+        )
         return state_increment
