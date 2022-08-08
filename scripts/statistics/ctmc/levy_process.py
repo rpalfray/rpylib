@@ -20,17 +20,24 @@ from rpylib.process.markovchain.markovchain import MarkovChainProcess
 from rpylib.tools.timer import timer
 
 
-def helper_produce_monte_carlo_result(model: LevyModel, maturity, mc_paths) -> tuple[MCStatistics, Product]:
+def helper_produce_monte_carlo_result(
+    model: LevyModel, maturity, mc_paths
+) -> tuple[MCStatistics, Product]:
     grid = CTMCGridGeometric(h=1e-7, nb_of_points_on_each_side=30, model=model)
 
     # product
     strike = atm_strike(model=model)
-    product = Product(payoff_underlying=Spot(), payoff=Vanilla(strike=strike, payoff_type=PayoffType.CALL),
-                      maturity=maturity)
+    product = Product(
+        payoff_underlying=Spot(),
+        payoff=Vanilla(strike=strike, payoff_type=PayoffType.CALL),
+        maturity=maturity,
+    )
 
     # Monte-Carlo engine
     method = SamplingMethod.BINARYSEARCHTREEADAPTED1D
-    mc_configuration = ConfigurationStandard(mc_paths=mc_paths, activate_spot_statistics=True)
+    mc_configuration = ConfigurationStandard(
+        mc_paths=mc_paths, activate_spot_statistics=True
+    )
     process = MarkovChainProcess(model=model, method=method, grid=grid)
     mc_engine = Engine(configuration=mc_configuration, process=process)
 
@@ -40,7 +47,9 @@ def helper_produce_monte_carlo_result(model: LevyModel, maturity, mc_paths) -> t
 
 
 @timer
-def statistic_markov_chain(model: ExponentialOfLevyModel, maturity: float = 1/2, mc_paths: int = 10_000):
+def statistic_markov_chain(
+    model: ExponentialOfLevyModel, maturity: float = 1 / 2, mc_paths: int = 10_000
+):
     """Statistic analysis of the CTMC scheme
 
     :param model: Lévy model
@@ -49,24 +58,30 @@ def statistic_markov_chain(model: ExponentialOfLevyModel, maturity: float = 1/2,
     :return: print the pdf implied by the Monte-Carlo engine and the theoretical pdf and also give
              prices given by the Monte-Carlo engine and the COS method (i.e. the theoretical price of the call)
     """
-    result, product = helper_produce_monte_carlo_result(model=model, maturity=maturity, mc_paths=mc_paths)
+    result, product = helper_produce_monte_carlo_result(
+        model=model, maturity=maturity, mc_paths=mc_paths
+    )
 
     # results
     mc_price, mc_stddev = result.price(), result.mc_stddev()
-    mc_price_no_cv, mc_stddev_no_cv = result.price(no_control_variates=True), result.mc_stddev(no_control_variates=True)
+    mc_price_no_cv, mc_stddev_no_cv = result.price(
+        no_control_variates=True
+    ), result.mc_stddev(no_control_variates=True)
     result.plot_spot_density()
     if isinstance(model, ExponentialOfLevyModel):
         cos_pricer = COSPricer(model=model)
         cos_price = cos_pricer.price(product=product)[0]
-        print('{:<20}{:4f}'.format('theoretical price:', cos_price))
-    print('{:<20}{:4f}'.format('mc price:         ', mc_price))
-    print('{:<20}{:4f}'.format('mc price/no cv:   ', mc_price_no_cv))
-    print('{:<20}{:4f}'.format('mc stddev:        ', mc_stddev))
-    print('{:<20}{:4f}'.format('mc stddev/no cv:  ', mc_stddev_no_cv))
+        print("{:<20}{:4f}".format("theoretical price:", cos_price))
+    print("{:<20}{:4f}".format("mc price:         ", mc_price))
+    print("{:<20}{:4f}".format("mc price/no cv:   ", mc_price_no_cv))
+    print("{:<20}{:4f}".format("mc stddev:        ", mc_stddev))
+    print("{:<20}{:4f}".format("mc stddev/no cv:  ", mc_stddev_no_cv))
 
 
 @timer
-def kolmogorov_smirnov_test_markov_chain(model: LevyModel, maturity: float = 1/2, mc_paths: int = 10_000):
+def kolmogorov_smirnov_test_markov_chain(
+    model: LevyModel, maturity: float = 1 / 2, mc_paths: int = 10_000
+):
     """Kolmogorov-Smirnov test applied to the CTMC
 
     :param model: Lévy model
@@ -74,22 +89,25 @@ def kolmogorov_smirnov_test_markov_chain(model: LevyModel, maturity: float = 1/2
     :param mc_paths: number of Monte-Carlo paths
     :return: Kolmogorov-Smirnov statistics
     """
-    result, product = helper_produce_monte_carlo_result(model=model, maturity=maturity, mc_paths=mc_paths)
+    result, product = helper_produce_monte_carlo_result(
+        model=model, maturity=maturity, mc_paths=mc_paths
+    )
 
     stats = result._spot_underlying_statistics.stats
     samples = stats.reshape(stats.shape[0])
 
     def cdf(x):
         return model.cdf(t=maturity, x=x)
+
     d, p_value = scipy.stats.kstest(samples, cdf)
-    print('d={:6f}, p-value={:6f}'.format(d, p_value))
+    print("d={:6f}, p-value={:6f}".format(d, p_value))
 
     model.plot_cdf(t=maturity, data=samples, show=True)
     result.plot_spot_density()
 
 
-if __name__ == '__main__':
-    my_maturity = 3/12
+if __name__ == "__main__":
+    my_maturity = 3 / 12
     my_mc_paths = 10_000
     my_model = create_exponential_of_levy_model(ModelType.VG)()
 
