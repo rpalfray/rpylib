@@ -8,12 +8,11 @@ Description of some standard financial derivatives:
    - Bond
    - Swaption
    - etc
-
-   and standard payoffs like:
-       - Swap
-       - Call
-       - Put
-       - Payer/Receiver
+and standard payoffs like:
+   - Swap
+   - Call
+   - Put
+   - Payer/Receiver
 """
 
 from enum import Enum
@@ -72,7 +71,7 @@ class Payoff:
     def __init__(self, payoff_dates_type: PayoffDates = PayoffDates.DETERMINISTIC):
         """
         :param payoff_dates_type: specify if the payoff dates are fixed (deterministic) or depends on the path of the
-        underlying
+                                  underlying
         """
         self.payoff_dates_type = payoff_dates_type
 
@@ -514,7 +513,8 @@ class Swaption(Payoff):
         :param deltas: accrual of the underlying rates
         :param strike: strike of the swaption
         :param swaption_type: swaption type, that is receiver or payer (receiver meaning that the swaption is an option
-        into entering a receiver swap that is receiving the fixed coupon and paying the floating leg)
+                              into entering a receiver swap that is receiving the fixed coupon and paying the floating
+                              leg)
         """
         super().__init__()
         self.deltas = deltas

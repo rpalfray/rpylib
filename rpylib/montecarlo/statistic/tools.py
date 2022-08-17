@@ -43,7 +43,7 @@ class NonCenteredMoments:
     def __init__(self, simulations: list[np.array]):
         """
         :param simulations: list of ndarray, each element corresponds to the simulations of the level l of
-        the Multilevel Monte-Carlo (only one element for a standard Monte-Carlo engine)
+                            the Multilevel Monte-Carlo (only one element for a standard Monte-Carlo engine)
         """
         self.simulations = simulations
         self._moments = {}

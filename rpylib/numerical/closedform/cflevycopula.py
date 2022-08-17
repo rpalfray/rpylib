@@ -1,7 +1,7 @@
 """
 Closed-Form pricing formula for Lévy copula models
 
-    .. note:: The Garreau-Kercheval paper is explained in their paper:
+    .. note:: The Garreau-Kercheval closed-form formula is detailed in their paper:
                 'A Structural Jump Threshold Framework for Credit Risk'
 """
 

@@ -1,7 +1,7 @@
 """Defines the simulated process for a Lévy model
 
 The natural case is to simulate a model from its definition, that is by simulating its underlying variables;
-nevertheless, this is generally not possible.
+nevertheless, this is not always possible.
 One can also approximate the jump part by a discrete Continuous-Time Markov Chain (CTMC) and simulate this chain via
 Monte-Carlo methods.
 """

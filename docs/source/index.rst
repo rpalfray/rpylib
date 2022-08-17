@@ -6,12 +6,23 @@
 Welcome to rpylib's documentation!
 ==================================
 
-.. toctree::
-   :maxdepth: 6
-   :caption: Contents:
-   :glob:
+.. include:: ../../README.rst
 
-   modules
+.. toctree::
+   :maxdepth: 4
+   :caption: Contents:
+   :hidden:
+
+
+   distribution/distribution
+   grid/grid
+   model/model
+   montecarlo/montecarlo
+   numerical/numerical
+   process/process
+   product/product
+   tools/tools
+
 
 Indices and tables
 ==================

@@ -47,6 +47,7 @@ setup(
     author_email="romain.palfray@gmail.com",
     description="Pricing library",
     long_description=long_description,
+    long_description_content_type="text/markdown",
     packages=["rpylib"],
     include_package_data=True,
     platforms="any",

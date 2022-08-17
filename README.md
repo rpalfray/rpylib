@@ -8,7 +8,7 @@
 ## Scope
 
 This Python pricing library was developed as a companion code for the paper:  
-**_"A weak Multilevel Monte-Carlo scheme for multidimensional Levy-type processes"_** 
+**_"A weak Multilevel Monte-Carlo scheme for multidimensional Lévy-type processes"_** 
 ([**link to the paper to be added later**](https://www.google.com)).
  
 The results consist of the numerical analysis of:
@@ -37,6 +37,7 @@ _rpylib/slurm/slurmscripts_ which call the python scripts in _/slurm/pythonscrip
 calling the following scripts:
 
 Benchmark of the CTMC scheme in _rpylib/scripts/benchmark/_ : 
+
  1. `cds.py`
  2. `first_to_default.py`
  3. `series_representation.py`
