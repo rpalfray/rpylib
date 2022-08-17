@@ -1,53 +1,48 @@
-rpylib.tools package
-====================
+tools
+=====
 
-Submodules
-----------
+.. automodule:: tools
+   :members:
+   :undoc-members:
+   :show-inheritance:
 
-rpylib.tools.generic module
----------------------------
+generic
+-------
 
 .. automodule:: rpylib.tools.generic
    :members:
    :undoc-members:
    :show-inheritance:
 
-rpylib.tools.integral module
-----------------------------
+integral
+--------
 
 .. automodule:: rpylib.tools.integral
    :members:
    :undoc-members:
    :show-inheritance:
 
-rpylib.tools.parameter module
------------------------------
+parameter
+---------
 
 .. automodule:: rpylib.tools.parameter
    :members:
    :undoc-members:
    :show-inheritance:
 
-rpylib.tools.system module
---------------------------
+system
+------
 
 .. automodule:: rpylib.tools.system
    :members:
    :undoc-members:
    :show-inheritance:
 
-rpylib.tools.timer module
--------------------------
+timer
+-----
 
 .. automodule:: rpylib.tools.timer
    :members:
    :undoc-members:
    :show-inheritance:
 
-Module contents
----------------
-
-.. automodule:: rpylib.tools
-   :members:
-   :undoc-members:
-   :show-inheritance:

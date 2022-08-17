@@ -1,29 +1,27 @@
-rpylib.model.levymodel.mixed namespace
-======================================
+mixed
+=====
 
 .. py:module:: rpylib.model.levymodel.mixed
 
-Submodules
-----------
 
-rpylib.model.levymodel.mixed.blackscholes module
-------------------------------------------------
+blackscholes
+------------
 
 .. automodule:: rpylib.model.levymodel.mixed.blackscholes
    :members:
    :undoc-members:
    :show-inheritance:
 
-rpylib.model.levymodel.mixed.hem module
----------------------------------------
+hem
+---
 
 .. automodule:: rpylib.model.levymodel.mixed.hem
    :members:
    :undoc-members:
    :show-inheritance:
 
-rpylib.model.levymodel.mixed.merton module
-------------------------------------------
+merton
+------
 
 .. automodule:: rpylib.model.levymodel.mixed.merton
    :members:
