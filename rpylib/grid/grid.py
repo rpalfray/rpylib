@@ -172,7 +172,7 @@ class Uniform1DGrid:
             num=self.num,
             endpoint=True,
             retstep=True,
-            dtype=np.float,
+            dtype=float,
         )
         self.grid = grid
 

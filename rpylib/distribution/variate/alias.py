@@ -22,7 +22,7 @@ class AliasMethod(Sampling):
         """
         super().__init__()
         self.states = states
-        p = np.array(probabilities, dtype=np.float)
+        p = np.array(probabilities, dtype=float)
         self.K = p.size
         if p.size >= np.iinfo(np.uint).max:
             raise ValueError("AliasMethod: input is too big and will lead to overflow")

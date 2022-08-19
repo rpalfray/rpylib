@@ -39,7 +39,7 @@ class Poisson(Sampling):
         else:
             raise ValueError("Poisson algorithm not yet implemented")
 
-    def sample(self, size: int = 1) -> NDArray[np.float]:
+    def sample(self, size: int = 1) -> NDArray[float]:
         return self.generator.sample(size=size)
 
     def cost(self):

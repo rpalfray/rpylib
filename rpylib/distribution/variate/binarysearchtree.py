@@ -22,7 +22,7 @@ class BinarySearchTree(Sampling):
         self.uniform = Uniform()
         self.states = states
 
-    def sample(self, size: int = 1) -> NDArray[np.float]:
+    def sample(self, size: int = 1) -> NDArray[float]:
         us = self.uniform.sample(size=size)
         return np.array([self.sample_with_u(u) for u in us])
 

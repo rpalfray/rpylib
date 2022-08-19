@@ -21,7 +21,7 @@ class HuffmanTree(Sampling):
         self.uniform = Uniform()
         self.states = states
 
-    def sample(self, size: int = 1) -> NDArray[np.float]:
+    def sample(self, size: int = 1) -> NDArray[float]:
         us = self.uniform.sample(size=size)
         res_states = np.empty(shape=size, dtype=int)
         head = self.head

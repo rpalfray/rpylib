@@ -18,12 +18,12 @@ class TableMethod(Sampling):
 
     def __init__(self, probabilities: np.array, states: Callable[[list[int]], Any]):
         super().__init__()
-        p = np.array(probabilities, dtype=np.float)
+        p = np.array(probabilities, dtype=float)
         self.states = states
         self.J, self.alias_method = create_table(p, states)
         self._cst = 0.00000000023283064365386963  # =1/2^32
 
-    def sample(self, size: int = 1) -> NDArray[np.float]:
+    def sample(self, size: int = 1) -> NDArray[float]:
         self.sampling_cost += size
         return np.array(
             [

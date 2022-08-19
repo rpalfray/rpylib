@@ -92,7 +92,7 @@ class COSPricer:
         return 1 - self.digital(strikes=x, time=time)
 
     @staticmethod
-    def psi(ks: NDArray[np.int], a: float, b: float, c: float, d: float):
+    def psi(ks: NDArray[int], a: float, b: float, c: float, d: float):
         where_to_divide = np.ones(len(ks), dtype=bool)
         where_to_divide[ks == 0] = False
         cst = np.pi / (b - a) * ks
@@ -103,7 +103,7 @@ class COSPricer:
         return res
 
     @staticmethod
-    def xi(k: NDArray[np.int], a: float, b: float, c: float, d: float):
+    def xi(k: NDArray[int], a: float, b: float, c: float, d: float):
         cst = k * np.pi / (b - a)
 
         def aux1(x):

@@ -59,7 +59,7 @@ def compute_intensity_of_jumps(
 def create_q_vector(levy_measure: LevyMeasure, grid: CTMCGrid) -> np.array:
     int_lm = levy_measure.integrate
     m_middle = grid.origin_coordinate
-    q = np.zeros(len(grid.axes[0]), dtype=np.float)
+    q = np.zeros(len(grid.axes[0]), dtype=float)
 
     for k, x in enumerate(grid.axes[0]):
         if k != m_middle:
