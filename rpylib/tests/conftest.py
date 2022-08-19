@@ -24,49 +24,57 @@ def pytest_sessionstart(session):
 
 @pytest.fixture(scope="session")
 def data():
-    val = {'spot1': 100.0,
-           'spot2': 80.0,
-           'r': 0.05,
-           'd1': 0.02,
-           'd2': 0.01,
-           'maturity': 1.0/12.0
-           }
+    val = {
+        "spot1": 100.0,
+        "spot2": 80.0,
+        "r": 0.05,
+        "d1": 0.02,
+        "d2": 0.01,
+        "maturity": 1.0 / 12.0,
+    }
     return val
 
 
 @pytest.fixture(scope="session")
 def forward(data):
-    spot, r, d, maturity = itemgetter('spot1', 'r', 'd1', 'maturity')(data)
-    fwd = spot*np.exp((r-d)*maturity)
+    spot, r, d, maturity = itemgetter("spot1", "r", "d1", "maturity")(data)
+    fwd = spot * np.exp((r - d) * maturity)
     strike = fwd
-    product = Product(payoff_underlying=Spot(), payoff=Forward(strike=strike), maturity=maturity)
+    product = Product(
+        payoff_underlying=Spot(), payoff=Forward(strike=strike), maturity=maturity
+    )
     return product
 
 
 @pytest.fixture(scope="session")
 def bs_model(data):
-    spot, r, d = itemgetter('spot1', 'r', 'd1')(data)
+    spot, r, d = itemgetter("spot1", "r", "d1")(data)
     sigma = 0.30
-    bs_model = create_exponential_of_levy_model(ModelType.BLACKSCHOLES)(spot=spot, r=r, d=d, sigma=sigma)
+    bs_model = create_exponential_of_levy_model(ModelType.BLACKSCHOLES)(
+        spot=spot, r=r, d=d, sigma=sigma
+    )
     return bs_model
 
 
 @pytest.fixture(scope="session")
 def cgmy_model(data):
-    spot, r, d = itemgetter('spot1', 'r', 'd1')(data)
+    spot, r, d = itemgetter("spot1", "r", "d1")(data)
     # CGMY model
     c, g, m, y = 0.04945, 10.0, 8.0, 1.1
-    cgmy = create_exponential_of_levy_model(ModelType.CGMY)(spot=spot, r=r, d=d, c=c, g=g, m=m, y=y)
+    cgmy = create_exponential_of_levy_model(ModelType.CGMY)(
+        spot=spot, r=r, d=d, c=c, g=g, m=m, y=y
+    )
     return cgmy
 
 
 @pytest.fixture(scope="session")
 def hem_model(data):
-    spot, r, d = itemgetter('spot1', 'r', 'd1')(data)
+    spot, r, d = itemgetter("spot1", "r", "d1")(data)
     # HEM model
     sigma, p, eta1, eta2, intensity = 0.10, 0.6, 25.0, 40.0, 5.0
-    hem = create_exponential_of_levy_model(ModelType.HEM)(spot=spot, r=r, d=d, sigma=sigma, p=p, eta1=eta1, eta2=eta2,
-                                                          intensity=intensity)
+    hem = create_exponential_of_levy_model(ModelType.HEM)(
+        spot=spot, r=r, d=d, sigma=sigma, p=p, eta1=eta1, eta2=eta2, intensity=intensity
+    )
     return hem
 
 
