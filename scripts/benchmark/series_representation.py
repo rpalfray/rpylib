@@ -3,7 +3,7 @@
 The results are printed into a csv `results` sub-folder
 """
 
-from collections import Callable
+from collections.abc import Callable
 import csv
 import os
 from typing import Union
