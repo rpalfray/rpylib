@@ -170,7 +170,7 @@ class _VGLevyMeasure(LevyMeasure):
 
         if a >= 0:
             if b == np.inf:
-                return c * (a + 1 / lp) * np.exp(-lp * a)
+                return c * (a + 1 / lp) * np.exp(-lp * a) / lp
             else:
                 return (
                     c
@@ -183,7 +183,7 @@ class _VGLevyMeasure(LevyMeasure):
 
         # case b <= 0
         if a == -np.inf:
-            return -c * (b - 1 / lm) * np.exp(lm * b)
+            return -c * (b - 1 / lm) * np.exp(lm * b) / lm
         else:
             return (
                 -c
