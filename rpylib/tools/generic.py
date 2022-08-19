@@ -17,8 +17,9 @@ def lazy_indices_product(args: list[int]):
      (https://hackernoon.com/generating-the-nth-cartesian-product-e48db41bed3f) and we are using gmpy2 (not bigfloat)
      for floating-point division.
 
-    This function generate all the possible tuples of indices (i1, i2,...) for i1 in range(l1), i2 in range(l2),...
-    where l1, l2,... are the args passed to the function
+    This function generate all the possible tuples of indices :math:`(i_1, i_2,...)`
+    for :math:`i_1 \\in [0,l_1-1], i_2 \\in [0,l_2-1], \\dots`
+    where :math:`l_1, l_2, \\dots` are the args passed to the function
 
     :return: 'lazy' cartesian product
     """

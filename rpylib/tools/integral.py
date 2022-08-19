@@ -8,7 +8,7 @@ import scipy.special
 
 
 def _helper_sum_fact_xk(n, x):
-    """Compute sum over k of n!/k! * |x|^k for k=0...n"""
+    """Compute sum over :math:`k` of :math:`\frac{n!}{k!} * |x|^k` for :math:`k=0\\dots n`"""
     n_fact = factorial(n)
     k_factorial = scipy.special.factorial(np.arange(n + 1))
     x_power = np.power(abs(x), np.arange(n + 1))
@@ -18,7 +18,7 @@ def _helper_sum_fact_xk(n, x):
 
 
 def integral_xn_exp_minus_x(n: int, a: float, b: float, alpha: float):
-    """Integral of x^n exp(-alpha*|x|) over [a, b] where alpha>0"""
+    """Integral of :math:`x^n \exp(-\\alpha*|x|)` over [a, b] where :math:`\\alpha>0`"""
     if alpha <= 0:
         raise ValueError("Expected alpha > 0")
 
