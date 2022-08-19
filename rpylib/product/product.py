@@ -302,6 +302,9 @@ class ControlVariates:
 class NoControlVariates(ControlVariates):
     """Dummy class when there is no control variate"""
 
+    def __init__(self):
+        super().__init__(products=[], prices=[])
+
     def process(
         self, times, path: np.array, jump_path: np.array, payoff_underlying
     ) -> np.array:
