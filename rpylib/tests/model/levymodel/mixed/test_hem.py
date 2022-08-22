@@ -18,6 +18,20 @@ def hem_model():
     return model
 
 
+def test_hem_integrate(hem_model):
+    for a, b in [(0.001, 1), (-1, -0.0005), (0.001, np.inf), (-np.inf, -0.0005)]:
+        res1 = quad(lambda x: hem_model.levy_triplet.nu(x), a, b)[0]
+        res2 = hem_model.mass(a, b)
+        assert np.isclose(res1, res2, rtol=1e-12, atol=1e-12)
+
+
+def test_hem_integrate_x(hem_model):
+    for a, b in [(0.001, 1), (-1, -0.0005), (0.001, np.inf), (-np.inf, -0.0005)]:
+        res1 = quad(lambda x: x * hem_model.levy_triplet.nu(x), a, b)[0]
+        res2 = hem_model.levy_triplet.nu.integrate_against_x(a, b)
+        assert np.isclose(res1, res2, rtol=1e-12, atol=1e-12)
+
+
 def test_hem_integrate_xx(hem_model):
     for a, b in [
         (0.001, 1),

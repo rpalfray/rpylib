@@ -1,4 +1,4 @@
-"""Testing the Varaiance Gamma model"""
+"""Testing the Variance Gamma model"""
 
 import numpy as np
 import pytest

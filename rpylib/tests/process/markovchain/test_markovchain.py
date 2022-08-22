@@ -39,16 +39,12 @@ def checks_process_markov_chain(
     vol_adj = vol_adjustment(model=model, h=grid.h)
 
     mcp.initialisation(product=product)
-    mc_paths = 1
-    mcp.pre_computation(mc_paths=mc_paths, product=product)
-
-    # FIXME: force the simulation to be deterministic
-    # simulation: StochasticJumpPath = None
-    # for i in range(mc_paths):
-    #     simulation = mcp.simulate_one_path()
+    mcp.pre_computation(mc_paths=1, product=product)
+    simulation: StochasticJumpPath = mcp.simulate_one_path()
 
     assert np.isclose(ioj, expected_ioj)
     assert np.isclose(vol_adj, expected_vol_adj)
+    # FIXME values not reproducible as the computation is not deterministic
     # assert(np.allclose(simulation.diffusion_path, expected_log_diffusion_path))
     # assert(np.allclose(simulation.jump_path, expected_log_jump_path))
 
@@ -71,7 +67,7 @@ def test_hem_process_markov_chain_testing_value(hem_model, forward):
 def test_cgmy_process_markov_chain_testing_value(cgmy_model, forward):
     expected_ioj = 26.166020822055167
     expected_vol_adj = 0.030227654765023124
-    expected_log_diffusion_path = [0.0, 0.00152005]
+    expected_log_diffusion_path = [0.0, -0.00221909]
     expected_log_jump_path = [0.0, -0.02]
     checks_process_markov_chain(
         cgmy_model,
