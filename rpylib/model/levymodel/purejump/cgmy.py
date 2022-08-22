@@ -166,7 +166,7 @@ class _CGMYLevyMeasure(LevyMeasure):
             if a == -np.inf:
                 return -c * self.__integrate_h_to_inf_for_xx(alpha=y, h=-b, u=g)
             else:
-                return -c * (
+                return c * (
                     self.__integrate_h_to_inf_for_xx(alpha=y, h=-a, u=g)
                     - self.__integrate_h_to_inf_for_xx(alpha=y, h=-b, u=g)
                 )
