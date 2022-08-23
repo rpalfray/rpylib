@@ -214,7 +214,7 @@ class MCStatistics:
     def get_variance(self, no_control_variates: bool = False) -> np.array:
         stats_obj = self._get_payoff_statistics(no_control_variates)
         res = mean(stats_obj.stats)
-        return res[0] if res.size == 1 else res
+        return res
 
 
 class MLMCResults:

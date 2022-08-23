@@ -17,7 +17,7 @@ def mean(simulations: np.array) -> np.array:
 
 def stddev(simulations: np.array) -> np.array:
     if simulations.shape[0] == 1:  # only one piece of data hence no stddev
-        return 0.0
+        return [0.0]
     return np.std(
         simulations, axis=0, ddof=1
     )  # ddof=1 to have an unbiased estimator of the variance
