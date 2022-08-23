@@ -27,7 +27,10 @@ The main results are presented in the form of 4 graphs (as in Giles<sup>[3][4]</
 - _N<sub>l</sub>_ (optimal number of Monte-Carlo paths for the level _l_) in function of the level _l_
 - the total costs of the multilevel Monte-Carlo and the standard Monte-Carlo in function of the _rmse_ (root-mean square error)
 
-<img title="MLMC applied to CGMY with beta=1.5" src=https://github.com/rpalfray/rpylib/blob/master/docs/pics/cgmy15.jpg alt="MLMC applied to CGMY with $\beta=1.5$" width="700"/>
+MLMC applied to CGMY with beta=1.5: 
+
+[<img src="https://github.com/rpalfray/rpylib/blob/master/docs/pics/cgmy15.jpg?raw=true" width="700" alt="MLMC applied to CGMY with beta=1.5" />](https://github.com/rpalfray/rpylib/blob/master/docs/pics/cgmy15.jpg?raw=true)
+
 
 ## Scripts
 
