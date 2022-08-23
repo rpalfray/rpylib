@@ -42,10 +42,9 @@ Results
   standard Monte-Carlo in function of the *rmse* (root-mean square
   error)
 
-
 .. image:: https://github.com/rpalfray/rpylib/blob/master/docs/pics/cgmy15.jpg
-  :width: 700
-  :alt: MLMC applied to CGMY with ::math:`\\beta=1.5`
+   :width: 700
+   :alt: MLMC applied to CGMY with :math:`\\beta=1.5`
 
 
 Scripts
