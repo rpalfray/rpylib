@@ -4,6 +4,7 @@
 import numpy as np
 
 from rpylib.distribution.sampling import SamplingMethod
+
 # from rpylib.montecarlo.configuration import ConfigurationStandard
 # from rpylib.montecarlo.path import StochasticJumpPath
 # from rpylib.montecarlo.standard.engine import Engine
