@@ -44,8 +44,8 @@ def compute_intensity_of_jumps(
         for k, (h_l, h_r) in enumerate(zip(h_left, h_right))
     ]
     cartesian_product = product(*intervals)
-    # discard first set which is [h_l1, h_r1]x[h_l2, h_r2]x...x[h_ln, h_rn]
-    # we are calculating the measure on the complement of this very set
+    # discard the first set which is [h_l1, h_r1]x[h_l2, h_r2]x...x[h_ln, h_rn]
+    # we are calculating the mass of the complement of this very set
     next(cartesian_product)
 
     intensity_of_jumps = 0

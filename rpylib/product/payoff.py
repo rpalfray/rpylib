@@ -7,7 +7,7 @@ Description of some standard financial derivatives:
    - CDS
    - Bond
    - Swaption
-   - etc
+   - etc.
 and standard payoffs like:
    - Swap
    - Call
