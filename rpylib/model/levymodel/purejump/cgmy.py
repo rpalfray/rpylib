@@ -53,13 +53,7 @@ class _CGMYCumulant(Cumulant):
 
     def cumulant1(self, t: float) -> float:
         drift = self.drift
-        c, g, m, y = (
-            self.parameters.c,
-            self.parameters.g,
-            self.parameters.m,
-            self.parameters.y,
-        )
-        if y == 1:
+        if self.parameters.y == 1:
             return drift * t  # FIXME infinite cumulant for Y=1
         return drift * t
 

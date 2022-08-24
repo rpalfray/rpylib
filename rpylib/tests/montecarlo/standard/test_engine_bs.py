@@ -1,13 +1,13 @@
-import numpy as np
+
 import pytest
 from rpylib.process.levyprocess import LevyProcess
 
 from rpylib.montecarlo.configuration import ConfigurationStandard
 from rpylib.montecarlo.standard.engine import Engine
 from rpylib.numerical.closedform.cfblackscholes import CFBlackScholes
-from rpylib.product.payoff import Forward, Vanilla, PayoffType
+from rpylib.product.payoff import Vanilla, PayoffType
 from rpylib.product.product import Product
-from rpylib.product.underlying import Spot, LogSpot
+from rpylib.product.underlying import Spot
 
 
 @pytest.fixture()

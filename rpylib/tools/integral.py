@@ -18,7 +18,7 @@ def _helper_sum_fact_xk(n, x):
 
 
 def integral_xn_exp_minus_x(n: int, a: float, b: float, alpha: float):
-    """Integral of :math:`x^n \exp(-\\alpha*|x|)` over [a, b] where :math:`\\alpha>0`"""
+    """Integral of :math:`x^n \\exp(-\\alpha*|x|)` over [a, b] where :math:`\\alpha>0`"""
     if alpha <= 0:
         raise ValueError("Expected alpha > 0")
 
