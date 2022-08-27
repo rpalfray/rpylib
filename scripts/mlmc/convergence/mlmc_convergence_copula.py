@@ -2,9 +2,6 @@
 for Lévy copula models
 """
 
-import pickle
-from pathlib import Path
-
 from scripts.mlmc.tools.utils import *
 
 from rpylib.distribution.sampling import SamplingMethod
@@ -20,7 +17,6 @@ from rpylib.product.payoff import Vanilla, PayoffType
 from rpylib.product.product import Product
 from rpylib.product.underlying import MaximumOfPerformances
 from rpylib.tools.timer import timer
-from rpylib.tools.system import create_folder
 
 
 def convergence_rate_copula(
@@ -31,7 +27,6 @@ def convergence_rate_copula(
     method: SamplingMethod,
     grid: CTMCGrid,
 ):
-
     coupling_process = CouplingProcessLevyCopula(
         levy_copula_model=levy_copula_model, grid=grid, method=method
     )
@@ -65,7 +60,7 @@ def coupling_variances_copula(
     spots = [model.spot for model in levy_copula_model.models]
     product = Product(
         payoff_underlying=MaximumOfPerformances(spots),
-        payoff=Vanilla(strike=1.00, payoff_type=PayoffType.CALL),
+        payoff=Vanilla(strike=1.00, payoff_type=PayoffType.PUT),
         maturity=maturity,
         notional=100,
     )

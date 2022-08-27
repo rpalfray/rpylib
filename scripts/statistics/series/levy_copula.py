@@ -81,8 +81,12 @@ def statistic_series_levy_copula(
 
 if __name__ == "__main__":
     r, d = 0.03, 0.00
-    model1 = create_exponential_of_levy_model(ModelType.VG)(spot=1.0, r=r, d=d, sigma=0.30, nu=0.04, theta=-0.2)
-    model2 = create_exponential_of_levy_model(ModelType.VG)(spot=1.0, r=r, d=d, sigma=0.25, nu=0.04, theta=-0.2)
+    model1 = create_exponential_of_levy_model(ModelType.VG)(
+        spot=1.0, r=r, d=d, sigma=0.30, nu=0.04, theta=-0.2
+    )
+    model2 = create_exponential_of_levy_model(ModelType.VG)(
+        spot=1.0, r=r, d=d, sigma=0.25, nu=0.04, theta=-0.2
+    )
     my_maturity = 1 / 12
     my_tau = 1_000
     my_mc_paths = 1_000

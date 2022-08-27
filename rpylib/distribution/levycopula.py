@@ -167,7 +167,7 @@ class IndependentComponentsCopula(LevyCopula):
         for k, u in enumerate(us):
             if not np.isinf(u):
                 product = np.prod(kronecker_symbols[:k]) * np.prod(
-                    kronecker_symbols[k + 1:]
+                    kronecker_symbols[k + 1 :]
                 )
                 res += u * product
 

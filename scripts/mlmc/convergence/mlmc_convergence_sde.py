@@ -2,9 +2,6 @@
 for Lévy-driven SDE models where the driver is a 2d-Lévy copula model
 """
 
-import pickle
-from pathlib import Path
-
 from scripts.mlmc.tools.utils import *
 
 from rpylib.distribution.sampling import SamplingMethod
@@ -20,7 +17,6 @@ from rpylib.product.payoff import Swaption
 from rpylib.product.product import Product
 from rpylib.product.underlying import Libors
 from rpylib.tools.timer import timer
-from rpylib.tools.system import create_folder
 
 
 def convergence_rate(

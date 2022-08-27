@@ -186,7 +186,7 @@ class MarkovChainLevyLiborModel(MarkovChainSDE):
             res2 = np.zeros(shape=(nb, nb))
             sigma = self.model.a.sigma(t)
             for i in range(nb - 1):
-                res2[i, i + 1:] = sigma[i, :].T @ zz @ sigma[i + 1, :]
+                res2[i, i + 1 :] = sigma[i, :].T @ zz @ sigma[i + 1, :]
 
             return res2
 

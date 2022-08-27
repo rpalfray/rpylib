@@ -43,6 +43,9 @@ exp_of_levy_models = {
     "cgmy12": create_exponential_of_levy_model(ModelType.CGMY)(
         c=0.019, g=2, m=4, y=1.2
     ),
+    "cgmy13": create_exponential_of_levy_model(ModelType.CGMY)(
+        c=0.014, g=2, m=4, y=1.3
+    ),
     "cgmy15": create_exponential_of_levy_model(ModelType.CGMY)(
         c=0.007, g=2, m=4, y=1.5
     ),
