@@ -12,13 +12,20 @@ single-name CDS as well as a first-to-default CDS given by the modelling framewo
 
 ## mlmc:
 Generation of data to check the MLMC algorithm with regard to the weak and strong convergence rates. 
-The `application` folder contains examples of the MLMC applied to a CGMY process, a 3d Lévy copula and a 
+The `convergence` and `application` folders contains examples of the MLMC applied to a CGMY process, a 3d Lévy copula and a 
 2d Levy-driven SDE.
 
 ## statistics:
+### CTMC
+Examples of the Continuous-Time Markov chain approximation applied to:
+> `levy_process.py`: one-dimensional Lévy process
+
+> `levy_copula.py`: Lévy copulas.
+
 ### Direct Simulation
 > `direct.py`:
 illustrates the Monte-Carlo statistics when the model can be simulated directly via Monte-Carlo; the example
 at hand prices a call option with the Kou model and compare the result to the theoretical price.
 
-
+### Series
+Example for the series representation algorithm.

@@ -35,32 +35,11 @@ MLMC applied to CGMY with beta=1.5:
 ## Scripts
 
 #### For the paper:
-The scripts below were run on a supercomputer via Slurm; the Slurm scripts are saved in
-_rpylib/slurm/slurmscripts_ which call the python scripts in _/slurm/pythonscripts_ themselves 
-calling the following scripts:
+See the _slurm_ folder.
 
-Benchmark of the CTMC scheme in _rpylib/scripts/benchmark/_ : 
+### Additional scripts:
 
- 1. `cds.py`
- 2. `first_to_default.py`
- 3. `series_representation.py`
-
-MLMC weak/strong convergence rates in _rpylib/scripts/mlmc/convergence_ :     
-
- 4. `mlmc_convergence_1d.py`  
- 5. `mlmc_convergence_copulas.py`        
- 6. `mlmc_convergence_sde.py`      
-
-and multilevel Monte-Carlo (MLMC) applications to unidimensional Lévy processes, Lévy copulas 
-and Lévy-driven SDE in _rpylib/scripts/mlmc/applied_ :     
-
- 7. `mlmc_applied_1d.py`      
- 8. `mlmc_applied_copulas.py`     
- 9. `mlmc_applied_sde.py`     
-
-### Other scripts:
-
-Other scripts are available in _rpylib/scripts/statistics_. These scripts allow to plot the distribution of the spot 
+Other scripts are available in _scripts/statistics_. These scripts allow to plot the distribution of the spot 
 underlying of the Levy process simulated by Monte-Carlo (either directly from the SDE or from the CTMC scheme).  
 
 

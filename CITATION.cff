@@ -3,7 +3,7 @@ message: >-
   If you use this software, please cite it using the
   metadata from this file.
 title: >-
-  Multilevel Monte-Carlo simulation of Lévy copula
+  Multilevel Monte-Carlo simulation of Lévy-driven SDEs
   via a Continuous-Time Markov Chain approximation
 type: software
 authors:
@@ -11,5 +11,9 @@ authors:
     family-names: Palfray
     email: romain.palfray@gmail.com
     orcid: 'https://orcid.org/0000-0002-5559-1659'
+  - given-names: Aleksandar
+    family-names: Mijatovic
+    email: a.mijatovic@warwick.ac.uk
+    orcid: 'https://orcid.org/0000-0002-9264-8140'
 repository-code: "https://github.com/rpalfray/rpylib"
 date-released: "2022-09-28"

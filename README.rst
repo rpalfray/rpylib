@@ -56,32 +56,7 @@ Scripts
 
 For the paper:
 ~~~~~~~~~~~~~~
-
-The scripts below were run on a supercomputer via ``Slurm``; the Slurm
-scripts are saved in *rpylib/slurm/slurmscripts* which call the ``python``
-scripts in */slurm/pythonscripts* themselves calling the following
-scripts:
-
-Benchmark of the CTMC scheme in *rpylib/scripts/benchmark/* :
-
-1. ``cds.py``
-2. ``first_to_default.py``
-3. ``series_representation.py``
-
-MLMC weak/strong convergence rates in *rpylib/scripts/mlmc/convergence*
-:
-
-4. ``mlmc_convergence_1d.py``
-5. ``mlmc_convergence_copulas.py``
-6. ``mlmc_convergence_sde.py``
-
-and multilevel Monte-Carlo (MLMC) applications to unidimensional Levy
-processes, Levy copulas and Levy-driven SDE in
-*rpylib/scripts/mlmc/applied* :
-
-7. ``mlmc_applied_1d.py``
-8. ``mlmc_applied_copulas.py``
-9. ``mlmc_applied_sde.py``
+See the *slurm* folder.
 
 Other scripts:
 ~~~~~~~~~~~~~~
