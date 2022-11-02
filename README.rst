@@ -8,8 +8,7 @@ Scope
 
 | This Python pricing library was developed as a companion code for the
   paper:
-| **"A weak Multilevel Monte-Carlo scheme for multidimensional Levy-type
-  processes"** (`link to the paper to be added
+| **"A Weak MLMC Scheme for Levy-copula-driven SDEs with Applications to the Pricing of Credit, Equity and Interest Rate Derivatives"** (`link to the paper to be added
   later <https://www.google.com>`__).
 
 | The results consist of the numerical analysis of:
