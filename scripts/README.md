@@ -1,10 +1,10 @@
 # Background
 
 The scripts in this folder illustrate the use of this library which was originally developed as a companion code of 
-the paper **_"A weak Multilevel Monte-Carlo scheme for multidimensional Levy-type processes"_** 
-([**link to the paper - TO BE ADDED LATER**](www.google.com)) but the library itself aims to be generic and the 
-implementation strives to keep concepts as orthogonal as possible, hence giving the opportunity to external users 
-to easily integrate their own features (pricing models, engines, approximation schemes, etc).
+the paper [**_"A Weak MLMC Scheme for Lévy-copula-driven SDEs with Applications to the Pricing of Credit, Equity and Interest Rate Derivatives"_**](https://arxiv.org/abs/2211.02528)
+but the library itself aims to be generic and the implementation strives to keep concepts as orthogonal as possible, 
+hence giving the opportunity to external users to easily integrate their own features 
+(pricing models, engines, approximation schemes, etc).
 
 ## benchmark
 Benchmark of the CTMC against the series representation (`series_representation.py`) and the closed-form formulas for a 
