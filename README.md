@@ -8,7 +8,7 @@
 ## Scope
 
 This Python pricing library was developed as a companion code for the paper:  
-[**_"A Weak MLMC Scheme for Lévy-copula-driven SDEs with Applications to the Pricing of Credit, Equity and Interest Rate Derivatives"_**](https://arxiv.org/abs/2211.02528).
+[**_"A Weak MLMC Scheme for Lévy-copula-driven SDEs with Applications to the Pricing of Credit, Equity and Interest Rate Derivatives"_**](https://www.tandfonline.com/doi/full/10.1080/1350486X.2024.2400902).
  
 The results consist of the numerical analysis of:
 - the benchmark of the Continuous-Time Markov Chain (CTMC) scheme approximation against the series representation<sup>[1]</sup>
