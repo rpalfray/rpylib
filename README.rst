@@ -8,7 +8,7 @@ Scope
 
 | This Python pricing library was developed as a companion code for the
   paper:
-| `"A Weak MLMC Scheme for Levy-copula-driven SDEs with Applications to the Pricing of Credit, Equity and Interest Rate Derivatives" <https://arxiv.org/abs/2211.02528>`__.
+| `"A Weak MLMC Scheme for Levy-copula-driven SDEs with Applications to the Pricing of Credit, Equity and Interest Rate Derivatives" <https://www.tandfonline.com/doi/full/10.1080/1350486X.2024.2400902>`__.
 
 | The results consist of the numerical analysis of:
 
